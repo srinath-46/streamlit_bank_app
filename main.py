@@ -30,11 +30,11 @@ if "user" not in st.session_state:
 
 # Login Function
 def login():
-    st.title("🏦  Thevudiya Bank ")
-    username = st.text_input("gopamavan ")
-    password = st.text_input("irumbu kol", type="password")
+    st.title("💦👅💋🔥  Thevudiya Bank ")
+    username = st.text_input("gopamavanﾒ૦ﾒ૦💋 ")
+    password = st.text_input("irumbu kol ᵍⁱᵛᵉ ᵐᵉ ʸᵒᵘʳ ᵖᵘˢˢʸ", type="password")
 
-    if st.button("oombu"):
+    if st.button("oombu ᶠᶸᶜᵏMe𓀐𓂸"):
         users_df = pd.read_csv("data/users.csv")
 
         # Validate columns
