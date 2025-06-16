@@ -1,0 +1,2 @@
+loan_id,user_id,amount,purpose,income,status
+L001,1,200000,Business,50000,pending
