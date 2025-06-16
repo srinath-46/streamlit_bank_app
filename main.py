@@ -66,10 +66,10 @@ def login():
         create_new_user()
         return
 
-    username = st.text_input("gopamavan ")
-    password = st.text_input("irumbu kol ᵍⁱᵛᵉ ᵐᵉ ʸᵒᵘʳ ᵖᵘˢˢʸ", type="password")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
 
-    if st.button("oombu ᶠᶸᶜᵏMe𓀐𓂸"):
+    if st.button("Login"):
         users_df = pd.read_csv("data/users.csv")
 
         required_cols = {"username", "password", "role", "user_id"}
@@ -154,8 +154,11 @@ def admin_dashboard():
                 model = LogisticRegression()
                 model.fit(X, y)
 
-                for i, row in loans_df.iterrows():
-                    if row["status"] == "pending" and pd.notnull(row["amount"]) and pd.notnull(row["income"]):
+                pending_loans = loans_df[loans_df["status"] == "pending"]
+                if pending_loans.empty:
+                    st.info("No pending loan applications.")
+                else:
+                    for i, row in pending_loans.iterrows():
                         X_test = np.array([[row["amount"], row["income"]]])
                         prob = model.predict_proba(X_test)[0][1]
                         risk_score = round(prob * 100, 2)
