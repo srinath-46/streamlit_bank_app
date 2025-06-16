@@ -1,0 +1,10 @@
+transaction_id,user_id,date,type,amount,description
+T001,1,2025-06-01,deposit,10000,Initial deposit
+T002,1,2025-06-03,withdrawal,2500,ATM withdrawal
+T003,1,2025-06-05,deposit,3000,Salary credited
+T004,2,2025-06-02,deposit,20000,Initial deposit
+T005,2,2025-06-04,withdrawal,4000,Online transfer
+T006,1,2025-06-06,deposit,1500,UPI payment received
+T007,2,2025-06-07,deposit,7000,Freelance project
+T008,1,2025-06-09,withdrawal,1200,Utility bill payment
+T009,2,2025-06-10,withdrawal,1000,Cash withdrawal
