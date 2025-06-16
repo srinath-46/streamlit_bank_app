@@ -27,6 +27,15 @@ loans_df = load_csv(loans_file)
 loan_status_df = load_csv(loan_status_file)
 transactions_df = load_csv(transactions_file)
 
+# Ensure required columns exist
+if 'status' not in loans_df.columns:
+    loans_df['status'] = 'pending'
+
+if not {'account_no', 'address', 'balance'}.issubset(accounts_df.columns):
+    accounts_df['account_no'] = accounts_df.get('account_no', '')
+    accounts_df['address'] = accounts_df.get('address', '')
+    accounts_df['balance'] = accounts_df.get('balance', 0)
+
 # Initialize session state
 if "user" not in st.session_state:
     st.session_state.user = None
