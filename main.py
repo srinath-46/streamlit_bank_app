@@ -51,7 +51,7 @@ def login():
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.stop()  # Ends rendering cleanly after login
+            st.experimental_rerun()
         else:
             st.error("Invalid username or password")
 
@@ -74,7 +74,17 @@ def user_dashboard():
         income = st.number_input("Monthly Income", min_value=0)
         if st.button("Submit Application"):
             loan_id = f"L{len(loans_df)+1:03d}"
-            new_loan = pd.DataFrame([[loan_id, user_id, amount, purpose, income, "pending"]], columns=loans_df.columns)
+            new_loan_data = {
+                "loan_id": loan_id,
+                "user_id": user_id,
+                "amount": amount,
+                "purpose": purpose,
+                "income": income,
+                "status": "pending",
+                "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
+                "remarks": "Awaiting review"
+            }
+            new_loan = pd.DataFrame([new_loan_data])
             loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
             save_csv(loans_df_updated, loans_file)
             st.success("Loan Application Submitted!")
@@ -105,6 +115,7 @@ def admin_dashboard():
                 st.write(row)
                 if st.button(f"Approve {row['loan_id']}"):
                     loans_df.at[i, "status"] = "approved"
+                    loans_df.at[i, "remarks"] = "Approved by admin"
                     save_csv(loans_df, loans_file)
                     st.success(f"Loan {row['loan_id']} approved")
 
