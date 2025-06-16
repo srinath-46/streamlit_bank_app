@@ -92,15 +92,18 @@ def login():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["\U0001F4C8 Account Summary", "\U0001F4DD Apply for Loan", "\U0001F4CA Loan Status", "\U0001F4B5 Transactions"])
+    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
     user_id = st.session_state.user["user_id"]
 
-    if choice == "\U0001F4C8 Account Summary":
-        acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
-        st.subheader("Account Summary")
-        st.dataframe(acc)
+    if choice == "📈 Account Summary":
+        if all(col in accounts_df.columns for col in ["user_id", "account_no", "address", "balance"]):
+            acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
+            st.subheader("Account Summary")
+            st.dataframe(acc)
+        else:
+            st.error("Account data is missing some required columns.")
 
-    elif choice == "\U0001F4DD Apply for Loan":
+    elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
         amount = st.number_input("Loan Amount", min_value=1000)
         purpose = st.text_input("Purpose")
@@ -122,12 +125,12 @@ def user_dashboard():
             save_csv(loans_df_updated, loans_file)
             st.success("Loan Application Submitted!")
 
-    elif choice == "\U0001F4CA Loan Status":
+    elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
         user_loans = loans_df[loans_df["user_id"] == user_id]
         st.dataframe(user_loans)
 
-    elif choice == "\U0001F4B5 Transactions":
+    elif choice == "💵 Transactions":
         st.subheader("Transaction History")
         tx = transactions_df[transactions_df["user_id"] == user_id]
         st.dataframe(tx)
@@ -135,14 +138,18 @@ def user_dashboard():
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["\U0001F4C3 All Applications", "✅ Approve Loans"])
+    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans"])
 
-    if option == "\U0001F4C3 All Applications":
+    if option == "📃 All Applications":
         st.subheader("All Loan Applications")
         st.dataframe(loans_df)
 
     elif option == "✅ Approve Loans":
         st.subheader("Approve or Reject Loans")
+
+        if "status" not in loans_df.columns:
+            st.error("Loan data is missing 'status' column.")
+            return
 
         pending_loans = loans_df[loans_df["status"] == "pending"]
         if pending_loans.empty:
@@ -182,7 +189,7 @@ def admin_dashboard():
 
 # Main Routing
 if st.session_state.user:
-    st.sidebar.write(f"\U0001F44B Welcome, {st.session_state.user['username']}")
+    st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
         st.experimental_rerun()
