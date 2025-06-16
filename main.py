@@ -43,9 +43,8 @@ def create_new_user():
             st.error("Username already exists. Please choose another.")
         else:
             user_id = f"U{len(users_df)+1:04d}"
-            account_no = f"XXXXXXX{random.randint(100,999)}"
             new_user = pd.DataFrame([{"user_id": user_id, "username": username, "password": password, "role": role}])
-            new_account = pd.DataFrame([{"user_id": user_id, "account_no": account_no, "address": city, "mobile": mobile, "balance": 0}])
+            new_account = pd.DataFrame([{"user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0}])
 
             updated_users = pd.concat([users_df, new_user], ignore_index=True)
             updated_accounts = pd.concat([accounts_df, new_account], ignore_index=True)
@@ -54,7 +53,6 @@ def create_new_user():
             save_csv(updated_accounts, accounts_file)
 
             st.success("Account created successfully! You can now log in.")
-            st.info(f"Username: {username} | Account No: {account_no} | City: {city}")
 
 # Login Function
 def login():
@@ -95,7 +93,7 @@ def user_dashboard():
     user_id = st.session_state.user["user_id"]
 
     if choice == "\U0001F4C8 Account Summary":
-        acc = accounts_df[accounts_df["user_id"] == user_id][["balance"]]
+        acc = accounts_df[accounts_df["user_id"] == user_id]
         st.subheader("Account Summary")
         st.dataframe(acc)
 
