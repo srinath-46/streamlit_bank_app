@@ -30,8 +30,8 @@ if "user" not in st.session_state:
 
 # Login Function
 def login():
-    st.title("💦👅💋🔥  Thevudiya Bank ")
-    username = st.text_input("gopamavanﾒ૦ﾒ૦💋 ")
+    st.title("lavudhu Bank 69 ")
+    username = st.text_input("gopamavan ")
     password = st.text_input("irumbu kol ᵍⁱᵛᵉ ᵐᵉ ʸᵒᵘʳ ᵖᵘˢˢʸ", type="password")
 
     if st.button("oombu ᶠᶸᶜᵏMe𓀐𓂸"):
