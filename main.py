@@ -146,10 +146,11 @@ def admin_dashboard():
 
         # Simple risk model (dummy training)
         if len(loans_df) > 0:
-            X = loans_df[(loans_df['status'] != 'pending')][["amount", "income"]]
-            y = (loans_df[(loans_df['status'] != 'pending')]["status"] == "approved").astype(int)
+            train_df = loans_df[(loans_df['status'] != 'pending')][["amount", "income", "status"]].dropna()
 
-            if len(X) > 0:
+X = train_df[["amount", "income"]]
+y = (train_df["status"] == "approved").astype(int)
+
                 model = LogisticRegression()
                 model.fit(X, y)
 
