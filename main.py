@@ -68,7 +68,7 @@ def create_new_user():
 
 # Login
 def login():
-    st.title("lavudhu Bank 69")
+    st.title("SKS Bank ")
     action = st.radio("Choose an action", ["Login", "Create Account"])
 
     if action == "Create Account":
