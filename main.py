@@ -143,20 +143,28 @@ def admin_dashboard():
             users_df_reloaded = load_csv(users_file)
             accounts_df_reloaded = load_csv(accounts_file)
 
-            user_results = users_df_reloaded[(users_df_reloaded["username"].str.lower() == search_id.lower()) |
-                                             (users_df_reloaded["user_id"].str.lower() == search_id.lower())]
+            if "username" in users_df_reloaded.columns and "user_id" in users_df_reloaded.columns:
+                user_results = users_df_reloaded[
+                    users_df_reloaded["username"].astype(str).str.lower() == search_id.lower()
+                ]
+                if user_results.empty:
+                    user_results = users_df_reloaded[
+                        users_df_reloaded["user_id"].astype(str).str.lower() == search_id.lower()
+                    ]
 
-            if not user_results.empty:
-                st.subheader("User Details")
-                st.dataframe(user_results)
+                if not user_results.empty:
+                    st.subheader("User Details")
+                    st.dataframe(user_results)
 
-                user_ids = user_results["user_id"].tolist()
-                account_results = accounts_df_reloaded[accounts_df_reloaded["user_id"].isin(user_ids)]
+                    user_ids = user_results["user_id"].tolist()
+                    account_results = accounts_df_reloaded[accounts_df_reloaded["user_id"].isin(user_ids)]
 
-                st.subheader("Account Details")
-                st.dataframe(account_results)
+                    st.subheader("Account Details")
+                    st.dataframe(account_results)
+                else:
+                    st.warning("❌ No matching user or ID found.")
             else:
-                st.warning("❌ No matching user or ID found.")
+                st.error("Merged data is missing 'username' or 'user_id' column.")
 
 # Main Routing
 if st.session_state.user:
