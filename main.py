@@ -37,6 +37,11 @@ for col in ['account_no', 'address', 'balance']:
     if col not in accounts_df.columns:
         accounts_df[col] = '' if col != 'balance' else 0
 
+if 'username' not in users_df.columns:
+    users_df['username'] = ''
+if 'user_id' not in users_df.columns:
+    users_df['user_id'] = ''
+
 # Initialize session state
 if "user" not in st.session_state:
     st.session_state.user = None
@@ -251,16 +256,19 @@ def admin_dashboard():
         search_id = st.text_input("Enter Username or User ID")
         if st.button("Search"):
             merged = pd.merge(users_df, accounts_df, on="user_id", how="outer")
-            merged["username"] = merged["username"].astype(str)
-            merged["user_id"] = merged["user_id"].astype(str)
-            results = merged[
-                (merged["username"].str.lower() == search_id.lower()) |
-                (merged["user_id"].str.lower() == search_id.lower())
-            ]
-            if not results.empty:
-                st.dataframe(results)
+            if "username" in merged.columns and "user_id" in merged.columns:
+                merged["username"] = merged["username"].astype(str)
+                merged["user_id"] = merged["user_id"].astype(str)
+                results = merged[
+                    (merged["username"].str.lower() == search_id.lower()) |
+                    (merged["user_id"].str.lower() == search_id.lower())
+                ]
+                if not results.empty:
+                    st.dataframe(results)
+                else:
+                    st.warning("❌ No matching user or ID found.")
             else:
-                st.warning("❌ No matching user or ID found.")
+                st.error("Merged data is missing 'username' or 'user_id' column.")
 
 # Main Routing
 if st.session_state.user:
