@@ -216,6 +216,7 @@ elif option == "🔍 Fetch User Data":
             st.warning("❌ No matching user or ID found.")
 
 
+
 # ✅ Routing Logic
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
