@@ -317,13 +317,15 @@ def user_dashboard():
         st.write(f"Total Due Amount: ₹{due_amount}")
         payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
         if st.button("Pay Now"):
-            transactions_df.loc[len(transactions_df.index)] = {
-                "user_id": user_id,
-                "loan_id": selected_loan,
-                "amount": due_amount,
-                "method": payment_method,
-                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-            }
+            new_tx = pd.DataFrame([{ 
+                "user_id": user_id, 
+                "loan_id": selected_loan, 
+                "amount": due_amount, 
+                "method": payment_method, 
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d') 
+            }])
+            transactions_df = pd.concat([transactions_df, new_tx], ignore_index=True)
+            st.session_state.transactions_df = transactions_df
             save_csv(transactions_df, transactions_file)
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
 
