@@ -66,10 +66,10 @@ def login():
         create_new_user()
         return
 
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    username = st.text_input("gopamavan ")
+    password = st.text_input("irumbu kol ᵍⁱᵛᵉ ᵐᵉ ʸᵒᵘʳ ᵖᵘˢˢʸ", type="password")
 
-    if st.button("Login"):
+    if st.button("oombu ᶠᶸᶜᵏMe𓀐𓂸"):
         users_df = pd.read_csv("data/users.csv")
 
         required_cols = {"username", "password", "role", "user_id"}
@@ -144,20 +144,18 @@ def admin_dashboard():
     elif option == "✅ Approve Loans":
         st.subheader("Approve or Reject Loans")
 
-        pending_loans = loans_df[loans_df["status"] == "pending"]
-        if pending_loans.empty:
-            st.info("No pending loan applications.")
-        else:
+        # Simple risk model (dummy training)
+        if len(loans_df) > 0:
             train_df = loans_df[(loans_df['status'] != 'pending')][["amount", "income", "status"]].dropna()
 
-            if not train_df.empty:
-                X = train_df[["amount", "income"]]
-                y = (train_df["status"] == "approved").astype(int)
+            X = train_df[["amount", "income"]]
+            y = (train_df["status"] == "approved").astype(int)
 
-                model = LogisticRegression()
-                model.fit(X, y)
+            model = LogisticRegression()
+            model.fit(X, y)
 
-                for i, row in pending_loans.iterrows():
+            for i, row in loans_df.iterrows():
+                if row["status"] == "pending":
                     X_test = np.array([[row["amount"], row["income"]]])
                     prob = model.predict_proba(X_test)[0][1]
                     risk_score = round(prob * 100, 2)
