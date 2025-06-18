@@ -256,6 +256,7 @@ def admin_dashboard():
         search_id = st.text_input("Enter Username or User ID")
         if st.button("Search"):
             merged = pd.merge(users_df, accounts_df, on="user_id", how="outer")
+            st.write("Merged Data Columns:", list(merged.columns))
             if "username" in merged.columns and "user_id" in merged.columns:
                 merged["username"] = merged["username"].astype(str)
                 merged["user_id"] = merged["user_id"].astype(str)
