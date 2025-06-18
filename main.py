@@ -1,5 +1,3 @@
-# main.py
-
 import streamlit as st
 import pandas as pd
 import os
@@ -135,9 +133,12 @@ def user_dashboard():
     user_id = st.session_state.user["user_id"]
 
     if choice == "📈 Account Summary":
-        acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
-        st.subheader("Account Summary")
-        st.dataframe(acc)
+        if all(col in accounts_df.columns for col in ["user_id", "account_no", "address", "balance"]):
+            acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
+            st.subheader("Account Summary")
+            st.dataframe(acc)
+        else:
+            st.error("Account data is missing some required columns.")
 
     elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
@@ -174,7 +175,7 @@ def user_dashboard():
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans", "🔍 Fetch User Data"])
+    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans"])
 
     if option == "📃 All Applications":
         st.subheader("All Loan Applications")
@@ -183,6 +184,11 @@ def admin_dashboard():
     elif option == "✅ Approve Loans":
         st.subheader("Auto & Manual Loan Approvals")
 
+        if "status" not in loans_df.columns:
+            st.error("Loan data is missing 'status' column.")
+            return
+
+        # Train on non-pending applications
         train_df = loans_df[loans_df["status"] != "pending"]
         if train_df.empty or len(train_df["status"].unique()) < 2:
             st.warning("Not enough historical data to train model.")
@@ -195,6 +201,7 @@ def admin_dashboard():
         model = LogisticRegression()
         model.fit(X, y)
 
+        # Process pending loans
         pending_loans = loans_df[loans_df["status"] == "pending"]
         if pending_loans.empty:
             st.info("No pending loan applications.")
@@ -211,18 +218,22 @@ def admin_dashboard():
             remark = f"Predicted Risk Score: {risk_score}%"
 
             if risk_score <= 39:
+                # Auto-approve
                 loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "approved"
                 loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
                 st.success(f"✅ Loan {loan_id} auto-approved (Low Risk)")
             elif risk_score >= 61:
+                # Auto-decline
                 loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "declined"
                 loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
                 st.error(f"❌ Loan {loan_id} auto-declined (High Risk)")
             else:
+                # Require admin review
                 review_required.append((row, risk_score))
 
         save_csv(loans_df, loans_file)
 
+        # Manual Review Section
         if review_required:
             st.warning("⚠️ Loans requiring admin review (Average Risk)")
             for row, risk_score in review_required:
@@ -245,26 +256,6 @@ def admin_dashboard():
                         save_csv(loans_df, loans_file)
                         st.error(f"Loan {row['loan_id']} declined")
                         st.experimental_rerun()
-
-    elif option == "🔍 Fetch User Data":
-        st.subheader("Search & View User Information")
-
-        search_type = st.radio("Search by", ["Username", "User ID"])
-        query = st.text_input("Enter search value")
-
-        if st.button("Search"):
-            merged_df = pd.merge(users_df, accounts_df, on="user_id", how="inner")
-
-            if search_type == "Username":
-                result = merged_df[merged_df["username"].str.lower() == query.strip().lower()]
-            else:
-                result = merged_df[merged_df["user_id"] == query.strip()]
-
-            if result.empty:
-                st.error("❌ No matching user found.")
-            else:
-                st.success(f"✅ Found {len(result)} matching user(s):")
-                st.dataframe(result)
 
 # Main Routing
 if st.session_state.user:
