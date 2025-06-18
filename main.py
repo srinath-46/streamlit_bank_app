@@ -182,47 +182,80 @@ def admin_dashboard():
         st.dataframe(loans_df)
 
     elif option == "✅ Approve Loans":
-        st.subheader("Approve or Reject Loans")
+        st.subheader("Auto & Manual Loan Approvals")
 
         if "status" not in loans_df.columns:
             st.error("Loan data is missing 'status' column.")
             return
 
+        # Train on non-pending applications
+        train_df = loans_df[loans_df["status"] != "pending"]
+        if train_df.empty or len(train_df["status"].unique()) < 2:
+            st.warning("Not enough historical data to train model.")
+            return
+
+        train_df = train_df[["amount", "income", "status"]].dropna()
+        X = train_df[["amount", "income"]]
+        y = (train_df["status"] == "approved").astype(int)
+
+        model = LogisticRegression()
+        model.fit(X, y)
+
+        # Process pending loans
         pending_loans = loans_df[loans_df["status"] == "pending"]
         if pending_loans.empty:
             st.info("No pending loan applications.")
-        else:
-            train_df = loans_df[(loans_df['status'] != 'pending')][["amount", "income", "status"]].dropna()
+            return
 
-            if not train_df.empty:
-                X = train_df[["amount", "income"]]
-                y = (train_df["status"] == "approved").astype(int)
+        review_required = []
 
-                model = LogisticRegression()
-                model.fit(X, y)
+        for idx, row in pending_loans.iterrows():
+            X_test = np.array([[row["amount"], row["income"]]])
+            prob = model.predict_proba(X_test)[0][1]
+            risk_score = round((1 - prob) * 100, 2)
 
-                for i, row in pending_loans.iterrows():
-                    X_test = np.array([[row["amount"], row["income"]]])
-                    prob = model.predict_proba(X_test)[0][1]
-                    risk_score = round(prob * 100, 2)
+            loan_id = row['loan_id']
+            remark = f"Predicted Risk Score: {risk_score}%"
 
-                    st.markdown(f"### Loan ID: {row['loan_id']}")
-                    st.write(row)
-                    st.info(f"Predicted Approval Probability: {risk_score}%")
+            if risk_score <= 39:
+                # Auto-approve
+                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "approved"
+                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
+                st.success(f"✅ Loan {loan_id} auto-approved (Low Risk)")
+            elif risk_score >= 61:
+                # Auto-decline
+                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "declined"
+                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
+                st.error(f"❌ Loan {loan_id} auto-declined (High Risk)")
+            else:
+                # Require admin review
+                review_required.append((row, risk_score))
 
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        if st.button(f"Accept {row['loan_id']}"):
-                            loans_df.loc[loans_df['loan_id'] == row['loan_id'], "status"] = "approved"
-                            loans_df.loc[loans_df['loan_id'] == row['loan_id'], "remarks"] = f"Auto-approved. Risk Score: {risk_score}%"
-                            save_csv(loans_df, loans_file)
-                            st.success(f"Loan {row['loan_id']} approved")
-                    with col2:
-                        if st.button(f"Decline {row['loan_id']}"):
-                            loans_df.loc[loans_df['loan_id'] == row['loan_id'], "status"] = "declined"
-                            loans_df.loc[loans_df['loan_id'] == row['loan_id'], "remarks"] = f"Declined by admin. Risk Score: {risk_score}%"
-                            save_csv(loans_df, loans_file)
-                            st.error(f"Loan {row['loan_id']} declined")
+        save_csv(loans_df, loans_file)
+
+        # Manual Review Section
+        if review_required:
+            st.warning("⚠️ Loans requiring admin review (Average Risk)")
+            for row, risk_score in review_required:
+                st.markdown(f"### Loan ID: {row['loan_id']}")
+                st.write(row)
+                st.info(f"Predicted Risk Score: {risk_score}%")
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button(f"Approve {row['loan_id']}"):
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
+                        save_csv(loans_df, loans_file)
+                        st.success(f"Loan {row['loan_id']} approved")
+                        st.experimental_rerun()
+                with col2:
+                    if st.button(f"Decline {row['loan_id']}"):
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
+                        save_csv(loans_df, loans_file)
+                        st.error(f"Loan {row['loan_id']} declined")
+                        st.experimental_rerun()
 
 # Main Routing
 if st.session_state.user:
