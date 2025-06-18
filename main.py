@@ -34,36 +34,47 @@ def save_csv(df, file):
     except Exception as e:
         st.error(f"Error saving {file}: {e}")
 
-# Load CSVs
-def load_data():
-    return (
-        load_csv(users_file),
-        load_csv(accounts_file),
-        load_csv(loans_file),
-        load_csv(loan_status_file),
-        load_csv(transactions_file),
-    )
+# Load data into session state if not already loaded
+def load_data_to_session():
+    for name, file in [
+        ("users_df", users_file),
+        ("accounts_df", accounts_file),
+        ("loans_df", loans_file),
+        ("loan_status_df", loan_status_file),
+        ("transactions_df", transactions_file),
+    ]:
+        if name not in st.session_state:
+            st.session_state[name] = load_csv(file)
 
-users_df, accounts_df, loans_df, loan_status_df, transactions_df = load_data()
+load_data_to_session()
+
+users_df = st.session_state.users_df
+accounts_df = st.session_state.accounts_df
+loans_df = st.session_state.loans_df
+loan_status_df = st.session_state.loan_status_df
+transactions_df = st.session_state.transactions_df
 
 # Ensure required columns exist
-if 'status' not in loans_df.columns:
-    loans_df['status'] = 'pending'
-if 'remarks' not in loans_df.columns:
-    loans_df['remarks'] = ''
-for col in ['account_no', 'address', 'balance', 'mobile']:
-    if col not in accounts_df.columns:
-        accounts_df[col] = '' if col != 'balance' else 0
-if 'username' not in users_df.columns:
-    users_df['username'] = ''
-if 'user_id' not in users_df.columns:
-    users_df['user_id'] = ''
+def ensure_columns():
+    global users_df, accounts_df, loans_df
+
+    if 'status' not in loans_df.columns:
+        loans_df['status'] = 'pending'
+    if 'remarks' not in loans_df.columns:
+        loans_df['remarks'] = ''
+    for col in ['account_no', 'address', 'balance', 'mobile']:
+        if col not in accounts_df.columns:
+            accounts_df[col] = '' if col != 'balance' else 0
+    for col in ['username', 'user_id', 'password', 'role']:
+        if col not in users_df.columns:
+            users_df[col] = ''
+
+ensure_columns()
 
 if "user" not in st.session_state:
     st.session_state.user = None
 
 # User Registration
-
 def create_new_user():
     st.title("Create New User Account")
     username = st.text_input("Choose a Username")
@@ -77,43 +88,43 @@ def create_new_user():
             st.error("Enter a valid 10-digit mobile number.")
             return
 
-        if username in users_df["username"].values:
+        if username in st.session_state.users_df["username"].values:
             st.error("Username already exists.")
         else:
-            user_id = f"U{len(users_df)+1:04d}"
+            user_id = f"U{len(st.session_state.users_df)+1:04d}"
             hashed_pw = hash_password(password)
-            new_user = pd.DataFrame([{"user_id": user_id, "username": username, "password": hashed_pw, "role": role}])
-            new_account = pd.DataFrame([{"user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0}])
-            save_csv(pd.concat([users_df, new_user], ignore_index=True), users_file)
-            save_csv(pd.concat([accounts_df, new_account], ignore_index=True), accounts_file)
+            new_user = pd.DataFrame([{ "user_id": user_id, "username": username, "password": hashed_pw, "role": role }])
+            new_account = pd.DataFrame([{ "user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0 }])
+            st.session_state.users_df = pd.concat([st.session_state.users_df, new_user], ignore_index=True)
+            st.session_state.accounts_df = pd.concat([st.session_state.accounts_df, new_account], ignore_index=True)
+            save_csv(st.session_state.users_df, users_file)
+            save_csv(st.session_state.accounts_df, accounts_file)
             st.success("Account created successfully!")
 
 # Login
-
 def login():
     st.title("Lavudhu Bank 69")
     menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
     if menu == "Create Account":
         create_new_user()
         return
+
     if menu == "Forgot Password?":
         username = st.text_input("Enter your username")
         mobile = st.text_input("Enter your registered mobile number")
         new_password = st.text_input("Enter your new password", type="password")
         if st.button("Reset Password"):
-            users_df = load_csv(users_file)
-            accounts_df = load_csv(accounts_file)
-            user_row = users_df[users_df["username"] == username]
+            user_row = st.session_state.users_df[st.session_state.users_df["username"] == username]
             if user_row.empty:
                 st.error("Username not found.")
                 return
             user_id = user_row.iloc[0]["user_id"]
-            acc_row = accounts_df[(accounts_df["user_id"] == user_id) & (accounts_df["mobile"] == mobile)]
+            acc_row = st.session_state.accounts_df[(st.session_state.accounts_df["user_id"] == user_id) & (st.session_state.accounts_df["mobile"] == mobile)]
             if acc_row.empty:
                 st.error("Mobile number does not match records.")
             else:
-                users_df.loc[users_df["username"] == username, "password"] = hash_password(new_password)
-                save_csv(users_df, users_file)
+                st.session_state.users_df.loc[st.session_state.users_df["username"] == username, "password"] = hash_password(new_password)
+                save_csv(st.session_state.users_df, users_file)
                 st.success("Password reset successful!")
         return
 
@@ -121,30 +132,14 @@ def login():
     password = st.text_input("Password", type="password")
     if st.button("Login"):
         hashed_input = hash_password(password)
-        user = users_df[(users_df["username"] == username) & (users_df["password"] == hashed_input)]
+        user_df = st.session_state.users_df
+        user = user_df[(user_df["username"] == username) & (user_df["password"] == hashed_input)]
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
             st.experimental_rerun()
         else:
             st.error("Invalid username or password")
-
-# Admin Dashboard
-
-def train_and_save_model():
-    train_df = loans_df[loans_df["status"] != "pending"]
-    if train_df.empty or len(train_df["status"].unique()) < 2:
-        return None
-    train_df = train_df[["amount", "income", "status"]].dropna()
-    X = train_df[["amount", "income"]]
-    y = (train_df["status"] == "approved").astype(int)
-    model = LogisticRegression()
-    model.fit(X, y)
-    joblib.dump(model, model_file)
-    return model
-
-def load_model():
-    return joblib.load(model_file) if os.path.exists(model_file) else train_and_save_model()
 
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
@@ -262,16 +257,13 @@ def user_dashboard():
             accounts_df.loc[accounts_df["user_id"] == user_id, "balance"] += 1000
             save_csv(transactions_df_updated, transactions_file)
             save_csv(accounts_df, accounts_file)
-            st.success("₹1000 deposited successfully.")
-
-# App Main Routing
-
+            st.success("₹1000 deposited successfully.")# App Main Routing
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
         st.experimental_rerun()
-    if st.session_state.user["role"] == "admin":
+    if st.session_state.user.get("role") == "admin":
         admin_dashboard()
     else:
         user_dashboard()
