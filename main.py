@@ -272,7 +272,9 @@ def user_dashboard():
     elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
         amount = st.number_input("Loan Amount", min_value=1000)
-        purpose = st.text_input("Purpose")
+        # Updated: Dropdown for common purposes
+        purpose_options = ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"]
+        purpose = st.selectbox("Purpose", purpose_options)
         income = st.number_input("Monthly Income", min_value=0)
         if st.button("Submit Application"):
             loan_id = f"L{len(loans_df)+1:03d}"
