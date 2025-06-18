@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import os
@@ -5,7 +6,7 @@ import random
 from sklearn.linear_model import LogisticRegression
 import numpy as np
 
-# Paths to CSV files
+# File paths
 data_path = "data"
 users_file = os.path.join(data_path, "users.csv")
 accounts_file = os.path.join(data_path, "accounts.csv")
@@ -13,141 +14,98 @@ loans_file = os.path.join(data_path, "loan_applications.csv")
 loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
 
-# Load data
+# Load CSV safely
 def load_csv(file):
     return pd.read_csv(file) if os.path.exists(file) else pd.DataFrame()
 
 def save_csv(df, file):
     df.to_csv(file, index=False)
 
-# Load all CSVs
+# Load data
 users_df = load_csv(users_file)
 accounts_df = load_csv(accounts_file)
 loans_df = load_csv(loans_file)
-loan_status_df = load_csv(loan_status_file)
 transactions_df = load_csv(transactions_file)
 
-# Ensure required columns exist
+# Add missing columns if needed
 if 'status' not in loans_df.columns:
     loans_df['status'] = 'pending'
-if 'remarks' not in loans_df.columns:
-    loans_df['remarks'] = ''
 
 for col in ['account_no', 'address', 'balance']:
     if col not in accounts_df.columns:
-        accounts_df[col] = '' if col != 'balance' else 0
+        accounts_df[col] = ''
 
-# Initialize session state
+if 'mobile' not in accounts_df.columns:
+    accounts_df['mobile'] = ''
+
+# Session initialization
 if "user" not in st.session_state:
     st.session_state.user = None
 
-# Create New User
+# Account creation
 def create_new_user():
     st.title("Create New User Account")
     username = st.text_input("Choose a Username")
     password = st.text_input("Choose a Password", type="password")
     role = st.selectbox("Role", ["user", "admin"])
     city = st.text_input("City")
-    mobile = st.text_input("Mobile Number (e.g., xxxxxxx237)")
+    mobile = st.text_input("Mobile Number")
 
     if st.button("Create Account"):
         if username in users_df["username"].values:
-            st.error("Username already exists. Please choose another.")
+            st.error("Username already exists.")
         else:
             user_id = f"U{len(users_df)+1:04d}"
-            new_user = pd.DataFrame([{"user_id": user_id, "username": username, "password": password, "role": role}])
-            new_account = pd.DataFrame([{"user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0}])
-
-            updated_users = pd.concat([users_df, new_user], ignore_index=True)
-            updated_accounts = pd.concat([accounts_df, new_account], ignore_index=True)
-
-            save_csv(updated_users, users_file)
-            save_csv(updated_accounts, accounts_file)
-
+            account_no = f"XXXXXXX{random.randint(100,999)}"
+            new_user = pd.DataFrame([{
+                "user_id": user_id, "username": username, "password": password, "role": role
+            }])
+            new_account = pd.DataFrame([{
+                "user_id": user_id, "account_no": account_no, "address": city, "mobile": mobile, "balance": 0
+            }])
+            save_csv(pd.concat([users_df, new_user], ignore_index=True), users_file)
+            save_csv(pd.concat([accounts_df, new_account], ignore_index=True), accounts_file)
             st.success("Account created successfully!")
-            st.info(f"Username: {username}\nAccount Number: {new_account.iloc[0]['account_no']}\nCity: {city}")
 
-# Login Function
+# Login
 def login():
-    st.title("lavudhu Bank 69")
-    menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
+    st.title("SKS Bank ")
+    action = st.radio("Choose an action", ["Login", "Create Account"])
 
-    if menu == "Create Account":
+    if action == "Create Account":
         create_new_user()
-        return
-
-    if menu == "Forgot Password?":
-        st.subheader("Reset Your Password with Mobile Verification")
-
-        username = st.text_input("Enter your username")
-        mobile = st.text_input("Enter your registered mobile number")
-        new_password = st.text_input("Enter your new password", type="password")
-
-        if st.button("Reset Password"):
-            users_df = load_csv(users_file)
-            accounts_df = load_csv(accounts_file)
-
-            user_row = users_df[users_df["username"] == username]
-            if user_row.empty:
-                st.error("❌ Username not found.")
-                return
-
-            user_id = user_row.iloc[0]["user_id"]
-            acc_row = accounts_df[(accounts_df["user_id"] == user_id) & (accounts_df["mobile"] == mobile)]
-
-            if acc_row.empty:
-                st.error("❌ Mobile number does not match our records.")
-            else:
-                users_df.loc[users_df["username"] == username, "password"] = new_password
-                save_csv(users_df, users_file)
-                st.success("✅ Password reset successful! You may now log in.")
         return
 
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        users_df = load_csv(users_file)
-
-        required_cols = {"username", "password", "role", "user_id"}
-        if not required_cols.issubset(set(users_df.columns)):
-            st.error("Error: 'users.csv' is missing required columns.")
-            st.stop()
-
-        user = users_df[
-            (users_df["username"] == username) & 
-            (users_df["password"] == password)
-        ]
-
+        user = users_df[(users_df["username"] == username) & (users_df["password"] == password)]
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Logged in as {username}")
             st.experimental_rerun()
         else:
-            st.error("Invalid username or password")
+            st.error("Invalid credentials")
 
 # User Dashboard
 def user_dashboard():
-    st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
     user_id = st.session_state.user["user_id"]
+    st.sidebar.title("User Menu")
+    menu = st.sidebar.radio("Navigate", ["Account Summary", "Apply for Loan", "Loan Status", "Transactions"])
 
-    if choice == "📈 Account Summary":
-        if all(col in accounts_df.columns for col in ["user_id", "account_no", "address", "balance"]):
-            acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
-            st.subheader("Account Summary")
-            st.dataframe(acc)
-        else:
-            st.error("Account data is missing some required columns.")
+    if menu == "Account Summary":
+        st.subheader("Account Summary")
+        acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance", "mobile"]]
+        st.dataframe(acc)
 
-    elif choice == "📝 Apply for Loan":
-        st.subheader("Loan Application Form")
+    elif menu == "Apply for Loan":
+        st.subheader("Apply for a New Loan")
         amount = st.number_input("Loan Amount", min_value=1000)
         purpose = st.text_input("Purpose")
         income = st.number_input("Monthly Income", min_value=0)
         if st.button("Submit Application"):
-            loan_id = f"L{len(loans_df)+1:03d}"
-            new_loan_data = {
+            loan_id = f"L{len(loans_df)+1:04d}"
+            loan = pd.DataFrame([{
                 "loan_id": loan_id,
                 "user_id": user_id,
                 "amount": amount,
@@ -156,116 +114,74 @@ def user_dashboard():
                 "status": "pending",
                 "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
                 "remarks": "Awaiting review"
-            }
-            new_loan = pd.DataFrame([new_loan_data])
-            loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
-            save_csv(loans_df_updated, loans_file)
-            st.success("Loan Application Submitted!")
+            }])
+            save_csv(pd.concat([loans_df, loan], ignore_index=True), loans_file)
+            st.success("Loan application submitted!")
 
-    elif choice == "📊 Loan Status":
+    elif menu == "Loan Status":
         st.subheader("Your Loan Applications")
-        user_loans = loans_df[loans_df["user_id"] == user_id]
-        st.dataframe(user_loans)
+        st.dataframe(loans_df[loans_df["user_id"] == user_id])
 
-    elif choice == "💵 Transactions":
+    elif menu == "Transactions":
         st.subheader("Transaction History")
-        tx = transactions_df[transactions_df["user_id"] == user_id]
-        st.dataframe(tx)
+        st.dataframe(transactions_df[transactions_df["user_id"] == user_id])
 
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans"])
+    option = st.sidebar.radio("Choose Action", ["All Applications", "Approve Loans"])
 
-    if option == "📃 All Applications":
+    if option == "All Applications":
         st.subheader("All Loan Applications")
         st.dataframe(loans_df)
 
-    elif option == "✅ Approve Loans":
-        st.subheader("Auto & Manual Loan Approvals")
+    elif option == "Approve Loans":
+        st.subheader("Loan Approval Panel")
+        pending = loans_df[loans_df["status"] == "pending"]
 
-        if "status" not in loans_df.columns:
-            st.error("Loan data is missing 'status' column.")
-            return
+        if pending.empty:
+            st.info("No pending loans.")
+        else:
+            train_df = loans_df[loans_df["status"] != "pending"]
+            if not train_df.empty:
+                model = LogisticRegression()
+                X = train_df[["amount", "income"]]
+                y = (train_df["status"] == "approved").astype(int)
+                model.fit(X, y)
 
-        # Train on non-pending applications
-        train_df = loans_df[loans_df["status"] != "pending"]
-        if train_df.empty or len(train_df["status"].unique()) < 2:
-            st.warning("Not enough historical data to train model.")
-            return
+                for idx, row in pending.iterrows():
+                    X_test = np.array([[row["amount"], row["income"]]])
+                    prob = model.predict_proba(X_test)[0][1]
+                    risk_score = round(prob * 100, 2)
 
-        train_df = train_df[["amount", "income", "status"]].dropna()
-        X = train_df[["amount", "income"]]
-        y = (train_df["status"] == "approved").astype(int)
+                    with st.expander(f"Loan ID: {row['loan_id']} - {row['user_id']}"):
+                        st.write(f"Amount: ₹{row['amount']}, Income: ₹{row['income']}")
+                        st.info(f"Predicted Approval Probability: {risk_score}%")
 
-        model = LogisticRegression()
-        model.fit(X, y)
+                        col1, col2 = st.columns(2)
+                        if col1.button(f"Approve {row['loan_id']}", key=f"a{idx}"):
+                            loans_df.at[idx, "status"] = "approved"
+                            loans_df.at[idx, "remarks"] = f"Approved with risk {risk_score}%"
+                            save_csv(loans_df, loans_file)
+                            st.success("Approved")
+                            st.experimental_rerun()
 
-        # Process pending loans
-        pending_loans = loans_df[loans_df["status"] == "pending"]
-        if pending_loans.empty:
-            st.info("No pending loan applications.")
-            return
+                        if col2.button(f"Decline {row['loan_id']}", key=f"d{idx}"):
+                            loans_df.at[idx, "status"] = "declined"
+                            loans_df.at[idx, "remarks"] = f"Declined with risk {risk_score}%"
+                            save_csv(loans_df, loans_file)
+                            st.error("Declined")
+                            st.experimental_rerun()
 
-        review_required = []
-
-        for idx, row in pending_loans.iterrows():
-            X_test = np.array([[row["amount"], row["income"]]])
-            prob = model.predict_proba(X_test)[0][1]
-            risk_score = round((1 - prob) * 100, 2)
-
-            loan_id = row['loan_id']
-            remark = f"Predicted Risk Score: {risk_score}%"
-
-            if risk_score <= 39:
-                # Auto-approve
-                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "approved"
-                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
-                st.success(f"✅ Loan {loan_id} auto-approved (Low Risk)")
-            elif risk_score >= 61:
-                # Auto-decline
-                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "declined"
-                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
-                st.error(f"❌ Loan {loan_id} auto-declined (High Risk)")
-            else:
-                # Require admin review
-                review_required.append((row, risk_score))
-
-        save_csv(loans_df, loans_file)
-
-        # Manual Review Section
-        if review_required:
-            st.warning("⚠️ Loans requiring admin review (Average Risk)")
-            for row, risk_score in review_required:
-                st.markdown(f"### Loan ID: {row['loan_id']}")
-                st.write(row)
-                st.info(f"Predicted Risk Score: {risk_score}%")
-
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button(f"Approve {row['loan_id']}"):
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
-                        save_csv(loans_df, loans_file)
-                        st.success(f"Loan {row['loan_id']} approved")
-                        st.experimental_rerun()
-                with col2:
-                    if st.button(f"Decline {row['loan_id']}"):
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
-                        save_csv(loans_df, loans_file)
-                        st.error(f"Loan {row['loan_id']} declined")
-                        st.experimental_rerun()
-
-# Main Routing
+# App Router
 if st.session_state.user:
-    st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
+    st.sidebar.write(f"👤 Logged in as: {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
         st.experimental_rerun()
     if st.session_state.user["role"] == "user":
         user_dashboard()
-    elif st.session_state.user["role"] == "admin":
+    else:
         admin_dashboard()
 else:
     login()
