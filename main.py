@@ -245,6 +245,22 @@ def admin_dashboard():
                         st.error(f"Loan {row['loan_id']} declined")
                         st.experimental_rerun()
 
+    elif option == "🔍 Fetch User Info":
+        st.subheader("Fetch User Details")
+        username_input = st.text_input("Enter Username")
+        if st.button("Fetch Info"):
+            user_info = users_df[users_df["username"] == username_input]
+            if user_info.empty:
+                st.error("User not found.")
+            else:
+                user_id = user_info.iloc[0]['user_id']
+                account_info = accounts_df[accounts_df['user_id'] == user_id]
+                transaction_info = transactions_df[transactions_df['user_id'] == user_id]
+                loan_info = loans_df[loans_df['user_id'] == user_id]
+                st.write("👤 User Info", user_info.drop(columns=['password'], errors='ignore'))
+                st.write("🏦 Account Info", account_info)
+                st.write("💸 Transaction History", transaction_info)
+                st.write("📄 Loan History", loan_info)
 
 
 # User Dashboard
