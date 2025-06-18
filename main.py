@@ -221,26 +221,26 @@ def admin_dashboard():
         # Manual Review Section
         if review_required:
             st.warning("⚠️ Loans requiring admin review (Average Risk)")
-            for row, risk_score in review_required:
-                st.markdown(f"### Loan ID: {row['loan_id']}")
-                st.write(row)
-                st.info(f"Predicted Risk Score: {risk_score}%")
+          for row, risk_score in review_required:
+    st.markdown(f"### Loan ID: {row['loan_id']}")
+    st.write(row)
+    st.info(f"Predicted Risk Score: {risk_score}%")
 
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button(f"Approve {row['loan_id']}"):
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
-                        save_csv(loans_df, loans_file)
-                        st.success(f"Loan {row['loan_id']} approved")
-                        st.experimental_rerun()
-                with col2:
-                    if st.button(f"Decline {row['loan_id']}"):
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
-                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
-                        save_csv(loans_df, loans_file)
-                        st.error(f"Loan {row['loan_id']} declined")
-                        st.experimental_rerun()
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button(f"Approve {row['loan_id']}", key=f"approve_{row['loan_id']}"):
+            loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
+            loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
+            save_csv(loans_df, loans_file)
+            st.success(f"Loan {row['loan_id']} approved")
+            st.experimental_rerun()
+    with col2:
+        if st.button(f"Decline {row['loan_id']}", key=f"decline_{row['loan_id']}"):
+            loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
+            loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
+            save_csv(loans_df, loans_file)
+            st.error(f"Loan {row['loan_id']} declined")
+            st.experimental_rerun()
 
     elif option == "🔍 Fetch User Info":
         st.subheader("Fetch User Details")
