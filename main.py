@@ -229,6 +229,7 @@ def admin_dashboard():
                 st.write("📄 Loan History", loan_info)
                 
 # User Dashboard
+
 def user_dashboard():
     st.sidebar.title("User Menu")
     choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
