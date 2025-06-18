@@ -290,14 +290,15 @@ def user_dashboard():
             new_loan = pd.DataFrame([new_loan_data])
             loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
             st.session_state.loans_df = loans_df_updated
+            st.session_state.loan_status_df = loans_df_updated
             save_csv(loans_df_updated, loans_file)
-            st.session_state.loan_status_df = loans_df_updated  # Update loan status
             save_csv(loans_df_updated, loan_status_file)
             st.success("Loan Application Submitted!")
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        user_loans = st.session_state.loan_status_df[st.session_state.loan_status_df["user_id"] == user_id]
+        loan_status_df = st.session_state.loan_status_df if "loan_status_df" in st.session_state else load_csv(loan_status_file)
+        user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
         st.dataframe(user_loans)
 
     elif choice == "💵 Transactions":
@@ -325,7 +326,7 @@ def user_dashboard():
             }
             save_csv(transactions_df, transactions_file)
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
-if st.session_state.user:
+
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
