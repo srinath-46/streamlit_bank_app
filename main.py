@@ -295,7 +295,7 @@ def user_dashboard():
             save_csv(loans_df_updated, loan_status_file)
             st.success("Loan Application Submitted!")
 
-    elif choice == "📊 Loan Status":
+     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
         loan_status_df = st.session_state.loan_status_df if "loan_status_df" in st.session_state else load_csv(loan_status_file)
         user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
