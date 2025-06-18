@@ -99,6 +99,7 @@ def create_new_user():
             st.success("Account created successfully!")
 
 # Login Function
+# Login Function
 def login():
     st.title("lavudhu Bank 69")
     menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
@@ -134,7 +135,8 @@ def login():
                 st.success("✅ Password reset successful! You may now log in.")
         return
 
-   username = st.text_input("Username")
+    # 👇 This line had extra indentation; fixed here
+    username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
@@ -156,6 +158,7 @@ def login():
             st.experimental_rerun()
         else:
             st.error("Invalid username or password")
+
 
 
 # Admin Dashboard
