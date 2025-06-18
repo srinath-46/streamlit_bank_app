@@ -264,7 +264,6 @@ def admin_dashboard():
 
 
 # User Dashboard
-
 def user_dashboard():
     st.sidebar.title("User Menu")
     choice = st.sidebar.radio("Go to", ["\U0001F4C8 Account Summary", "\U0001F4DD Apply for Loan", "\U0001F4CA Loan Status", "\U0001F4B5 Transactions"])
@@ -282,7 +281,17 @@ def user_dashboard():
         income = st.number_input("Monthly Income", min_value=0)
         if st.button("Submit Application"):
             loan_id = f"L{len(loans_df)+1:03d}"
-            new_loan = pd.DataFrame([[loan_id, user_id, amount, purpose, income, "pending"]], columns=loans_df.columns)
+            new_loan_data = {
+                "loan_id": loan_id,
+                "user_id": user_id,
+                "amount": amount,
+                "purpose": purpose,
+                "income": income,
+                "status": "pending",
+                "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
+                "remarks": "Awaiting review"
+            }
+            new_loan = pd.DataFrame([new_loan_data])
             loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
             save_csv(loans_df_updated, loans_file)
             st.success("Loan Application Submitted!")
@@ -296,6 +305,7 @@ def user_dashboard():
         st.subheader("Transaction History")
         tx = transactions_df[transactions_df["user_id"] == user_id]
         st.dataframe(tx)
+
           
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
