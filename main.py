@@ -101,39 +101,58 @@ def create_new_user():
             save_csv(st.session_state.accounts_df, accounts_file)
             st.success("Account created successfully!")
 
-# Login
+# Login Function
 def login():
-    st.title("Lavudhu Bank 69")
+    st.title("lavudhu Bank 69")
     menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
+
     if menu == "Create Account":
         create_new_user()
         return
 
     if menu == "Forgot Password?":
+        st.subheader("Reset Your Password with Mobile Verification")
+
         username = st.text_input("Enter your username")
         mobile = st.text_input("Enter your registered mobile number")
         new_password = st.text_input("Enter your new password", type="password")
+
         if st.button("Reset Password"):
-            user_row = st.session_state.users_df[st.session_state.users_df["username"] == username]
+            users_df = load_csv(users_file)
+            accounts_df = load_csv(accounts_file)
+
+            user_row = users_df[users_df["username"] == username]
             if user_row.empty:
-                st.error("Username not found.")
+                st.error("❌ Username not found.")
                 return
+
             user_id = user_row.iloc[0]["user_id"]
-            acc_row = st.session_state.accounts_df[(st.session_state.accounts_df["user_id"] == user_id) & (st.session_state.accounts_df["mobile"] == mobile)]
+            acc_row = accounts_df[(accounts_df["user_id"] == user_id) & (accounts_df["mobile"] == mobile)]
+
             if acc_row.empty:
-                st.error("Mobile number does not match records.")
+                st.error("❌ Mobile number does not match our records.")
             else:
-                st.session_state.users_df.loc[st.session_state.users_df["username"] == username, "password"] = hash_password(new_password)
-                save_csv(st.session_state.users_df, users_file)
-                st.success("Password reset successful!")
+                users_df.loc[users_df["username"] == username, "password"] = new_password
+                save_csv(users_df, users_file)
+                st.success("✅ Password reset successful! You may now log in.")
         return
 
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
+
     if st.button("Login"):
-        hashed_input = hash_password(password)
-        user_df = st.session_state.users_df
-        user = user_df[(user_df["username"] == username) & (user_df["password"] == hashed_input)]
+        users_df = load_csv(users_file)
+
+        required_cols = {"username", "password", "role", "user_id"}
+        if not required_cols.issubset(set(users_df.columns)):
+            st.error("Error: 'users.csv' is missing required columns.")
+            st.stop()
+
+        user = users_df[
+            (users_df["username"] == username) & 
+            (users_df["password"] == password)
+        ]
+
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
