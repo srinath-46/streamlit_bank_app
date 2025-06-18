@@ -131,57 +131,10 @@ def login():
         else:
             st.error("Invalid username or password")
 
-# User Dashboard
-def user_dashboard():
-   st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
-    user_id = st.session_state.user["user_id"]
-
-    if choice == "📈 Account Summary":
-        if all(col in accounts_df.columns for col in ["user_id", "account_no", "address", "balance"]):
-            acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
-            st.subheader("Account Summary")
-            st.dataframe(acc)
-        else:
-            st.error("Account data is missing some required columns.")
-
-    elif choice == "📝 Apply for Loan":
-        st.subheader("Loan Application Form")
-        amount = st.number_input("Loan Amount", min_value=1000)
-        purpose = st.text_input("Purpose")
-        income = st.number_input("Monthly Income", min_value=0)
-        if st.button("Submit Application"):
-            loan_id = f"L{len(loans_df)+1:03d}"
-            new_loan_data = {
-                "loan_id": loan_id,
-                "user_id": user_id,
-                "amount": amount,
-                "purpose": purpose,
-                "income": income,
-                "status": "pending",
-                "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
-                "remarks": "Awaiting review"
-            }
-            new_loan = pd.DataFrame([new_loan_data])
-            loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
-            save_csv(loans_df_updated, loans_file)
-            st.success("Loan Application Submitted!")
-
-    elif choice == "📊 Loan Status":
-        st.subheader("Your Loan Applications")
-        user_loans = loans_df[loans_df["user_id"] == user_id]
-        st.dataframe(user_loans)
-
-    elif choice == "💵 Transactions":
-        st.subheader("Transaction History")
-        tx = transactions_df[transactions_df["user_id"] == user_id]
-        st.dataframe(tx)
-
-
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans", "🔍 Fetch User Data"])
+    option = st.sidebar.radio("Select", ["🔍 Fetch User Data"])
 
     if option == "🔍 Fetch User Data":
         st.subheader("Search User and Account Info")
@@ -193,11 +146,13 @@ def admin_dashboard():
             user_results = users_df_reloaded[(users_df_reloaded["username"].str.lower() == search_id.lower()) |
                                              (users_df_reloaded["user_id"].str.lower() == search_id.lower())]
 
-            account_results = accounts_df_reloaded[(accounts_df_reloaded["user_id"].isin(user_results["user_id"]))]
-
             if not user_results.empty:
                 st.subheader("User Details")
                 st.dataframe(user_results)
+
+                user_ids = user_results["user_id"].tolist()
+                account_results = accounts_df_reloaded[accounts_df_reloaded["user_id"].isin(user_ids)]
+
                 st.subheader("Account Details")
                 st.dataframe(account_results)
             else:
@@ -209,9 +164,7 @@ if st.session_state.user:
     if st.sidebar.button("Logout"):
         st.session_state.user = None
         st.experimental_rerun()
-    if st.session_state.user["role"] == "user":
-        user_dashboard()
-    elif st.session_state.user["role"] == "admin":
+    if st.session_state.user["role"] == "admin":
         admin_dashboard()
 else:
     login()
