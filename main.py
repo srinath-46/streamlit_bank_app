@@ -196,19 +196,25 @@ def admin_dashboard():
                         st.error(f"Loan {row['loan_id']} declined")
                         st.experimental_rerun()
 
-    elif option == "🔍 Fetch User Data":
-        st.subheader("Search User and Account Info")
-        search_id = st.text_input("Enter Username or User ID")
-        if st.button("Search"):
-            merged = pd.merge(users_df, accounts_df, on="user_id", how="outer")
-            results = merged[
-                (merged["username"].str.lower() == search_id.lower()) |
-                (merged["user_id"].str.lower() == search_id.lower())
-            ]
-            if not results.empty:
-                st.write(results)
-            else:
-                st.warning("User not found.")
+elif option == "🔍 Fetch User Data":
+    st.subheader("Search User and Account Info")
+    search_id = st.text_input("Enter Username or User ID")
+    if st.button("Search"):
+        merged = pd.merge(users_df, accounts_df, on="user_id", how="outer")
+
+        # Ensure both columns exist and are strings
+        merged["username"] = merged["username"].astype(str)
+        merged["user_id"] = merged["user_id"].astype(str)
+
+        results = merged[
+            (merged["username"].str.lower() == search_id.lower()) |
+            (merged["user_id"].str.lower() == search_id.lower())
+        ]
+        if not results.empty:
+            st.dataframe(results)
+        else:
+            st.warning("❌ No matching user or ID found.")
+
 
 # ✅ Routing Logic
 if st.session_state.user:
