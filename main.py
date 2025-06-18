@@ -156,7 +156,7 @@ def login():
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Invalid username or password")
 
@@ -239,7 +239,7 @@ def admin_dashboard():
 
             if st.session_state.loan_action_taken:
                 st.session_state.loan_action_taken = False
-                st.experimental_rerun()
+                st.rerun()
 
     elif option == "🔍 Fetch User Info":
         st.subheader("Fetch User Details")
@@ -305,7 +305,7 @@ if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
-        st.experimental_rerun()
+        st.rerun()
     if st.session_state.user.get("role") == "admin":
         admin_dashboard()
     else:
