@@ -1,0 +1,1001 @@
+loan_id,user_id,amount,purpose,income,status,application_date,remarks
+L0001,U0058,8278,Debt Consolidation,9024,approved,2025-04-07,Generated for testing
+L0002,U0053,93696,Emergency Fund,3848,pending,2024-11-13,Generated for testing
+L0003,U0017,8905,Medical Expenses,8164,approved,2024-10-02,Generated for testing
+L0004,U0014,78563,Business Expansion,18856,declined,2025-02-25,Generated for testing
+L0005,U0230,82236,Debt Consolidation,1212,approved,2024-06-25,Generated for testing
+L0006,U0217,49597,Debt Consolidation,6094,approved,2024-12-27,Generated for testing
+L0007,U0053,17156,Vehicle Purchase,4169,declined,2024-12-23,Generated for testing
+L0008,U0136,10695,Wedding,18571,approved,2024-12-06,Generated for testing
+L0009,U0041,77357,Debt Consolidation,12850,pending,2025-03-11,Generated for testing
+L0010,U0036,11006,Business Expansion,10482,approved,2025-02-18,Generated for testing
+L0011,U0052,54823,Debt Consolidation,15857,pending,2024-12-13,Generated for testing
+L0012,U0084,53520,Vacation,7865,pending,2025-02-01,Generated for testing
+L0013,U0037,84840,Education,18502,pending,2025-02-12,Generated for testing
+L0014,U0084,65589,Vehicle Purchase,9845,pending,2024-06-30,Generated for testing
+L0015,U0286,33785,Vacation,2832,approved,2025-06-01,Generated for testing
+L0016,U0162,57581,Debt Consolidation,3168,approved,2024-08-31,Generated for testing
+L0017,U0162,32869,Wedding,13964,pending,2024-10-26,Generated for testing
+L0018,U0074,39718,Education,9081,pending,2024-09-03,Generated for testing
+L0019,U0276,39438,Vehicle Purchase,14087,declined,2025-02-25,Generated for testing
+L0020,U0071,71784,Wedding,3978,approved,2025-04-22,Generated for testing
+L0021,U0079,87240,Education,14833,pending,2025-05-16,Generated for testing
+L0022,U0198,55019,Wedding,18338,declined,2024-09-07,Generated for testing
+L0023,U0006,94166,Medical Expenses,18595,declined,2024-07-24,Generated for testing
+L0024,U0175,19621,Debt Consolidation,15246,approved,2024-10-28,Generated for testing
+L0025,U0002,99646,Debt Consolidation,17403,approved,2024-10-01,Generated for testing
+L0026,U0055,86959,Debt Consolidation,17635,pending,2025-03-08,Generated for testing
+L0027,U0079,54009,Education,18674,pending,2025-06-17,Generated for testing
+L0028,U0166,69042,Home Renovation,4665,declined,2025-01-11,Generated for testing
+L0029,U0123,12592,Business Expansion,19591,approved,2025-05-05,Generated for testing
+L0030,U0249,14071,Emergency Fund,5120,approved,2024-07-15,Generated for testing
+L0031,U0244,77063,Education,9685,pending,2024-08-11,Generated for testing
+L0032,U0217,32760,Emergency Fund,7591,pending,2025-01-09,Generated for testing
+L0033,U0205,93039,Vacation,15355,pending,2024-10-29,Generated for testing
+L0034,U0062,37493,Business Expansion,3098,declined,2025-06-07,Generated for testing
+L0035,U0284,35161,Business Expansion,1235,approved,2024-06-20,Generated for testing
+L0036,U0031,35007,Medical Expenses,2029,declined,2025-05-12,Generated for testing
+L0037,U0264,36195,Debt Consolidation,16906,approved,2024-09-14,Generated for testing
+L0038,U0068,99811,Wedding,8962,declined,2024-11-21,Generated for testing
+L0039,U0098,17363,Medical Expenses,15124,declined,2024-11-13,Generated for testing
+L0040,U0211,66213,Home Renovation,4224,approved,2024-11-23,Generated for testing
+L0041,U0174,19322,Business Expansion,7278,approved,2024-09-16,Generated for testing
+L0042,U0230,23373,Vehicle Purchase,7012,declined,2024-10-24,Generated for testing
+L0043,U0128,14880,Wedding,19033,approved,2025-05-23,Generated for testing
+L0044,U0277,6934,Medical Expenses,8745,approved,2024-11-21,Generated for testing
+L0045,U0249,68092,Business Expansion,14141,approved,2025-03-25,Generated for testing
+L0046,U0195,5282,Vehicle Purchase,9690,declined,2025-01-22,Generated for testing
+L0047,U0217,96303,Emergency Fund,16947,approved,2025-03-12,Generated for testing
+L0048,U0152,33534,Home Renovation,19978,pending,2024-09-13,Generated for testing
+L0049,U0032,46104,Home Renovation,2643,pending,2024-10-16,Generated for testing
+L0050,U0258,74615,Education,2863,pending,2025-05-07,Generated for testing
+L0051,U0096,13981,Medical Expenses,8707,declined,2025-04-17,Generated for testing
+L0052,U0292,37271,Home Renovation,3686,declined,2024-07-16,Generated for testing
+L0053,U0299,79085,Emergency Fund,11366,declined,2025-03-05,Generated for testing
+L0054,U0161,36285,Debt Consolidation,13969,approved,2024-07-09,Generated for testing
+L0055,U0154,64929,Vacation,3377,approved,2024-10-26,Generated for testing
+L0056,U0289,18104,Medical Expenses,18617,approved,2024-10-01,Generated for testing
+L0057,U0136,22361,Vacation,3254,approved,2024-12-10,Generated for testing
+L0058,U0146,25676,Wedding,18800,pending,2025-01-14,Generated for testing
+L0059,U0271,6025,Emergency Fund,10810,pending,2025-04-25,Generated for testing
+L0060,U0069,39664,Medical Expenses,4507,pending,2024-09-07,Generated for testing
+L0061,U0080,40697,Debt Consolidation,7901,pending,2024-12-24,Generated for testing
+L0062,U0105,95111,Debt Consolidation,17561,declined,2025-02-09,Generated for testing
+L0063,U0027,17097,Vehicle Purchase,10066,approved,2025-06-16,Generated for testing
+L0064,U0171,22146,Debt Consolidation,6294,pending,2024-11-03,Generated for testing
+L0065,U0283,97493,Vehicle Purchase,19379,approved,2025-04-21,Generated for testing
+L0066,U0039,95573,Education,18877,approved,2024-12-10,Generated for testing
+L0067,U0299,77420,Education,15083,approved,2025-05-27,Generated for testing
+L0068,U0158,52795,Home Renovation,12724,approved,2024-07-03,Generated for testing
+L0069,U0128,92416,Medical Expenses,12589,pending,2024-11-21,Generated for testing
+L0070,U0080,36029,Education,6801,declined,2025-06-05,Generated for testing
+L0071,U0092,48540,Vehicle Purchase,9131,declined,2025-03-28,Generated for testing
+L0072,U0056,55140,Home Renovation,16423,approved,2025-03-07,Generated for testing
+L0073,U0236,50830,Debt Consolidation,8457,approved,2025-06-05,Generated for testing
+L0074,U0099,57227,Vacation,10129,approved,2025-01-26,Generated for testing
+L0075,U0180,89080,Emergency Fund,14096,pending,2024-09-16,Generated for testing
+L0076,U0170,8617,Medical Expenses,9559,approved,2024-08-24,Generated for testing
+L0077,U0136,10014,Medical Expenses,15239,declined,2025-01-08,Generated for testing
+L0078,U0224,84457,Emergency Fund,4789,declined,2024-08-26,Generated for testing
+L0079,U0098,38386,Home Renovation,15288,approved,2024-09-24,Generated for testing
+L0080,U0276,95027,Business Expansion,12934,declined,2025-05-13,Generated for testing
+L0081,U0170,86678,Vacation,5083,pending,2025-01-15,Generated for testing
+L0082,U0260,45538,Vehicle Purchase,11688,declined,2024-06-26,Generated for testing
+L0083,U0152,77667,Education,7286,declined,2024-07-12,Generated for testing
+L0084,U0195,93777,Education,19648,declined,2024-11-22,Generated for testing
+L0085,U0281,5053,Debt Consolidation,10401,approved,2024-11-09,Generated for testing
+L0086,U0297,84516,Vacation,16236,declined,2024-11-03,Generated for testing
+L0087,U0110,72000,Wedding,6560,pending,2025-05-05,Generated for testing
+L0088,U0146,72561,Vacation,4060,approved,2024-07-08,Generated for testing
+L0089,U0159,34444,Business Expansion,5828,approved,2025-05-25,Generated for testing
+L0090,U0126,67277,Medical Expenses,15923,declined,2024-07-30,Generated for testing
+L0091,U0295,30485,Vehicle Purchase,17199,declined,2025-02-13,Generated for testing
+L0092,U0076,90990,Home Renovation,4492,declined,2025-02-25,Generated for testing
+L0093,U0091,96214,Emergency Fund,16222,approved,2024-09-05,Generated for testing
+L0094,U0128,20906,Wedding,5369,declined,2024-07-11,Generated for testing
+L0095,U0272,78259,Vacation,15502,pending,2024-10-02,Generated for testing
+L0096,U0219,76810,Wedding,6215,pending,2024-10-17,Generated for testing
+L0097,U0231,38972,Business Expansion,10086,pending,2024-10-12,Generated for testing
+L0098,U0123,40992,Wedding,3538,pending,2025-01-22,Generated for testing
+L0099,U0121,40614,Vacation,11476,pending,2025-05-07,Generated for testing
+L0100,U0071,24769,Business Expansion,13551,pending,2025-03-31,Generated for testing
+L0101,U0110,13418,Vehicle Purchase,14356,declined,2024-09-13,Generated for testing
+L0102,U0239,59496,Home Renovation,7777,declined,2024-11-30,Generated for testing
+L0103,U0300,96163,Home Renovation,19864,declined,2024-10-16,Generated for testing
+L0104,U0004,51105,Debt Consolidation,13779,declined,2024-09-15,Generated for testing
+L0105,U0280,84069,Business Expansion,16998,approved,2025-01-29,Generated for testing
+L0106,U0224,68654,Home Renovation,13742,declined,2024-07-10,Generated for testing
+L0107,U0208,99919,Education,16315,approved,2024-08-03,Generated for testing
+L0108,U0274,8534,Vehicle Purchase,19493,pending,2025-06-04,Generated for testing
+L0109,U0043,89246,Vehicle Purchase,5446,declined,2025-03-16,Generated for testing
+L0110,U0026,39099,Vehicle Purchase,11726,approved,2024-10-28,Generated for testing
+L0111,U0168,49236,Vehicle Purchase,10117,declined,2025-02-08,Generated for testing
+L0112,U0042,66644,Home Renovation,18675,approved,2024-12-20,Generated for testing
+L0113,U0115,90215,Medical Expenses,2319,approved,2025-02-11,Generated for testing
+L0114,U0103,7671,Education,8816,approved,2024-10-18,Generated for testing
+L0115,U0059,78920,Business Expansion,16238,pending,2025-02-06,Generated for testing
+L0116,U0189,26992,Medical Expenses,6366,declined,2025-04-23,Generated for testing
+L0117,U0297,8365,Debt Consolidation,19867,pending,2024-12-07,Generated for testing
+L0118,U0204,98718,Business Expansion,3490,pending,2024-06-29,Generated for testing
+L0119,U0125,18356,Debt Consolidation,4966,pending,2025-05-27,Generated for testing
+L0120,U0178,74827,Vehicle Purchase,13142,approved,2024-10-01,Generated for testing
+L0121,U0175,6658,Vehicle Purchase,17062,approved,2024-11-08,Generated for testing
+L0122,U0186,88307,Wedding,6013,declined,2025-03-19,Generated for testing
+L0123,U0268,90256,Debt Consolidation,18634,declined,2024-10-22,Generated for testing
+L0124,U0224,82656,Debt Consolidation,11561,approved,2025-05-04,Generated for testing
+L0125,U0143,64087,Business Expansion,16227,pending,2024-08-09,Generated for testing
+L0126,U0195,49092,Home Renovation,17197,declined,2025-03-16,Generated for testing
+L0127,U0250,32802,Vacation,9465,declined,2025-01-25,Generated for testing
+L0128,U0142,77848,Home Renovation,17928,approved,2025-05-05,Generated for testing
+L0129,U0124,99381,Vehicle Purchase,17009,pending,2025-02-14,Generated for testing
+L0130,U0244,89659,Wedding,15685,approved,2025-05-01,Generated for testing
+L0131,U0151,34045,Vehicle Purchase,8972,declined,2024-07-13,Generated for testing
+L0132,U0298,53368,Wedding,19136,pending,2024-12-23,Generated for testing
+L0133,U0218,77140,Vacation,12528,pending,2024-10-28,Generated for testing
+L0134,U0139,45189,Debt Consolidation,8554,approved,2025-03-11,Generated for testing
+L0135,U0162,20670,Emergency Fund,7066,approved,2025-02-27,Generated for testing
+L0136,U0248,41241,Emergency Fund,10273,approved,2025-03-10,Generated for testing
+L0137,U0152,34816,Vacation,6879,declined,2025-06-10,Generated for testing
+L0138,U0274,21591,Debt Consolidation,2491,approved,2024-09-07,Generated for testing
+L0139,U0150,96411,Education,17085,approved,2025-06-11,Generated for testing
+L0140,U0294,42268,Wedding,16686,declined,2024-12-25,Generated for testing
+L0141,U0095,11734,Debt Consolidation,16654,approved,2025-05-15,Generated for testing
+L0142,U0206,69454,Medical Expenses,19907,pending,2024-07-01,Generated for testing
+L0143,U0028,24887,Education,19443,declined,2025-05-05,Generated for testing
+L0144,U0128,20525,Emergency Fund,14637,pending,2024-08-16,Generated for testing
+L0145,U0116,73494,Vehicle Purchase,15762,declined,2025-01-16,Generated for testing
+L0146,U0220,45026,Home Renovation,4251,approved,2024-08-01,Generated for testing
+L0147,U0109,39687,Medical Expenses,6146,approved,2025-03-21,Generated for testing
+L0148,U0283,14838,Education,1087,declined,2024-10-30,Generated for testing
+L0149,U0241,43175,Home Renovation,8585,declined,2024-06-21,Generated for testing
+L0150,U0145,97141,Wedding,3332,pending,2025-02-18,Generated for testing
+L0151,U0136,86927,Business Expansion,14930,approved,2024-09-12,Generated for testing
+L0152,U0116,89886,Education,9704,approved,2025-05-12,Generated for testing
+L0153,U0031,26747,Debt Consolidation,19651,declined,2024-11-05,Generated for testing
+L0154,U0064,66433,Debt Consolidation,14189,declined,2024-10-04,Generated for testing
+L0155,U0277,69722,Wedding,3635,pending,2025-05-28,Generated for testing
+L0156,U0222,47247,Debt Consolidation,1847,approved,2025-02-20,Generated for testing
+L0157,U0295,81955,Home Renovation,9831,pending,2025-05-28,Generated for testing
+L0158,U0090,66669,Emergency Fund,15490,declined,2025-03-17,Generated for testing
+L0159,U0300,62132,Wedding,3989,declined,2024-12-21,Generated for testing
+L0160,U0210,48687,Vacation,4427,approved,2024-12-31,Generated for testing
+L0161,U0211,95921,Wedding,10444,pending,2024-11-24,Generated for testing
+L0162,U0282,9809,Wedding,3885,declined,2025-02-08,Generated for testing
+L0163,U0166,20194,Vehicle Purchase,17862,approved,2024-07-16,Generated for testing
+L0164,U0278,65552,Vehicle Purchase,2776,approved,2024-09-25,Generated for testing
+L0165,U0186,86609,Wedding,15484,approved,2025-03-05,Generated for testing
+L0166,U0137,76987,Education,10438,declined,2024-06-25,Generated for testing
+L0167,U0249,20915,Home Renovation,8841,pending,2025-03-28,Generated for testing
+L0168,U0160,77199,Home Renovation,19096,declined,2025-05-01,Generated for testing
+L0169,U0116,19871,Wedding,4849,pending,2025-03-31,Generated for testing
+L0170,U0256,98926,Debt Consolidation,17674,pending,2025-01-29,Generated for testing
+L0171,U0213,68242,Wedding,8986,declined,2024-09-08,Generated for testing
+L0172,U0075,55277,Business Expansion,17654,pending,2025-04-09,Generated for testing
+L0173,U0036,41208,Vehicle Purchase,12137,pending,2025-02-01,Generated for testing
+L0174,U0002,42072,Debt Consolidation,17044,approved,2024-11-01,Generated for testing
+L0175,U0276,68483,Vacation,11893,pending,2024-09-12,Generated for testing
+L0176,U0194,64682,Vacation,7181,pending,2025-02-15,Generated for testing
+L0177,U0293,55196,Business Expansion,14460,approved,2025-01-06,Generated for testing
+L0178,U0243,97435,Vehicle Purchase,13651,pending,2024-07-19,Generated for testing
+L0179,U0078,69923,Home Renovation,5136,pending,2024-08-19,Generated for testing
+L0180,U0170,18154,Wedding,4267,pending,2024-10-27,Generated for testing
+L0181,U0008,99692,Education,14434,pending,2025-03-30,Generated for testing
+L0182,U0039,66537,Debt Consolidation,12093,pending,2024-06-28,Generated for testing
+L0183,U0204,90175,Medical Expenses,11766,pending,2024-09-17,Generated for testing
+L0184,U0195,46505,Wedding,18728,approved,2024-08-05,Generated for testing
+L0185,U0036,35771,Debt Consolidation,8454,pending,2025-05-02,Generated for testing
+L0186,U0223,17903,Medical Expenses,15538,approved,2024-06-27,Generated for testing
+L0187,U0154,8794,Home Renovation,11629,approved,2025-01-18,Generated for testing
+L0188,U0184,54131,Vehicle Purchase,5770,approved,2024-09-19,Generated for testing
+L0189,U0211,79177,Education,6570,approved,2025-05-08,Generated for testing
+L0190,U0196,86226,Business Expansion,17307,pending,2025-04-05,Generated for testing
+L0191,U0119,65443,Debt Consolidation,16059,declined,2024-07-11,Generated for testing
+L0192,U0005,65981,Debt Consolidation,18910,approved,2025-05-11,Generated for testing
+L0193,U0227,50293,Debt Consolidation,14903,pending,2025-02-09,Generated for testing
+L0194,U0234,44599,Business Expansion,13605,declined,2025-04-24,Generated for testing
+L0195,U0122,54986,Vacation,19835,declined,2024-06-24,Generated for testing
+L0196,U0152,7875,Vehicle Purchase,9994,approved,2024-09-01,Generated for testing
+L0197,U0026,84482,Wedding,10378,approved,2024-08-11,Generated for testing
+L0198,U0181,33705,Business Expansion,9212,pending,2024-07-15,Generated for testing
+L0199,U0071,87345,Medical Expenses,2291,declined,2024-11-04,Generated for testing
+L0200,U0018,80965,Vacation,5306,approved,2025-01-17,Generated for testing
+L0201,U0168,59460,Education,7579,approved,2024-09-14,Generated for testing
+L0202,U0188,74579,Emergency Fund,9930,approved,2025-02-06,Generated for testing
+L0203,U0247,43684,Vacation,4773,declined,2025-05-10,Generated for testing
+L0204,U0073,34571,Vehicle Purchase,19262,declined,2025-05-02,Generated for testing
+L0205,U0203,6824,Debt Consolidation,18582,approved,2024-10-28,Generated for testing
+L0206,U0189,93188,Debt Consolidation,13485,pending,2024-12-09,Generated for testing
+L0207,U0056,93452,Business Expansion,16449,approved,2024-08-04,Generated for testing
+L0208,U0288,47992,Business Expansion,3071,pending,2024-10-23,Generated for testing
+L0209,U0155,90097,Vehicle Purchase,4823,approved,2025-05-25,Generated for testing
+L0210,U0020,44893,Wedding,4805,approved,2025-02-17,Generated for testing
+L0211,U0276,22781,Vehicle Purchase,15864,declined,2024-07-09,Generated for testing
+L0212,U0277,59935,Education,14594,pending,2025-04-28,Generated for testing
+L0213,U0251,85694,Vehicle Purchase,10166,approved,2024-06-29,Generated for testing
+L0214,U0190,33477,Wedding,15571,approved,2024-12-14,Generated for testing
+L0215,U0051,94873,Vacation,18841,pending,2024-12-16,Generated for testing
+L0216,U0032,57184,Debt Consolidation,7219,approved,2024-10-28,Generated for testing
+L0217,U0047,91870,Business Expansion,1699,approved,2024-12-29,Generated for testing
+L0218,U0125,21505,Business Expansion,3248,pending,2025-03-03,Generated for testing
+L0219,U0111,35539,Vacation,5835,pending,2025-06-16,Generated for testing
+L0220,U0142,23964,Education,18701,declined,2025-03-20,Generated for testing
+L0221,U0057,91646,Home Renovation,5318,approved,2024-12-16,Generated for testing
+L0222,U0122,82182,Vacation,1517,approved,2025-02-02,Generated for testing
+L0223,U0027,21614,Vehicle Purchase,18238,approved,2025-05-16,Generated for testing
+L0224,U0244,63756,Vacation,17817,pending,2025-04-23,Generated for testing
+L0225,U0232,71039,Business Expansion,2420,pending,2024-07-15,Generated for testing
+L0226,U0267,44535,Wedding,2020,approved,2024-10-15,Generated for testing
+L0227,U0206,60872,Medical Expenses,17065,pending,2024-11-02,Generated for testing
+L0228,U0038,15589,Vacation,5860,approved,2025-04-14,Generated for testing
+L0229,U0141,86830,Emergency Fund,11655,declined,2024-08-16,Generated for testing
+L0230,U0272,43652,Wedding,17565,pending,2024-11-09,Generated for testing
+L0231,U0051,96983,Medical Expenses,19066,pending,2025-02-27,Generated for testing
+L0232,U0221,64186,Business Expansion,14559,declined,2024-10-28,Generated for testing
+L0233,U0205,59524,Medical Expenses,11241,declined,2025-01-08,Generated for testing
+L0234,U0131,54060,Education,16540,approved,2025-05-02,Generated for testing
+L0235,U0044,17219,Vehicle Purchase,4164,pending,2024-12-09,Generated for testing
+L0236,U0067,77924,Home Renovation,19402,pending,2024-12-31,Generated for testing
+L0237,U0063,58845,Vacation,14858,pending,2025-05-22,Generated for testing
+L0238,U0148,83696,Debt Consolidation,12522,approved,2024-08-26,Generated for testing
+L0239,U0260,32884,Education,16800,approved,2025-04-23,Generated for testing
+L0240,U0180,77910,Vacation,4764,declined,2024-08-28,Generated for testing
+L0241,U0116,61244,Emergency Fund,19243,approved,2024-08-10,Generated for testing
+L0242,U0137,8794,Education,9954,pending,2025-01-10,Generated for testing
+L0243,U0174,51009,Home Renovation,6944,approved,2024-09-01,Generated for testing
+L0244,U0206,14120,Education,2004,approved,2024-09-19,Generated for testing
+L0245,U0111,54308,Vehicle Purchase,15865,declined,2025-03-29,Generated for testing
+L0246,U0190,45846,Vacation,19598,pending,2025-05-05,Generated for testing
+L0247,U0027,25392,Education,2630,pending,2025-05-07,Generated for testing
+L0248,U0140,63079,Vehicle Purchase,16914,pending,2024-11-03,Generated for testing
+L0249,U0213,40804,Business Expansion,17788,approved,2024-12-23,Generated for testing
+L0250,U0221,19534,Debt Consolidation,16945,pending,2024-07-11,Generated for testing
+L0251,U0158,10952,Business Expansion,13951,pending,2025-05-20,Generated for testing
+L0252,U0004,31794,Debt Consolidation,7921,approved,2025-02-07,Generated for testing
+L0253,U0149,48007,Medical Expenses,1253,declined,2024-11-09,Generated for testing
+L0254,U0090,21932,Vehicle Purchase,18451,pending,2025-02-20,Generated for testing
+L0255,U0257,78233,Vacation,3361,declined,2025-05-27,Generated for testing
+L0256,U0224,7456,Wedding,3551,declined,2024-08-27,Generated for testing
+L0257,U0220,80156,Vehicle Purchase,14686,declined,2025-04-20,Generated for testing
+L0258,U0208,7733,Vacation,6631,pending,2024-10-25,Generated for testing
+L0259,U0186,16551,Vehicle Purchase,4468,approved,2024-11-06,Generated for testing
+L0260,U0206,73676,Medical Expenses,13968,declined,2024-12-26,Generated for testing
+L0261,U0114,48655,Education,3502,pending,2024-07-28,Generated for testing
+L0262,U0059,74547,Emergency Fund,7353,declined,2024-12-20,Generated for testing
+L0263,U0076,35968,Medical Expenses,5798,declined,2025-03-08,Generated for testing
+L0264,U0089,83957,Education,3469,approved,2024-07-31,Generated for testing
+L0265,U0253,65811,Wedding,19497,pending,2024-07-27,Generated for testing
+L0266,U0166,87210,Vacation,5946,declined,2025-05-14,Generated for testing
+L0267,U0241,62961,Debt Consolidation,10000,pending,2025-05-20,Generated for testing
+L0268,U0181,71497,Medical Expenses,11171,declined,2024-10-29,Generated for testing
+L0269,U0020,12456,Vacation,10406,approved,2024-07-22,Generated for testing
+L0270,U0047,85610,Emergency Fund,13598,declined,2024-08-24,Generated for testing
+L0271,U0284,10376,Wedding,19732,pending,2025-03-13,Generated for testing
+L0272,U0165,84299,Wedding,17428,approved,2025-05-17,Generated for testing
+L0273,U0231,18566,Vacation,3763,pending,2024-07-22,Generated for testing
+L0274,U0089,10130,Business Expansion,15344,declined,2024-09-22,Generated for testing
+L0275,U0268,84928,Education,12924,declined,2025-01-24,Generated for testing
+L0276,U0199,58578,Vacation,2715,pending,2024-07-21,Generated for testing
+L0277,U0172,13639,Vacation,4096,pending,2024-07-05,Generated for testing
+L0278,U0198,42243,Debt Consolidation,5927,declined,2025-05-07,Generated for testing
+L0279,U0299,91980,Education,12462,declined,2024-07-17,Generated for testing
+L0280,U0201,21901,Medical Expenses,11144,pending,2024-12-07,Generated for testing
+L0281,U0169,21750,Emergency Fund,4062,pending,2024-07-09,Generated for testing
+L0282,U0217,71648,Vacation,1597,declined,2025-01-10,Generated for testing
+L0283,U0093,33074,Vacation,16934,approved,2025-02-22,Generated for testing
+L0284,U0071,25308,Medical Expenses,10692,approved,2024-10-01,Generated for testing
+L0285,U0277,74013,Home Renovation,12035,pending,2025-04-11,Generated for testing
+L0286,U0193,25218,Education,6925,pending,2024-08-02,Generated for testing
+L0287,U0085,99526,Wedding,2431,declined,2024-12-13,Generated for testing
+L0288,U0122,63222,Debt Consolidation,15710,approved,2024-09-17,Generated for testing
+L0289,U0123,45562,Wedding,7357,declined,2024-07-05,Generated for testing
+L0290,U0293,62749,Wedding,10233,declined,2024-10-03,Generated for testing
+L0291,U0271,59874,Education,7543,pending,2025-04-08,Generated for testing
+L0292,U0129,11839,Wedding,13163,pending,2025-04-26,Generated for testing
+L0293,U0265,21341,Debt Consolidation,3748,approved,2025-01-29,Generated for testing
+L0294,U0231,72286,Education,15335,approved,2025-02-24,Generated for testing
+L0295,U0231,50820,Home Renovation,14595,approved,2024-11-27,Generated for testing
+L0296,U0258,54015,Business Expansion,13653,approved,2024-12-08,Generated for testing
+L0297,U0115,8694,Vacation,4246,pending,2024-07-20,Generated for testing
+L0298,U0172,24142,Education,2255,declined,2024-10-19,Generated for testing
+L0299,U0072,97476,Wedding,15699,pending,2025-06-15,Generated for testing
+L0300,U0041,7490,Debt Consolidation,8066,approved,2024-09-10,Generated for testing
+L0301,U0271,60476,Medical Expenses,10440,approved,2025-01-14,Generated for testing
+L0302,U0063,11258,Business Expansion,14756,pending,2024-08-03,Generated for testing
+L0303,U0235,13232,Medical Expenses,17378,pending,2024-09-16,Generated for testing
+L0304,U0009,87831,Emergency Fund,19843,approved,2025-04-05,Generated for testing
+L0305,U0150,61261,Home Renovation,12561,approved,2024-08-29,Generated for testing
+L0306,U0214,29551,Medical Expenses,18153,declined,2025-05-14,Generated for testing
+L0307,U0270,76313,Emergency Fund,17633,pending,2025-06-07,Generated for testing
+L0308,U0200,66621,Home Renovation,13677,declined,2025-02-08,Generated for testing
+L0309,U0009,51805,Medical Expenses,12298,approved,2024-07-16,Generated for testing
+L0310,U0054,81271,Vacation,5371,approved,2024-12-19,Generated for testing
+L0311,U0280,49374,Education,16224,pending,2024-10-15,Generated for testing
+L0312,U0094,22675,Medical Expenses,15997,approved,2025-01-18,Generated for testing
+L0313,U0104,10741,Business Expansion,2373,declined,2025-01-10,Generated for testing
+L0314,U0264,57196,Emergency Fund,16512,declined,2025-05-30,Generated for testing
+L0315,U0098,42501,Vacation,2566,pending,2024-12-30,Generated for testing
+L0316,U0140,21315,Vacation,15318,declined,2024-11-04,Generated for testing
+L0317,U0198,49438,Education,17259,pending,2024-10-06,Generated for testing
+L0318,U0189,73062,Debt Consolidation,3707,pending,2024-11-12,Generated for testing
+L0319,U0041,61440,Education,18874,declined,2025-01-04,Generated for testing
+L0320,U0053,15494,Vacation,10687,declined,2024-11-01,Generated for testing
+L0321,U0219,26842,Wedding,12519,declined,2025-05-27,Generated for testing
+L0322,U0181,85589,Vehicle Purchase,9996,pending,2025-05-19,Generated for testing
+L0323,U0039,92973,Vehicle Purchase,12904,pending,2024-07-05,Generated for testing
+L0324,U0082,9081,Education,15358,approved,2025-04-14,Generated for testing
+L0325,U0035,35932,Vacation,12866,declined,2024-08-31,Generated for testing
+L0326,U0017,84310,Education,15743,declined,2024-12-09,Generated for testing
+L0327,U0228,15077,Education,18349,declined,2024-11-26,Generated for testing
+L0328,U0161,90139,Debt Consolidation,9179,approved,2025-06-04,Generated for testing
+L0329,U0096,70410,Emergency Fund,13680,pending,2025-04-18,Generated for testing
+L0330,U0135,39116,Wedding,8031,pending,2025-01-22,Generated for testing
+L0331,U0252,31237,Medical Expenses,5447,approved,2024-10-29,Generated for testing
+L0332,U0089,98502,Wedding,3876,pending,2025-01-05,Generated for testing
+L0333,U0178,98000,Medical Expenses,19022,pending,2025-01-20,Generated for testing
+L0334,U0154,25644,Education,12845,pending,2025-02-23,Generated for testing
+L0335,U0063,31342,Education,8757,declined,2025-06-04,Generated for testing
+L0336,U0185,77616,Vacation,16315,pending,2025-04-12,Generated for testing
+L0337,U0045,13617,Debt Consolidation,14046,pending,2024-10-15,Generated for testing
+L0338,U0270,58843,Vehicle Purchase,19838,approved,2025-04-14,Generated for testing
+L0339,U0163,89192,Medical Expenses,15744,declined,2024-07-04,Generated for testing
+L0340,U0265,50156,Education,19065,pending,2024-08-21,Generated for testing
+L0341,U0094,21912,Vehicle Purchase,17477,approved,2025-04-15,Generated for testing
+L0342,U0266,25056,Debt Consolidation,6395,approved,2025-01-03,Generated for testing
+L0343,U0116,50353,Emergency Fund,10307,approved,2025-02-09,Generated for testing
+L0344,U0101,88238,Emergency Fund,9993,approved,2024-08-01,Generated for testing
+L0345,U0156,85534,Emergency Fund,4061,pending,2024-07-24,Generated for testing
+L0346,U0087,82569,Education,6609,pending,2024-08-02,Generated for testing
+L0347,U0173,78874,Home Renovation,1929,approved,2025-05-25,Generated for testing
+L0348,U0296,39688,Business Expansion,19747,declined,2024-08-05,Generated for testing
+L0349,U0016,70278,Emergency Fund,10491,pending,2025-01-14,Generated for testing
+L0350,U0248,37096,Vehicle Purchase,10746,declined,2025-05-11,Generated for testing
+L0351,U0031,25719,Wedding,14619,declined,2024-10-23,Generated for testing
+L0352,U0105,49589,Education,11242,pending,2025-01-05,Generated for testing
+L0353,U0177,57260,Education,13141,pending,2024-09-03,Generated for testing
+L0354,U0055,46827,Business Expansion,16285,approved,2025-02-01,Generated for testing
+L0355,U0231,37495,Education,4172,approved,2025-01-20,Generated for testing
+L0356,U0197,85658,Vehicle Purchase,9135,approved,2025-01-01,Generated for testing
+L0357,U0296,99519,Vacation,7220,approved,2024-10-05,Generated for testing
+L0358,U0264,66186,Wedding,11110,declined,2025-06-06,Generated for testing
+L0359,U0047,56543,Emergency Fund,15982,approved,2025-02-27,Generated for testing
+L0360,U0299,51254,Home Renovation,2656,declined,2024-10-07,Generated for testing
+L0361,U0241,42453,Emergency Fund,1267,approved,2024-11-09,Generated for testing
+L0362,U0069,39664,Vacation,14213,declined,2025-05-25,Generated for testing
+L0363,U0206,11705,Emergency Fund,7378,declined,2024-09-07,Generated for testing
+L0364,U0148,14637,Vehicle Purchase,17523,declined,2024-09-09,Generated for testing
+L0365,U0144,86689,Medical Expenses,5216,approved,2024-11-28,Generated for testing
+L0366,U0192,49444,Emergency Fund,12980,approved,2025-03-08,Generated for testing
+L0367,U0261,57610,Emergency Fund,2319,approved,2025-05-29,Generated for testing
+L0368,U0071,98531,Vacation,16523,pending,2024-10-27,Generated for testing
+L0369,U0077,84463,Emergency Fund,5580,declined,2024-08-08,Generated for testing
+L0370,U0164,26299,Vehicle Purchase,10805,pending,2024-12-27,Generated for testing
+L0371,U0260,71809,Emergency Fund,17051,pending,2024-09-02,Generated for testing
+L0372,U0154,67245,Home Renovation,13070,declined,2024-07-08,Generated for testing
+L0373,U0057,59596,Debt Consolidation,1873,pending,2024-10-18,Generated for testing
+L0374,U0136,90929,Business Expansion,2682,pending,2024-10-15,Generated for testing
+L0375,U0088,73712,Vehicle Purchase,5842,pending,2025-02-13,Generated for testing
+L0376,U0017,80047,Medical Expenses,7251,approved,2024-11-04,Generated for testing
+L0377,U0161,59890,Education,14531,pending,2025-03-05,Generated for testing
+L0378,U0211,70774,Wedding,3040,pending,2025-04-08,Generated for testing
+L0379,U0266,32176,Emergency Fund,11651,pending,2024-10-16,Generated for testing
+L0380,U0270,54391,Vacation,6674,declined,2024-09-18,Generated for testing
+L0381,U0176,76601,Vacation,9662,pending,2024-10-13,Generated for testing
+L0382,U0099,37311,Debt Consolidation,19287,declined,2025-02-22,Generated for testing
+L0383,U0153,42880,Business Expansion,17023,declined,2024-10-15,Generated for testing
+L0384,U0179,78464,Debt Consolidation,10430,approved,2024-08-28,Generated for testing
+L0385,U0279,54767,Vehicle Purchase,12309,approved,2025-01-20,Generated for testing
+L0386,U0022,42700,Medical Expenses,12349,declined,2024-07-17,Generated for testing
+L0387,U0132,67793,Business Expansion,7621,pending,2025-01-30,Generated for testing
+L0388,U0288,96248,Debt Consolidation,5498,approved,2024-08-06,Generated for testing
+L0389,U0123,36779,Home Renovation,18401,approved,2024-07-26,Generated for testing
+L0390,U0120,11880,Medical Expenses,14543,declined,2024-10-19,Generated for testing
+L0391,U0052,94285,Education,1169,pending,2025-03-29,Generated for testing
+L0392,U0209,90575,Wedding,16645,pending,2025-03-07,Generated for testing
+L0393,U0148,47096,Debt Consolidation,2938,approved,2024-07-19,Generated for testing
+L0394,U0294,35437,Emergency Fund,2222,approved,2024-11-16,Generated for testing
+L0395,U0091,9763,Vehicle Purchase,17232,approved,2025-01-20,Generated for testing
+L0396,U0020,6214,Debt Consolidation,19610,pending,2025-04-24,Generated for testing
+L0397,U0172,42298,Wedding,18802,pending,2024-10-08,Generated for testing
+L0398,U0069,71088,Wedding,9940,approved,2025-04-21,Generated for testing
+L0399,U0170,26298,Wedding,9430,pending,2025-03-14,Generated for testing
+L0400,U0008,49185,Debt Consolidation,19605,pending,2025-03-11,Generated for testing
+L0401,U0090,85079,Vehicle Purchase,15014,pending,2025-01-01,Generated for testing
+L0402,U0045,57538,Medical Expenses,7054,approved,2024-10-16,Generated for testing
+L0403,U0166,37512,Home Renovation,9545,declined,2025-02-17,Generated for testing
+L0404,U0229,39995,Vacation,10894,pending,2024-08-28,Generated for testing
+L0405,U0006,39282,Vacation,8743,approved,2024-07-11,Generated for testing
+L0406,U0061,66000,Debt Consolidation,6233,declined,2024-07-01,Generated for testing
+L0407,U0258,97216,Debt Consolidation,4847,pending,2025-01-17,Generated for testing
+L0408,U0189,85560,Business Expansion,8180,approved,2024-10-16,Generated for testing
+L0409,U0079,64634,Vacation,14626,pending,2024-09-09,Generated for testing
+L0410,U0242,75453,Business Expansion,9108,pending,2024-08-16,Generated for testing
+L0411,U0042,73879,Wedding,18307,pending,2024-12-14,Generated for testing
+L0412,U0040,78946,Medical Expenses,3023,pending,2024-10-02,Generated for testing
+L0413,U0104,80065,Emergency Fund,5910,approved,2025-01-01,Generated for testing
+L0414,U0267,62912,Medical Expenses,7730,pending,2024-08-23,Generated for testing
+L0415,U0251,16919,Emergency Fund,15597,approved,2024-10-28,Generated for testing
+L0416,U0068,72272,Vehicle Purchase,15968,pending,2025-05-19,Generated for testing
+L0417,U0287,65604,Debt Consolidation,1713,declined,2025-02-07,Generated for testing
+L0418,U0002,33560,Medical Expenses,2484,declined,2024-12-23,Generated for testing
+L0419,U0033,75931,Home Renovation,3261,declined,2025-06-01,Generated for testing
+L0420,U0147,58591,Education,5437,pending,2024-07-22,Generated for testing
+L0421,U0216,54081,Vehicle Purchase,15697,declined,2024-12-07,Generated for testing
+L0422,U0042,94486,Emergency Fund,5357,pending,2024-12-21,Generated for testing
+L0423,U0061,28392,Emergency Fund,13879,pending,2025-04-13,Generated for testing
+L0424,U0115,5455,Home Renovation,10776,declined,2024-07-08,Generated for testing
+L0425,U0279,60591,Emergency Fund,13428,approved,2025-02-11,Generated for testing
+L0426,U0236,50371,Education,10032,approved,2025-04-21,Generated for testing
+L0427,U0017,91533,Vehicle Purchase,1512,approved,2025-03-04,Generated for testing
+L0428,U0035,18224,Home Renovation,15628,pending,2024-07-08,Generated for testing
+L0429,U0025,37077,Home Renovation,14181,declined,2025-02-18,Generated for testing
+L0430,U0277,33477,Home Renovation,5591,pending,2025-01-20,Generated for testing
+L0431,U0120,80511,Vacation,19922,pending,2024-07-08,Generated for testing
+L0432,U0165,36051,Debt Consolidation,5694,pending,2024-09-24,Generated for testing
+L0433,U0114,59206,Debt Consolidation,10016,approved,2024-09-05,Generated for testing
+L0434,U0090,87050,Vehicle Purchase,19214,declined,2025-05-24,Generated for testing
+L0435,U0177,89320,Vehicle Purchase,18185,declined,2024-06-26,Generated for testing
+L0436,U0214,58511,Education,10826,declined,2025-03-15,Generated for testing
+L0437,U0276,67065,Business Expansion,8384,declined,2024-06-20,Generated for testing
+L0438,U0074,65689,Home Renovation,19428,declined,2024-11-16,Generated for testing
+L0439,U0286,74467,Education,13727,approved,2025-02-07,Generated for testing
+L0440,U0105,48288,Medical Expenses,15738,declined,2025-05-01,Generated for testing
+L0441,U0275,99972,Business Expansion,2688,declined,2024-12-06,Generated for testing
+L0442,U0021,14539,Business Expansion,19312,approved,2024-10-15,Generated for testing
+L0443,U0107,48642,Debt Consolidation,1502,approved,2025-03-12,Generated for testing
+L0444,U0061,67773,Business Expansion,7701,declined,2025-02-15,Generated for testing
+L0445,U0283,47154,Debt Consolidation,13473,declined,2024-09-17,Generated for testing
+L0446,U0184,45425,Debt Consolidation,12784,pending,2024-10-06,Generated for testing
+L0447,U0239,17924,Wedding,11493,approved,2024-12-10,Generated for testing
+L0448,U0161,59254,Home Renovation,19432,approved,2025-04-04,Generated for testing
+L0449,U0009,39180,Emergency Fund,19977,pending,2024-11-16,Generated for testing
+L0450,U0152,24976,Business Expansion,11809,approved,2024-12-05,Generated for testing
+L0451,U0292,37208,Wedding,19043,pending,2024-07-02,Generated for testing
+L0452,U0173,38728,Wedding,17075,declined,2025-03-23,Generated for testing
+L0453,U0181,27185,Education,18909,declined,2025-03-15,Generated for testing
+L0454,U0278,89123,Home Renovation,18168,approved,2025-05-10,Generated for testing
+L0455,U0025,5836,Vehicle Purchase,5505,pending,2025-02-19,Generated for testing
+L0456,U0035,97690,Education,1299,approved,2024-10-02,Generated for testing
+L0457,U0234,53916,Home Renovation,16833,pending,2024-10-11,Generated for testing
+L0458,U0009,5866,Emergency Fund,19076,declined,2025-06-11,Generated for testing
+L0459,U0009,74391,Debt Consolidation,18555,declined,2025-06-09,Generated for testing
+L0460,U0258,96469,Vehicle Purchase,6874,approved,2025-04-29,Generated for testing
+L0461,U0269,24516,Business Expansion,7289,pending,2024-09-21,Generated for testing
+L0462,U0130,51457,Debt Consolidation,14005,approved,2024-12-08,Generated for testing
+L0463,U0208,65161,Business Expansion,8400,declined,2024-07-02,Generated for testing
+L0464,U0042,90686,Home Renovation,4063,declined,2024-12-05,Generated for testing
+L0465,U0194,77443,Wedding,2838,pending,2025-06-13,Generated for testing
+L0466,U0088,15837,Wedding,15218,pending,2024-12-30,Generated for testing
+L0467,U0290,17499,Emergency Fund,2394,approved,2025-03-01,Generated for testing
+L0468,U0291,67324,Debt Consolidation,2525,approved,2024-07-02,Generated for testing
+L0469,U0144,76176,Home Renovation,6877,declined,2025-06-09,Generated for testing
+L0470,U0107,81943,Education,14051,approved,2025-01-15,Generated for testing
+L0471,U0084,78919,Business Expansion,19569,declined,2024-07-06,Generated for testing
+L0472,U0277,48480,Vehicle Purchase,5585,pending,2025-05-08,Generated for testing
+L0473,U0257,50332,Home Renovation,4200,declined,2025-02-19,Generated for testing
+L0474,U0039,49642,Vehicle Purchase,11694,approved,2024-07-28,Generated for testing
+L0475,U0140,64054,Wedding,8475,declined,2024-09-07,Generated for testing
+L0476,U0193,61603,Education,13454,approved,2024-08-05,Generated for testing
+L0477,U0152,37302,Medical Expenses,3688,declined,2025-03-31,Generated for testing
+L0478,U0195,98280,Education,13767,declined,2024-12-15,Generated for testing
+L0479,U0055,16995,Home Renovation,11101,declined,2024-12-15,Generated for testing
+L0480,U0139,18399,Education,3860,approved,2024-11-09,Generated for testing
+L0481,U0230,78005,Emergency Fund,17791,declined,2025-04-26,Generated for testing
+L0482,U0014,16746,Vacation,19160,approved,2024-08-16,Generated for testing
+L0483,U0167,55493,Home Renovation,10563,declined,2024-12-01,Generated for testing
+L0484,U0044,78339,Business Expansion,19741,pending,2025-03-23,Generated for testing
+L0485,U0195,27216,Education,9811,declined,2025-01-31,Generated for testing
+L0486,U0253,24127,Medical Expenses,6479,declined,2025-01-27,Generated for testing
+L0487,U0216,44289,Wedding,3520,declined,2025-02-09,Generated for testing
+L0488,U0127,99489,Wedding,7407,declined,2025-04-24,Generated for testing
+L0489,U0070,44932,Home Renovation,13966,declined,2024-08-04,Generated for testing
+L0490,U0195,48193,Wedding,11968,declined,2024-07-19,Generated for testing
+L0491,U0070,44378,Vacation,7581,declined,2025-01-08,Generated for testing
+L0492,U0091,57198,Vacation,10550,pending,2024-06-27,Generated for testing
+L0493,U0252,80481,Business Expansion,11678,declined,2025-01-25,Generated for testing
+L0494,U0202,52843,Medical Expenses,19476,approved,2024-08-18,Generated for testing
+L0495,U0280,28583,Emergency Fund,1881,pending,2024-10-24,Generated for testing
+L0496,U0108,62469,Debt Consolidation,3266,declined,2024-07-08,Generated for testing
+L0497,U0256,23242,Debt Consolidation,8930,declined,2024-07-15,Generated for testing
+L0498,U0079,98747,Vehicle Purchase,13353,approved,2024-10-31,Generated for testing
+L0499,U0246,81315,Vehicle Purchase,18510,pending,2024-06-28,Generated for testing
+L0500,U0215,76256,Home Renovation,12781,pending,2024-09-16,Generated for testing
+L0501,U0044,19335,Business Expansion,12632,approved,2024-07-21,Generated for testing
+L0502,U0023,78822,Vehicle Purchase,11865,declined,2025-04-24,Generated for testing
+L0503,U0006,17924,Debt Consolidation,8274,pending,2024-09-25,Generated for testing
+L0504,U0286,81089,Business Expansion,15607,declined,2024-11-29,Generated for testing
+L0505,U0238,94070,Emergency Fund,5939,declined,2025-06-05,Generated for testing
+L0506,U0248,18703,Debt Consolidation,14630,approved,2025-04-19,Generated for testing
+L0507,U0073,50656,Debt Consolidation,12241,declined,2025-03-04,Generated for testing
+L0508,U0267,68298,Vacation,16602,approved,2024-11-05,Generated for testing
+L0509,U0232,46800,Medical Expenses,10839,approved,2024-06-19,Generated for testing
+L0510,U0059,7960,Vacation,4583,pending,2025-03-25,Generated for testing
+L0511,U0125,72632,Education,19084,approved,2024-12-30,Generated for testing
+L0512,U0287,60885,Wedding,8597,declined,2024-07-30,Generated for testing
+L0513,U0095,29430,Vehicle Purchase,13962,approved,2024-08-07,Generated for testing
+L0514,U0102,63926,Vehicle Purchase,13741,approved,2024-06-22,Generated for testing
+L0515,U0110,31972,Debt Consolidation,3050,pending,2025-04-26,Generated for testing
+L0516,U0275,29505,Vacation,11681,approved,2024-10-26,Generated for testing
+L0517,U0059,39387,Wedding,18292,pending,2025-01-08,Generated for testing
+L0518,U0199,85125,Vehicle Purchase,4743,declined,2024-12-19,Generated for testing
+L0519,U0235,85918,Education,10746,pending,2024-08-19,Generated for testing
+L0520,U0044,93094,Education,11262,approved,2025-02-15,Generated for testing
+L0521,U0157,20328,Education,13232,pending,2025-04-06,Generated for testing
+L0522,U0262,55916,Vehicle Purchase,5517,pending,2024-12-03,Generated for testing
+L0523,U0217,29347,Wedding,18608,pending,2024-07-22,Generated for testing
+L0524,U0089,77733,Education,17044,declined,2025-04-07,Generated for testing
+L0525,U0096,46232,Wedding,2756,declined,2025-06-13,Generated for testing
+L0526,U0249,22895,Business Expansion,13581,pending,2024-10-02,Generated for testing
+L0527,U0254,58626,Wedding,14619,pending,2024-11-02,Generated for testing
+L0528,U0251,26922,Medical Expenses,19526,approved,2025-02-25,Generated for testing
+L0529,U0150,9285,Debt Consolidation,8367,pending,2025-01-21,Generated for testing
+L0530,U0087,64942,Wedding,19013,pending,2025-04-21,Generated for testing
+L0531,U0294,19969,Debt Consolidation,18796,declined,2024-09-13,Generated for testing
+L0532,U0022,99238,Wedding,18902,approved,2024-11-12,Generated for testing
+L0533,U0053,90678,Business Expansion,10755,approved,2024-10-30,Generated for testing
+L0534,U0135,50688,Medical Expenses,15387,approved,2025-02-16,Generated for testing
+L0535,U0108,82060,Vacation,15030,approved,2024-08-06,Generated for testing
+L0536,U0072,32082,Business Expansion,2945,pending,2024-12-20,Generated for testing
+L0537,U0273,41842,Emergency Fund,6517,declined,2024-06-22,Generated for testing
+L0538,U0150,42923,Debt Consolidation,17856,pending,2025-04-30,Generated for testing
+L0539,U0070,58948,Home Renovation,10087,pending,2025-04-14,Generated for testing
+L0540,U0068,37725,Education,11554,approved,2024-07-06,Generated for testing
+L0541,U0202,69154,Education,19921,pending,2025-01-31,Generated for testing
+L0542,U0213,54174,Wedding,3474,pending,2025-05-01,Generated for testing
+L0543,U0207,72582,Debt Consolidation,13093,declined,2024-10-11,Generated for testing
+L0544,U0168,81278,Home Renovation,4052,pending,2024-10-26,Generated for testing
+L0545,U0184,13300,Emergency Fund,14032,approved,2024-11-10,Generated for testing
+L0546,U0109,69843,Debt Consolidation,11579,declined,2024-12-27,Generated for testing
+L0547,U0281,80750,Education,19551,declined,2024-12-24,Generated for testing
+L0548,U0025,11021,Medical Expenses,16059,approved,2025-04-15,Generated for testing
+L0549,U0081,62840,Wedding,1022,declined,2025-03-06,Generated for testing
+L0550,U0068,90196,Debt Consolidation,6209,declined,2025-05-01,Generated for testing
+L0551,U0185,37819,Medical Expenses,13184,pending,2024-07-20,Generated for testing
+L0552,U0085,11787,Vehicle Purchase,11010,pending,2024-06-24,Generated for testing
+L0553,U0120,61260,Medical Expenses,4118,approved,2025-02-28,Generated for testing
+L0554,U0245,15215,Education,8411,pending,2024-07-04,Generated for testing
+L0555,U0228,6217,Home Renovation,12258,approved,2024-11-13,Generated for testing
+L0556,U0068,67613,Medical Expenses,8502,declined,2025-05-03,Generated for testing
+L0557,U0053,18526,Vacation,13044,declined,2025-04-08,Generated for testing
+L0558,U0196,22451,Education,3241,pending,2024-09-02,Generated for testing
+L0559,U0005,84995,Education,15421,declined,2025-02-28,Generated for testing
+L0560,U0078,58963,Wedding,8118,approved,2025-04-27,Generated for testing
+L0561,U0072,21142,Vehicle Purchase,12519,declined,2025-01-07,Generated for testing
+L0562,U0072,37477,Debt Consolidation,3760,approved,2024-09-07,Generated for testing
+L0563,U0146,95502,Home Renovation,10884,approved,2024-09-25,Generated for testing
+L0564,U0261,29726,Vehicle Purchase,10684,pending,2025-05-21,Generated for testing
+L0565,U0123,69865,Vehicle Purchase,4694,approved,2024-10-05,Generated for testing
+L0566,U0037,74243,Home Renovation,12832,declined,2025-04-11,Generated for testing
+L0567,U0199,79498,Vehicle Purchase,12973,pending,2024-07-03,Generated for testing
+L0568,U0089,66736,Medical Expenses,1546,pending,2025-05-14,Generated for testing
+L0569,U0008,39365,Business Expansion,2305,approved,2024-11-26,Generated for testing
+L0570,U0260,42550,Emergency Fund,14612,declined,2024-06-23,Generated for testing
+L0571,U0206,15803,Emergency Fund,18617,pending,2025-03-31,Generated for testing
+L0572,U0143,15957,Debt Consolidation,3589,pending,2025-03-05,Generated for testing
+L0573,U0080,75305,Vacation,13803,pending,2024-07-28,Generated for testing
+L0574,U0034,45654,Vehicle Purchase,8819,approved,2025-02-12,Generated for testing
+L0575,U0045,61948,Medical Expenses,15856,pending,2024-08-10,Generated for testing
+L0576,U0029,45539,Education,4913,approved,2024-06-20,Generated for testing
+L0577,U0071,96946,Home Renovation,6368,declined,2024-12-22,Generated for testing
+L0578,U0268,72793,Debt Consolidation,6471,declined,2025-04-14,Generated for testing
+L0579,U0138,20473,Home Renovation,11977,declined,2025-01-29,Generated for testing
+L0580,U0269,13371,Debt Consolidation,19895,pending,2025-05-09,Generated for testing
+L0581,U0255,64663,Emergency Fund,12800,approved,2024-10-05,Generated for testing
+L0582,U0291,26873,Vacation,6154,declined,2025-04-26,Generated for testing
+L0583,U0294,93358,Medical Expenses,8484,pending,2024-09-30,Generated for testing
+L0584,U0002,10772,Home Renovation,9013,approved,2024-10-19,Generated for testing
+L0585,U0187,55197,Education,6864,approved,2024-09-07,Generated for testing
+L0586,U0215,34427,Vacation,9135,declined,2025-01-05,Generated for testing
+L0587,U0139,15208,Vacation,4912,pending,2024-07-08,Generated for testing
+L0588,U0027,28507,Business Expansion,17900,approved,2024-11-24,Generated for testing
+L0589,U0036,65960,Debt Consolidation,11180,declined,2025-05-04,Generated for testing
+L0590,U0284,64866,Home Renovation,13088,approved,2025-01-19,Generated for testing
+L0591,U0289,44834,Business Expansion,16201,declined,2024-08-19,Generated for testing
+L0592,U0253,30614,Emergency Fund,9032,approved,2025-06-14,Generated for testing
+L0593,U0210,8133,Business Expansion,18745,declined,2024-07-27,Generated for testing
+L0594,U0005,48911,Home Renovation,13329,pending,2025-01-11,Generated for testing
+L0595,U0054,31895,Emergency Fund,8804,declined,2024-10-09,Generated for testing
+L0596,U0031,23661,Debt Consolidation,4048,approved,2025-02-19,Generated for testing
+L0597,U0267,59140,Vacation,16022,pending,2025-05-05,Generated for testing
+L0598,U0298,17527,Emergency Fund,5374,pending,2024-11-28,Generated for testing
+L0599,U0039,82580,Home Renovation,15253,pending,2025-04-12,Generated for testing
+L0600,U0122,43230,Debt Consolidation,11322,declined,2024-06-24,Generated for testing
+L0601,U0168,46688,Wedding,9911,approved,2025-05-10,Generated for testing
+L0602,U0104,22840,Medical Expenses,6092,approved,2025-03-25,Generated for testing
+L0603,U0231,66086,Vacation,14320,approved,2024-09-16,Generated for testing
+L0604,U0184,32215,Wedding,11102,declined,2025-02-02,Generated for testing
+L0605,U0062,16851,Education,10968,pending,2024-06-26,Generated for testing
+L0606,U0021,33183,Vacation,5860,approved,2024-06-18,Generated for testing
+L0607,U0128,51627,Vehicle Purchase,17825,approved,2024-07-06,Generated for testing
+L0608,U0154,39100,Education,2018,declined,2024-10-29,Generated for testing
+L0609,U0285,77105,Business Expansion,4103,declined,2025-04-26,Generated for testing
+L0610,U0072,20919,Home Renovation,3020,approved,2025-04-12,Generated for testing
+L0611,U0102,57505,Vacation,3753,pending,2024-08-21,Generated for testing
+L0612,U0133,14828,Home Renovation,3112,approved,2024-07-22,Generated for testing
+L0613,U0228,21880,Medical Expenses,11864,approved,2025-05-27,Generated for testing
+L0614,U0237,11637,Education,19805,declined,2024-11-27,Generated for testing
+L0615,U0255,8864,Vehicle Purchase,14980,approved,2024-12-18,Generated for testing
+L0616,U0110,29530,Debt Consolidation,10170,declined,2025-04-02,Generated for testing
+L0617,U0018,85492,Business Expansion,10670,declined,2024-11-19,Generated for testing
+L0618,U0282,67787,Home Renovation,3874,declined,2024-12-03,Generated for testing
+L0619,U0071,59949,Business Expansion,18229,approved,2024-07-30,Generated for testing
+L0620,U0279,7559,Vehicle Purchase,12767,declined,2024-09-12,Generated for testing
+L0621,U0249,50093,Emergency Fund,11538,declined,2025-01-30,Generated for testing
+L0622,U0093,8416,Vacation,8176,approved,2025-01-25,Generated for testing
+L0623,U0030,66824,Emergency Fund,12712,pending,2025-02-18,Generated for testing
+L0624,U0082,18124,Business Expansion,8902,declined,2024-09-17,Generated for testing
+L0625,U0029,33758,Vehicle Purchase,12626,approved,2025-03-19,Generated for testing
+L0626,U0122,82662,Vacation,12756,pending,2025-06-03,Generated for testing
+L0627,U0181,79403,Education,19451,approved,2024-10-08,Generated for testing
+L0628,U0278,45508,Education,17070,approved,2025-05-02,Generated for testing
+L0629,U0029,35490,Business Expansion,1653,pending,2024-10-16,Generated for testing
+L0630,U0001,48481,Business Expansion,5275,declined,2025-03-19,Generated for testing
+L0631,U0166,12806,Home Renovation,5840,pending,2024-06-22,Generated for testing
+L0632,U0073,19538,Emergency Fund,12956,approved,2024-12-08,Generated for testing
+L0633,U0203,81810,Medical Expenses,12028,declined,2025-01-03,Generated for testing
+L0634,U0070,25644,Vehicle Purchase,16964,pending,2025-01-06,Generated for testing
+L0635,U0090,97691,Emergency Fund,12692,approved,2024-07-12,Generated for testing
+L0636,U0090,54595,Debt Consolidation,10650,approved,2025-03-19,Generated for testing
+L0637,U0001,97013,Vehicle Purchase,19595,approved,2025-03-16,Generated for testing
+L0638,U0163,85134,Business Expansion,19531,approved,2024-10-06,Generated for testing
+L0639,U0073,48406,Medical Expenses,8798,declined,2025-01-05,Generated for testing
+L0640,U0086,88386,Medical Expenses,12001,declined,2025-06-12,Generated for testing
+L0641,U0136,32483,Business Expansion,3221,declined,2025-02-06,Generated for testing
+L0642,U0056,99426,Home Renovation,2577,declined,2024-11-05,Generated for testing
+L0643,U0215,26802,Vehicle Purchase,17157,declined,2024-12-20,Generated for testing
+L0644,U0280,54197,Medical Expenses,16711,pending,2024-07-19,Generated for testing
+L0645,U0116,26319,Wedding,3415,approved,2025-01-18,Generated for testing
+L0646,U0011,46774,Debt Consolidation,4431,approved,2024-12-24,Generated for testing
+L0647,U0088,54212,Education,3457,pending,2025-05-01,Generated for testing
+L0648,U0174,82860,Wedding,2015,declined,2024-07-18,Generated for testing
+L0649,U0085,84602,Vehicle Purchase,6147,approved,2025-04-27,Generated for testing
+L0650,U0170,31941,Business Expansion,14411,pending,2024-09-07,Generated for testing
+L0651,U0277,39768,Debt Consolidation,10745,approved,2025-04-29,Generated for testing
+L0652,U0026,56498,Emergency Fund,17087,approved,2025-05-21,Generated for testing
+L0653,U0185,5500,Vehicle Purchase,3871,declined,2024-07-14,Generated for testing
+L0654,U0246,31171,Medical Expenses,1843,approved,2025-03-22,Generated for testing
+L0655,U0150,15739,Wedding,4784,declined,2024-11-26,Generated for testing
+L0656,U0242,69106,Debt Consolidation,3986,pending,2024-09-12,Generated for testing
+L0657,U0199,29232,Vacation,13499,declined,2025-03-14,Generated for testing
+L0658,U0229,10848,Debt Consolidation,15409,declined,2025-02-03,Generated for testing
+L0659,U0116,40200,Home Renovation,5952,pending,2024-07-11,Generated for testing
+L0660,U0050,16233,Vacation,18742,declined,2024-08-20,Generated for testing
+L0661,U0117,77561,Home Renovation,13684,pending,2024-11-15,Generated for testing
+L0662,U0275,95055,Wedding,19766,approved,2024-10-17,Generated for testing
+L0663,U0154,15348,Vehicle Purchase,2137,pending,2024-08-29,Generated for testing
+L0664,U0265,79905,Education,4941,declined,2025-03-21,Generated for testing
+L0665,U0086,32772,Business Expansion,5134,approved,2024-11-13,Generated for testing
+L0666,U0041,94538,Vehicle Purchase,7616,pending,2025-04-03,Generated for testing
+L0667,U0133,46910,Medical Expenses,3851,declined,2024-09-06,Generated for testing
+L0668,U0204,77358,Vacation,10050,pending,2024-10-26,Generated for testing
+L0669,U0007,96804,Emergency Fund,14749,approved,2024-11-17,Generated for testing
+L0670,U0077,24424,Medical Expenses,4461,pending,2025-04-27,Generated for testing
+L0671,U0147,75206,Vacation,14464,declined,2024-12-03,Generated for testing
+L0672,U0249,79976,Wedding,2227,approved,2025-01-27,Generated for testing
+L0673,U0207,23855,Vehicle Purchase,2270,declined,2024-12-30,Generated for testing
+L0674,U0122,11460,Wedding,9800,declined,2025-06-07,Generated for testing
+L0675,U0173,44722,Debt Consolidation,10186,declined,2024-06-26,Generated for testing
+L0676,U0051,34878,Education,10846,pending,2024-11-03,Generated for testing
+L0677,U0165,40313,Vehicle Purchase,3925,approved,2024-11-03,Generated for testing
+L0678,U0109,58368,Wedding,17924,declined,2025-05-20,Generated for testing
+L0679,U0264,25836,Medical Expenses,11194,pending,2024-10-01,Generated for testing
+L0680,U0207,22779,Emergency Fund,19634,approved,2025-03-21,Generated for testing
+L0681,U0099,31309,Home Renovation,9175,approved,2024-10-27,Generated for testing
+L0682,U0026,52235,Business Expansion,9977,declined,2024-10-23,Generated for testing
+L0683,U0259,57028,Medical Expenses,2001,approved,2024-12-09,Generated for testing
+L0684,U0251,82862,Wedding,6819,declined,2024-08-21,Generated for testing
+L0685,U0283,50843,Vacation,6358,declined,2024-06-30,Generated for testing
+L0686,U0047,42364,Home Renovation,13666,approved,2025-03-26,Generated for testing
+L0687,U0293,33091,Business Expansion,8376,pending,2025-03-04,Generated for testing
+L0688,U0138,90404,Vehicle Purchase,17819,approved,2024-07-03,Generated for testing
+L0689,U0005,67140,Education,6675,pending,2025-06-13,Generated for testing
+L0690,U0115,38081,Debt Consolidation,10023,declined,2024-12-07,Generated for testing
+L0691,U0179,65161,Debt Consolidation,8150,declined,2025-01-14,Generated for testing
+L0692,U0267,86737,Vehicle Purchase,4352,approved,2024-09-29,Generated for testing
+L0693,U0192,78591,Debt Consolidation,10780,pending,2025-04-23,Generated for testing
+L0694,U0247,13367,Vacation,10059,pending,2025-01-02,Generated for testing
+L0695,U0142,39229,Debt Consolidation,7172,approved,2024-09-26,Generated for testing
+L0696,U0124,12441,Vehicle Purchase,11472,pending,2025-04-07,Generated for testing
+L0697,U0014,90904,Wedding,10686,declined,2024-11-15,Generated for testing
+L0698,U0208,55891,Home Renovation,19744,approved,2024-12-24,Generated for testing
+L0699,U0114,94957,Emergency Fund,16588,pending,2024-12-16,Generated for testing
+L0700,U0260,44347,Education,19292,approved,2025-01-18,Generated for testing
+L0701,U0050,66706,Education,9475,pending,2024-09-04,Generated for testing
+L0702,U0094,94091,Vacation,3926,approved,2024-12-18,Generated for testing
+L0703,U0115,45250,Vehicle Purchase,11856,declined,2025-02-04,Generated for testing
+L0704,U0300,43541,Wedding,4859,declined,2025-05-21,Generated for testing
+L0705,U0299,81062,Medical Expenses,16473,approved,2024-10-04,Generated for testing
+L0706,U0062,94220,Vehicle Purchase,18361,declined,2024-11-18,Generated for testing
+L0707,U0028,24762,Education,7563,declined,2024-11-20,Generated for testing
+L0708,U0292,64974,Education,11367,pending,2025-03-17,Generated for testing
+L0709,U0042,68908,Vacation,6794,declined,2024-07-28,Generated for testing
+L0710,U0030,5617,Wedding,9962,approved,2025-03-23,Generated for testing
+L0711,U0296,25766,Wedding,3884,approved,2024-08-07,Generated for testing
+L0712,U0223,88032,Vehicle Purchase,14218,declined,2024-10-16,Generated for testing
+L0713,U0197,5611,Home Renovation,18490,approved,2024-12-08,Generated for testing
+L0714,U0008,47233,Emergency Fund,7244,approved,2024-07-06,Generated for testing
+L0715,U0003,87141,Business Expansion,8414,pending,2024-12-23,Generated for testing
+L0716,U0160,21899,Medical Expenses,13568,pending,2024-08-20,Generated for testing
+L0717,U0157,26891,Medical Expenses,2498,declined,2025-01-20,Generated for testing
+L0718,U0234,73195,Emergency Fund,12070,declined,2024-07-01,Generated for testing
+L0719,U0069,49922,Wedding,12771,approved,2025-03-25,Generated for testing
+L0720,U0207,7506,Business Expansion,8350,pending,2025-04-11,Generated for testing
+L0721,U0109,7872,Emergency Fund,6537,approved,2024-12-12,Generated for testing
+L0722,U0020,54177,Debt Consolidation,18522,pending,2025-05-24,Generated for testing
+L0723,U0025,91765,Medical Expenses,1646,approved,2024-06-29,Generated for testing
+L0724,U0060,59627,Wedding,13460,approved,2024-09-10,Generated for testing
+L0725,U0130,67180,Education,7733,pending,2024-07-01,Generated for testing
+L0726,U0005,44467,Vehicle Purchase,4308,pending,2024-09-24,Generated for testing
+L0727,U0139,86631,Education,14724,approved,2024-09-29,Generated for testing
+L0728,U0061,42054,Medical Expenses,4482,declined,2025-03-08,Generated for testing
+L0729,U0103,39471,Emergency Fund,7608,declined,2024-06-22,Generated for testing
+L0730,U0210,43712,Education,2291,pending,2024-10-06,Generated for testing
+L0731,U0107,95204,Wedding,11833,approved,2025-06-16,Generated for testing
+L0732,U0007,93032,Medical Expenses,4618,pending,2024-07-10,Generated for testing
+L0733,U0253,24548,Medical Expenses,17767,approved,2025-04-27,Generated for testing
+L0734,U0132,89454,Business Expansion,15966,declined,2025-02-02,Generated for testing
+L0735,U0238,11564,Medical Expenses,6724,approved,2025-01-20,Generated for testing
+L0736,U0185,93705,Vacation,14959,pending,2025-04-19,Generated for testing
+L0737,U0049,11014,Home Renovation,5534,pending,2024-07-21,Generated for testing
+L0738,U0088,48078,Vacation,15343,pending,2025-01-31,Generated for testing
+L0739,U0048,53840,Vacation,6992,approved,2024-11-24,Generated for testing
+L0740,U0205,64839,Debt Consolidation,13639,pending,2024-10-16,Generated for testing
+L0741,U0216,90045,Education,4704,approved,2024-06-26,Generated for testing
+L0742,U0031,25892,Medical Expenses,14632,pending,2024-10-13,Generated for testing
+L0743,U0292,93918,Wedding,6939,pending,2024-12-05,Generated for testing
+L0744,U0184,85131,Home Renovation,5281,declined,2024-10-11,Generated for testing
+L0745,U0058,58907,Wedding,2506,approved,2025-02-04,Generated for testing
+L0746,U0161,6620,Emergency Fund,19895,pending,2024-09-01,Generated for testing
+L0747,U0115,92797,Vacation,18009,pending,2024-06-30,Generated for testing
+L0748,U0049,61734,Business Expansion,16791,declined,2024-07-13,Generated for testing
+L0749,U0198,24484,Emergency Fund,2788,approved,2024-07-23,Generated for testing
+L0750,U0081,71265,Wedding,17247,approved,2025-05-10,Generated for testing
+L0751,U0252,47026,Business Expansion,11842,declined,2025-05-23,Generated for testing
+L0752,U0260,34190,Emergency Fund,13407,declined,2025-02-17,Generated for testing
+L0753,U0041,65174,Wedding,19777,declined,2025-05-03,Generated for testing
+L0754,U0256,63598,Vacation,4889,declined,2024-07-18,Generated for testing
+L0755,U0010,18453,Vehicle Purchase,14511,approved,2024-09-05,Generated for testing
+L0756,U0282,5022,Medical Expenses,10981,pending,2024-09-03,Generated for testing
+L0757,U0106,90799,Wedding,12169,declined,2025-05-21,Generated for testing
+L0758,U0115,64566,Vacation,19355,pending,2024-08-14,Generated for testing
+L0759,U0243,98933,Vacation,15828,approved,2025-04-29,Generated for testing
+L0760,U0114,5287,Vacation,12637,pending,2025-01-19,Generated for testing
+L0761,U0281,73417,Vacation,4483,approved,2025-03-25,Generated for testing
+L0762,U0253,23408,Vehicle Purchase,4504,declined,2024-08-09,Generated for testing
+L0763,U0101,29581,Medical Expenses,13874,approved,2024-10-26,Generated for testing
+L0764,U0098,98950,Vacation,4531,declined,2025-05-25,Generated for testing
+L0765,U0064,64048,Wedding,17521,approved,2024-10-05,Generated for testing
+L0766,U0003,74515,Home Renovation,19128,declined,2024-08-22,Generated for testing
+L0767,U0248,71628,Education,19958,approved,2025-04-13,Generated for testing
+L0768,U0054,55778,Vacation,17518,declined,2024-11-15,Generated for testing
+L0769,U0128,40860,Vehicle Purchase,12234,declined,2024-10-29,Generated for testing
+L0770,U0069,23111,Vehicle Purchase,17786,declined,2024-06-23,Generated for testing
+L0771,U0281,46144,Emergency Fund,8121,approved,2025-03-02,Generated for testing
+L0772,U0149,94995,Vacation,5347,pending,2024-07-20,Generated for testing
+L0773,U0092,71046,Emergency Fund,11563,pending,2025-04-19,Generated for testing
+L0774,U0181,78699,Wedding,19698,pending,2024-06-19,Generated for testing
+L0775,U0214,93374,Emergency Fund,10369,declined,2025-06-11,Generated for testing
+L0776,U0268,18955,Home Renovation,13480,approved,2025-05-21,Generated for testing
+L0777,U0029,31201,Debt Consolidation,6273,declined,2024-07-03,Generated for testing
+L0778,U0129,24192,Home Renovation,10671,approved,2024-09-13,Generated for testing
+L0779,U0017,52013,Wedding,4358,pending,2024-07-07,Generated for testing
+L0780,U0288,34400,Emergency Fund,13743,approved,2024-09-29,Generated for testing
+L0781,U0148,95824,Home Renovation,13503,declined,2024-11-16,Generated for testing
+L0782,U0161,77368,Home Renovation,1424,pending,2025-02-09,Generated for testing
+L0783,U0104,86338,Wedding,8390,pending,2024-06-22,Generated for testing
+L0784,U0189,82120,Emergency Fund,7437,pending,2025-03-10,Generated for testing
+L0785,U0151,63827,Education,3440,approved,2025-03-21,Generated for testing
+L0786,U0264,20643,Vehicle Purchase,2331,declined,2025-01-26,Generated for testing
+L0787,U0285,39634,Education,6273,pending,2025-02-07,Generated for testing
+L0788,U0003,48327,Wedding,6072,approved,2025-03-31,Generated for testing
+L0789,U0166,83234,Home Renovation,10868,declined,2024-08-28,Generated for testing
+L0790,U0282,51934,Medical Expenses,11415,pending,2025-02-25,Generated for testing
+L0791,U0095,73236,Medical Expenses,17552,approved,2024-11-17,Generated for testing
+L0792,U0279,75390,Vehicle Purchase,4012,declined,2025-02-24,Generated for testing
+L0793,U0110,91944,Vacation,11848,declined,2025-01-18,Generated for testing
+L0794,U0112,86039,Emergency Fund,16560,pending,2024-07-20,Generated for testing
+L0795,U0005,20036,Vacation,15603,approved,2024-07-24,Generated for testing
+L0796,U0125,10226,Vacation,13496,approved,2024-12-02,Generated for testing
+L0797,U0132,75809,Debt Consolidation,1809,pending,2024-12-08,Generated for testing
+L0798,U0264,71680,Wedding,16951,approved,2025-01-17,Generated for testing
+L0799,U0099,46984,Emergency Fund,3698,approved,2025-03-24,Generated for testing
+L0800,U0276,74888,Home Renovation,3145,approved,2024-07-09,Generated for testing
+L0801,U0110,94837,Vehicle Purchase,4405,approved,2024-09-15,Generated for testing
+L0802,U0223,89746,Medical Expenses,6038,approved,2024-10-25,Generated for testing
+L0803,U0170,9965,Medical Expenses,3400,approved,2025-03-18,Generated for testing
+L0804,U0129,78149,Medical Expenses,19840,approved,2025-02-05,Generated for testing
+L0805,U0209,55860,Wedding,14252,declined,2025-01-07,Generated for testing
+L0806,U0009,56052,Medical Expenses,18525,approved,2024-07-24,Generated for testing
+L0807,U0033,81756,Home Renovation,3378,declined,2024-10-03,Generated for testing
+L0808,U0055,42989,Debt Consolidation,3834,declined,2024-11-05,Generated for testing
+L0809,U0196,56788,Home Renovation,16531,approved,2024-09-17,Generated for testing
+L0810,U0113,22875,Vehicle Purchase,18882,declined,2024-07-28,Generated for testing
+L0811,U0074,44066,Vacation,1365,pending,2024-09-06,Generated for testing
+L0812,U0073,21152,Home Renovation,1164,pending,2024-08-16,Generated for testing
+L0813,U0202,75405,Emergency Fund,3789,declined,2025-03-02,Generated for testing
+L0814,U0177,32752,Vehicle Purchase,17795,approved,2025-03-27,Generated for testing
+L0815,U0095,33939,Debt Consolidation,7367,approved,2025-03-17,Generated for testing
+L0816,U0291,12128,Emergency Fund,16114,pending,2024-09-09,Generated for testing
+L0817,U0038,43096,Medical Expenses,9214,approved,2025-03-08,Generated for testing
+L0818,U0298,68857,Vacation,12702,approved,2024-07-09,Generated for testing
+L0819,U0121,18113,Debt Consolidation,3287,approved,2025-01-06,Generated for testing
+L0820,U0249,64067,Vacation,11016,pending,2024-08-22,Generated for testing
+L0821,U0079,79128,Vacation,11365,declined,2025-03-23,Generated for testing
+L0822,U0003,46053,Business Expansion,8258,pending,2024-07-24,Generated for testing
+L0823,U0224,41264,Vacation,5400,pending,2024-12-30,Generated for testing
+L0824,U0246,65666,Wedding,12755,declined,2024-10-11,Generated for testing
+L0825,U0283,19264,Education,3686,declined,2025-04-07,Generated for testing
+L0826,U0276,30746,Debt Consolidation,3505,pending,2025-05-10,Generated for testing
+L0827,U0010,71476,Home Renovation,19969,declined,2024-08-19,Generated for testing
+L0828,U0109,9804,Emergency Fund,9539,pending,2024-09-14,Generated for testing
+L0829,U0242,90709,Education,12987,declined,2025-02-23,Generated for testing
+L0830,U0149,22548,Wedding,17420,pending,2025-05-02,Generated for testing
+L0831,U0204,52692,Emergency Fund,1347,pending,2025-02-15,Generated for testing
+L0832,U0085,72388,Education,15621,approved,2025-03-18,Generated for testing
+L0833,U0290,79162,Education,16843,declined,2025-05-28,Generated for testing
+L0834,U0113,68916,Business Expansion,3059,declined,2024-12-10,Generated for testing
+L0835,U0120,10610,Business Expansion,17970,declined,2024-12-01,Generated for testing
+L0836,U0241,64591,Home Renovation,2307,pending,2025-01-03,Generated for testing
+L0837,U0053,97240,Emergency Fund,9961,pending,2025-02-03,Generated for testing
+L0838,U0297,76349,Education,13342,pending,2024-12-06,Generated for testing
+L0839,U0188,82028,Medical Expenses,17930,declined,2024-12-07,Generated for testing
+L0840,U0115,72681,Vehicle Purchase,12563,declined,2024-10-11,Generated for testing
+L0841,U0247,84195,Home Renovation,17444,approved,2024-11-04,Generated for testing
+L0842,U0085,35145,Medical Expenses,17860,pending,2025-01-25,Generated for testing
+L0843,U0109,24692,Education,6156,declined,2024-08-13,Generated for testing
+L0844,U0061,91652,Business Expansion,14586,declined,2025-04-20,Generated for testing
+L0845,U0247,93503,Wedding,16696,approved,2024-08-19,Generated for testing
+L0846,U0083,89837,Vehicle Purchase,1735,approved,2025-05-26,Generated for testing
+L0847,U0066,80168,Education,5414,pending,2024-09-28,Generated for testing
+L0848,U0021,80008,Education,2832,approved,2025-02-05,Generated for testing
+L0849,U0093,72717,Vehicle Purchase,19468,pending,2025-06-08,Generated for testing
+L0850,U0146,16239,Business Expansion,15719,pending,2024-10-19,Generated for testing
+L0851,U0247,27356,Business Expansion,14460,pending,2025-04-05,Generated for testing
+L0852,U0299,28839,Emergency Fund,9667,approved,2024-07-01,Generated for testing
+L0853,U0176,64437,Medical Expenses,8530,declined,2024-12-02,Generated for testing
+L0854,U0068,19230,Home Renovation,7630,pending,2024-10-02,Generated for testing
+L0855,U0215,24603,Medical Expenses,6813,declined,2024-08-07,Generated for testing
+L0856,U0020,74655,Emergency Fund,4850,approved,2024-10-14,Generated for testing
+L0857,U0067,84098,Emergency Fund,1039,pending,2024-07-20,Generated for testing
+L0858,U0221,73425,Vehicle Purchase,13136,approved,2024-06-25,Generated for testing
+L0859,U0272,61224,Business Expansion,16798,declined,2024-12-20,Generated for testing
+L0860,U0295,17807,Vehicle Purchase,5387,declined,2024-10-16,Generated for testing
+L0861,U0120,15986,Debt Consolidation,18816,declined,2025-02-06,Generated for testing
+L0862,U0097,5716,Home Renovation,19939,pending,2025-04-18,Generated for testing
+L0863,U0267,5942,Vehicle Purchase,7731,pending,2025-01-07,Generated for testing
+L0864,U0210,52483,Medical Expenses,6071,declined,2024-07-19,Generated for testing
+L0865,U0300,38244,Debt Consolidation,18567,declined,2024-09-01,Generated for testing
+L0866,U0188,85200,Debt Consolidation,14023,approved,2024-11-18,Generated for testing
+L0867,U0283,78080,Wedding,6856,declined,2024-09-04,Generated for testing
+L0868,U0285,68407,Debt Consolidation,11048,pending,2024-12-23,Generated for testing
+L0869,U0204,23096,Medical Expenses,8529,declined,2024-06-24,Generated for testing
+L0870,U0083,18143,Business Expansion,17657,declined,2024-12-26,Generated for testing
+L0871,U0282,85481,Home Renovation,6267,declined,2024-07-27,Generated for testing
+L0872,U0003,16939,Education,16455,pending,2024-11-07,Generated for testing
+L0873,U0046,13399,Debt Consolidation,8266,declined,2025-05-08,Generated for testing
+L0874,U0020,99960,Vehicle Purchase,14128,pending,2024-07-17,Generated for testing
+L0875,U0267,42548,Home Renovation,6743,pending,2024-10-07,Generated for testing
+L0876,U0225,6403,Business Expansion,17978,declined,2025-03-10,Generated for testing
+L0877,U0018,83579,Emergency Fund,17902,pending,2025-02-19,Generated for testing
+L0878,U0087,93345,Home Renovation,12787,approved,2024-07-17,Generated for testing
+L0879,U0001,25636,Medical Expenses,10041,declined,2024-12-19,Generated for testing
+L0880,U0203,58143,Business Expansion,17965,approved,2024-06-22,Generated for testing
+L0881,U0036,16818,Emergency Fund,10322,pending,2024-09-04,Generated for testing
+L0882,U0299,50625,Vacation,10060,approved,2024-08-11,Generated for testing
+L0883,U0100,64606,Vehicle Purchase,19838,approved,2025-02-04,Generated for testing
+L0884,U0090,58363,Emergency Fund,4488,pending,2025-05-11,Generated for testing
+L0885,U0258,43568,Vacation,4834,pending,2025-02-06,Generated for testing
+L0886,U0276,80352,Debt Consolidation,15508,declined,2024-09-02,Generated for testing
+L0887,U0248,36886,Vacation,16035,pending,2024-10-25,Generated for testing
+L0888,U0015,68172,Medical Expenses,9448,approved,2024-12-04,Generated for testing
+L0889,U0113,93724,Business Expansion,11345,declined,2024-12-19,Generated for testing
+L0890,U0265,75208,Home Renovation,9629,approved,2025-01-21,Generated for testing
+L0891,U0048,57288,Vacation,3491,pending,2025-03-18,Generated for testing
+L0892,U0244,46139,Vacation,8161,pending,2025-01-31,Generated for testing
+L0893,U0094,94536,Business Expansion,17351,pending,2025-03-07,Generated for testing
+L0894,U0121,36726,Debt Consolidation,7775,approved,2025-03-06,Generated for testing
+L0895,U0128,86080,Vacation,6111,approved,2025-04-17,Generated for testing
+L0896,U0041,93580,Wedding,1217,pending,2025-05-27,Generated for testing
+L0897,U0247,53653,Vacation,17133,pending,2025-01-28,Generated for testing
+L0898,U0252,28969,Emergency Fund,10183,declined,2025-02-24,Generated for testing
+L0899,U0296,21809,Home Renovation,18227,declined,2024-10-16,Generated for testing
+L0900,U0277,9268,Emergency Fund,12379,declined,2024-07-01,Generated for testing
+L0901,U0090,64925,Medical Expenses,17980,declined,2025-01-07,Generated for testing
+L0902,U0005,6549,Business Expansion,13433,pending,2025-04-27,Generated for testing
+L0903,U0167,52395,Debt Consolidation,7132,pending,2025-02-03,Generated for testing
+L0904,U0122,40311,Wedding,12242,declined,2025-03-15,Generated for testing
+L0905,U0256,60567,Business Expansion,14732,pending,2024-12-09,Generated for testing
+L0906,U0187,57506,Debt Consolidation,15769,approved,2024-08-29,Generated for testing
+L0907,U0068,80483,Business Expansion,4272,pending,2025-01-30,Generated for testing
+L0908,U0121,77789,Vehicle Purchase,13480,approved,2025-04-04,Generated for testing
+L0909,U0077,66995,Home Renovation,6787,declined,2024-10-05,Generated for testing
+L0910,U0069,87660,Emergency Fund,18497,pending,2025-01-07,Generated for testing
+L0911,U0250,44326,Debt Consolidation,19420,pending,2025-05-24,Generated for testing
+L0912,U0204,17972,Education,2967,approved,2025-02-07,Generated for testing
+L0913,U0244,87557,Medical Expenses,15740,pending,2024-12-28,Generated for testing
+L0914,U0134,52312,Vacation,19361,pending,2025-02-06,Generated for testing
+L0915,U0177,7599,Vehicle Purchase,4972,declined,2024-07-05,Generated for testing
+L0916,U0102,80609,Emergency Fund,6719,declined,2024-12-18,Generated for testing
+L0917,U0167,93236,Emergency Fund,16974,pending,2024-11-01,Generated for testing
+L0918,U0041,54947,Debt Consolidation,16196,pending,2025-04-04,Generated for testing
+L0919,U0086,88962,Vacation,14822,pending,2024-08-08,Generated for testing
+L0920,U0293,58054,Medical Expenses,3592,approved,2024-12-24,Generated for testing
+L0921,U0117,46088,Vacation,10547,pending,2025-02-01,Generated for testing
+L0922,U0203,40553,Wedding,12900,pending,2024-08-21,Generated for testing
+L0923,U0267,64020,Vehicle Purchase,6482,approved,2025-06-06,Generated for testing
+L0924,U0065,35753,Debt Consolidation,3623,approved,2025-03-24,Generated for testing
+L0925,U0204,18501,Medical Expenses,3090,declined,2024-09-10,Generated for testing
+L0926,U0028,8455,Vehicle Purchase,18169,approved,2025-04-25,Generated for testing
+L0927,U0135,86015,Education,3762,pending,2024-11-30,Generated for testing
+L0928,U0159,35062,Business Expansion,10311,declined,2024-08-01,Generated for testing
+L0929,U0065,22206,Emergency Fund,6590,approved,2025-05-31,Generated for testing
+L0930,U0183,47624,Wedding,16308,pending,2025-01-29,Generated for testing
+L0931,U0281,63306,Education,18671,approved,2024-08-19,Generated for testing
+L0932,U0234,87712,Vehicle Purchase,18152,pending,2024-07-25,Generated for testing
+L0933,U0274,45587,Vacation,16782,pending,2025-02-21,Generated for testing
+L0934,U0046,62915,Debt Consolidation,12985,declined,2025-02-04,Generated for testing
+L0935,U0080,44789,Home Renovation,1003,pending,2025-04-09,Generated for testing
+L0936,U0177,42586,Wedding,18534,approved,2024-06-30,Generated for testing
+L0937,U0252,67530,Debt Consolidation,1299,declined,2025-01-19,Generated for testing
+L0938,U0119,5946,Emergency Fund,13243,approved,2024-11-19,Generated for testing
+L0939,U0288,62292,Vehicle Purchase,9188,approved,2024-07-22,Generated for testing
+L0940,U0200,54592,Business Expansion,9617,approved,2024-11-13,Generated for testing
+L0941,U0123,72713,Debt Consolidation,10328,pending,2024-09-18,Generated for testing
+L0942,U0138,59120,Business Expansion,3243,approved,2025-04-09,Generated for testing
+L0943,U0149,19464,Wedding,15836,declined,2024-06-24,Generated for testing
+L0944,U0252,29613,Vacation,1635,approved,2025-05-23,Generated for testing
+L0945,U0274,7900,Education,4351,declined,2025-01-31,Generated for testing
+L0946,U0065,98742,Wedding,1268,approved,2025-05-02,Generated for testing
+L0947,U0078,6930,Wedding,8116,declined,2024-11-14,Generated for testing
+L0948,U0160,70325,Vacation,16194,pending,2025-06-01,Generated for testing
+L0949,U0170,15515,Education,2836,declined,2024-11-29,Generated for testing
+L0950,U0037,76197,Wedding,6950,approved,2025-02-09,Generated for testing
+L0951,U0196,6653,Medical Expenses,9157,declined,2024-11-03,Generated for testing
+L0952,U0127,9392,Business Expansion,16100,pending,2025-04-30,Generated for testing
+L0953,U0267,92294,Business Expansion,16493,declined,2024-07-04,Generated for testing
+L0954,U0160,47344,Education,2382,pending,2024-09-09,Generated for testing
+L0955,U0267,21009,Debt Consolidation,16768,pending,2025-01-16,Generated for testing
+L0956,U0102,52241,Home Renovation,8136,approved,2025-02-17,Generated for testing
+L0957,U0223,47534,Home Renovation,6484,declined,2024-08-22,Generated for testing
+L0958,U0062,56879,Business Expansion,1292,approved,2024-08-24,Generated for testing
+L0959,U0244,95230,Education,13169,approved,2025-02-10,Generated for testing
+L0960,U0081,70525,Medical Expenses,12089,pending,2025-05-18,Generated for testing
+L0961,U0031,51598,Education,18575,approved,2025-04-14,Generated for testing
+L0962,U0250,35497,Vacation,19296,pending,2024-12-22,Generated for testing
+L0963,U0225,30292,Home Renovation,13378,declined,2025-04-10,Generated for testing
+L0964,U0129,10175,Wedding,15336,pending,2025-01-18,Generated for testing
+L0965,U0278,96362,Wedding,7218,pending,2025-03-14,Generated for testing
+L0966,U0279,50569,Vacation,16348,declined,2024-08-15,Generated for testing
+L0967,U0284,26016,Medical Expenses,18404,approved,2024-10-30,Generated for testing
+L0968,U0152,39517,Emergency Fund,13029,declined,2025-06-17,Generated for testing
+L0969,U0260,54681,Education,1613,pending,2024-12-13,Generated for testing
+L0970,U0123,47034,Medical Expenses,18660,declined,2025-03-12,Generated for testing
+L0971,U0269,94551,Wedding,19070,approved,2024-08-08,Generated for testing
+L0972,U0145,47283,Vehicle Purchase,11552,approved,2025-04-29,Generated for testing
+L0973,U0268,91362,Medical Expenses,2434,approved,2025-03-18,Generated for testing
+L0974,U0017,31486,Medical Expenses,16904,approved,2025-04-28,Generated for testing
+L0975,U0017,79843,Vehicle Purchase,17053,pending,2024-08-02,Generated for testing
+L0976,U0132,11433,Vacation,8232,pending,2025-05-12,Generated for testing
+L0977,U0007,32359,Wedding,3620,declined,2024-07-25,Generated for testing
+L0978,U0032,52307,Emergency Fund,14629,declined,2024-06-20,Generated for testing
+L0979,U0030,85862,Debt Consolidation,18334,approved,2025-05-12,Generated for testing
+L0980,U0156,15215,Business Expansion,18022,approved,2025-04-27,Generated for testing
+L0981,U0119,74685,Vehicle Purchase,7208,approved,2024-09-21,Generated for testing
+L0982,U0128,79714,Education,19298,pending,2024-09-05,Generated for testing
+L0983,U0213,18829,Vacation,16031,pending,2024-07-12,Generated for testing
+L0984,U0219,18644,Education,6911,pending,2024-11-24,Generated for testing
+L0985,U0259,49238,Education,18494,pending,2024-11-03,Generated for testing
+L0986,U0181,46307,Emergency Fund,11638,declined,2024-11-18,Generated for testing
+L0987,U0221,47395,Business Expansion,19453,pending,2025-02-28,Generated for testing
+L0988,U0193,77120,Debt Consolidation,12796,declined,2024-10-31,Generated for testing
+L0989,U0204,5025,Home Renovation,10321,pending,2025-06-09,Generated for testing
+L0990,U0266,22705,Debt Consolidation,1215,declined,2025-02-24,Generated for testing
+L0991,U0110,46275,Home Renovation,10042,pending,2024-09-29,Generated for testing
+L0992,U0285,79798,Education,4089,approved,2024-10-25,Generated for testing
+L0993,U0183,25461,Education,9683,declined,2024-08-23,Generated for testing
+L0994,U0128,35539,Debt Consolidation,10840,approved,2024-08-29,Generated for testing
+L0995,U0205,79588,Business Expansion,3529,pending,2025-01-02,Generated for testing
+L0996,U0248,27662,Wedding,19881,approved,2024-08-17,Generated for testing
+L0997,U0154,9898,Vehicle Purchase,3571,approved,2024-12-28,Generated for testing
+L0998,U0179,61925,Vehicle Purchase,4949,approved,2024-07-18,Generated for testing
+L0999,U0006,88084,Vehicle Purchase,2773,declined,2024-09-22,Generated for testing
+L1000,U0022,46853,Emergency Fund,19511,approved,2025-01-01,Generated for testing
