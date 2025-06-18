@@ -30,31 +30,17 @@ if "user" not in st.session_state:
 
 # Login Function
 def login():
-    st.title("🏦 Streamlit Bank Login")
+    st.title("\U0001F3E6 Streamlit Bank Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-
     if st.button("Login"):
-        users_df = pd.read_csv("data/users.csv")
-
-        # Validate columns
-        required_cols = {"username", "password", "role", "user_id"}
-        if not required_cols.issubset(set(users_df.columns)):
-            st.error("Error: 'users.csv' is missing required columns.")
-            st.stop()
-
-        user = users_df[
-            (users_df["username"] == username) & 
-            (users_df["password"] == password)
-        ]
-
+        user = users_df[(users_df["username"] == username) & (users_df["password"] == password)]
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.stop()  # Ends rendering cleanly after login
+            st.experimental_rerun()
         else:
-            st.error("Invalid username or password")
-
+            st.error("Invalid credentials")
 
 # User Dashboard
 def user_dashboard():
