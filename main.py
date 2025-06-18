@@ -292,15 +292,23 @@ def user_dashboard():
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        loan_status_df = st.session_state.loan_status_df if "loan_status_df" in st.session_state else load_csv(loan_status_file)
-        user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
-        st.dataframe(user_loans)
+        if "loan_status_df" not in st.session_state:
+            st.session_state.loan_status_df = load_csv(loan_status_file)
+        loan_status_df = st.session_state.loan_status_df
+        if "user_id" in loan_status_df.columns:
+            user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
+            st.dataframe(user_loans)
+        else:
+            st.warning("Loan status data missing 'user_id' column.")
 
     elif choice == "💵 Transactions":
         st.subheader("Transaction History")
         transactions_df = st.session_state.transactions_df
-        tx = transactions_df[transactions_df["user_id"] == user_id]
-        st.dataframe(tx)
+        if "user_id" in transactions_df.columns:
+            tx = transactions_df[transactions_df["user_id"] == user_id]
+            st.dataframe(tx)
+        else:
+            st.warning("Transaction data missing 'user_id' column.")
 
     elif choice == "💳 Pay Loan Dues":
         st.subheader("Pay Loan Dues")
@@ -324,6 +332,7 @@ def user_dashboard():
             st.session_state.transactions_df = transactions_df
             save_csv(transactions_df, transactions_file)
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
+
 
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
