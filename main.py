@@ -132,10 +132,51 @@ def login():
             st.error("Invalid username or password")
 
 # User Dashboard
-# (Unchanged for brevity)
-
 def user_dashboard():
-    pass  # Placeholder to keep code concise
+   st.sidebar.title("User Menu")
+    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
+    user_id = st.session_state.user["user_id"]
+
+    if choice == "📈 Account Summary":
+        if all(col in accounts_df.columns for col in ["user_id", "account_no", "address", "balance"]):
+            acc = accounts_df[accounts_df["user_id"] == user_id][["account_no", "address", "balance"]]
+            st.subheader("Account Summary")
+            st.dataframe(acc)
+        else:
+            st.error("Account data is missing some required columns.")
+
+    elif choice == "📝 Apply for Loan":
+        st.subheader("Loan Application Form")
+        amount = st.number_input("Loan Amount", min_value=1000)
+        purpose = st.text_input("Purpose")
+        income = st.number_input("Monthly Income", min_value=0)
+        if st.button("Submit Application"):
+            loan_id = f"L{len(loans_df)+1:03d}"
+            new_loan_data = {
+                "loan_id": loan_id,
+                "user_id": user_id,
+                "amount": amount,
+                "purpose": purpose,
+                "income": income,
+                "status": "pending",
+                "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
+                "remarks": "Awaiting review"
+            }
+            new_loan = pd.DataFrame([new_loan_data])
+            loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
+            save_csv(loans_df_updated, loans_file)
+            st.success("Loan Application Submitted!")
+
+    elif choice == "📊 Loan Status":
+        st.subheader("Your Loan Applications")
+        user_loans = loans_df[loans_df["user_id"] == user_id]
+        st.dataframe(user_loans)
+
+    elif choice == "💵 Transactions":
+        st.subheader("Transaction History")
+        tx = transactions_df[transactions_df["user_id"] == user_id]
+        st.dataframe(tx)
+
 
 # Admin Dashboard
 def admin_dashboard():
@@ -148,20 +189,19 @@ def admin_dashboard():
         if st.button("Search"):
             users_df_reloaded = load_csv(users_file)
             accounts_df_reloaded = load_csv(accounts_file)
-            merged = pd.merge(users_df_reloaded, accounts_df_reloaded, on="user_id", how="outer")
-            if "username" in merged.columns and "user_id" in merged.columns:
-                merged["username"] = merged["username"].astype(str)
-                merged["user_id"] = merged["user_id"].astype(str)
-                results = merged[
-                    (merged["username"].str.lower() == search_id.lower()) |
-                    (merged["user_id"].str.lower() == search_id.lower())
-                ]
-                if not results.empty:
-                    st.dataframe(results)
-                else:
-                    st.warning("❌ No matching user or ID found.")
+
+            user_results = users_df_reloaded[(users_df_reloaded["username"].str.lower() == search_id.lower()) |
+                                             (users_df_reloaded["user_id"].str.lower() == search_id.lower())]
+
+            account_results = accounts_df_reloaded[(accounts_df_reloaded["user_id"].isin(user_results["user_id"]))]
+
+            if not user_results.empty:
+                st.subheader("User Details")
+                st.dataframe(user_results)
+                st.subheader("Account Details")
+                st.dataframe(account_results)
             else:
-                st.error("Merged data is missing 'username' or 'user_id' column.")
+                st.warning("❌ No matching user or ID found.")
 
 # Main Routing
 if st.session_state.user:
