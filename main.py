@@ -17,6 +17,9 @@ transactions_file = os.path.join(data_path, "transactions.csv")
 model_file = os.path.join(data_path, "loan_model.pkl")
 
 
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
 # Load and Save CSV
 def load_csv(file):
     try:
@@ -99,7 +102,6 @@ def create_new_user():
             st.success("Account created successfully!")
 
 # Login Function
-# Login Function
 def login():
     st.title("lavudhu Bank 69")
     menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
@@ -135,7 +137,6 @@ def login():
                 st.success("✅ Password reset successful! You may now log in.")
         return
 
-    # 👇 This line had extra indentation; fixed here
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -158,8 +159,6 @@ def login():
             st.experimental_rerun()
         else:
             st.error("Invalid username or password")
-
-
 
 # Admin Dashboard
 def admin_dashboard():
@@ -215,6 +214,10 @@ def admin_dashboard():
 
         if review_required:
             st.warning("⚠️ Loans requiring admin review (Average Risk)")
+
+            if "loan_action_taken" not in st.session_state:
+                st.session_state.loan_action_taken = False
+
             for row, risk_score in review_required:
                 st.markdown(f"### Loan ID: {row['loan_id']}")
                 st.write(row)
@@ -226,15 +229,17 @@ def admin_dashboard():
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
                         save_csv(loans_df, loans_file)
-                        st.success(f"Loan {row['loan_id']} approved")
-                        st.experimental_rerun()
+                        st.session_state.loan_action_taken = True
                 with col2:
                     if st.button(f"Decline {row['loan_id']}", key=f"decline_{row['loan_id']}"):
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
                         save_csv(loans_df, loans_file)
-                        st.error(f"Loan {row['loan_id']} declined")
-                        st.experimental_rerun()
+                        st.session_state.loan_action_taken = True
+
+            if st.session_state.loan_action_taken:
+                st.session_state.loan_action_taken = False
+                st.experimental_rerun()
 
     elif option == "🔍 Fetch User Info":
         st.subheader("Fetch User Details")
