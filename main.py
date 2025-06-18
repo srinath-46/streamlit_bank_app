@@ -163,7 +163,7 @@ def login():
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans"])
+    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans", "🔍 Fetch User Info"])
 
     if option == "📃 All Applications":
         st.subheader("All Loan Applications")
