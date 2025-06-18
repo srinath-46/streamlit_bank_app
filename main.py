@@ -16,11 +16,6 @@ loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
 model_file = os.path.join(data_path, "loan_model.pkl")
 
-
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
-# Load and Save CSV
 def load_csv(file):
     try:
         return pd.read_csv(file) if os.path.exists(file) else pd.DataFrame()
@@ -79,27 +74,27 @@ def create_new_user():
     st.title("Create New User Account")
     username = st.text_input("Choose a Username")
     password = st.text_input("Choose a Password", type="password")
-    role = st.selectbox("Role", ["user", "admin"])
+    role = st.selectbox("Role", ["user"])
     city = st.text_input("City")
-    mobile = st.text_input("Mobile Number (10 digits)")
+    mobile = st.text_input("Mobile Number (e.g., xxxxxxx237)")
 
     if st.button("Create Account"):
-        if not mobile.isdigit() or len(mobile) != 10:
-            st.error("Enter a valid 10-digit mobile number.")
-            return
-
-        if username in st.session_state.users_df["username"].values:
-            st.error("Username already exists.")
+        if username in users_df["username"].values:
+            st.error("Username already exists. Please choose another.")
         else:
-            user_id = f"U{len(st.session_state.users_df)+1:04d}"
-            hashed_pw = hash_password(password)
-            new_user = pd.DataFrame([{ "user_id": user_id, "username": username, "password": hashed_pw, "role": role }])
-            new_account = pd.DataFrame([{ "user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0 }])
-            st.session_state.users_df = pd.concat([st.session_state.users_df, new_user], ignore_index=True)
-            st.session_state.accounts_df = pd.concat([st.session_state.accounts_df, new_account], ignore_index=True)
-            save_csv(st.session_state.users_df, users_file)
-            save_csv(st.session_state.accounts_df, accounts_file)
+            user_id = f"U{len(users_df)+1:04d}"
+            new_user = pd.DataFrame([{"user_id": user_id, "username": username, "password": password, "role": role}])
+            new_account = pd.DataFrame([{"user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0}])
+
+            updated_users = pd.concat([users_df, new_user], ignore_index=True)
+            updated_accounts = pd.concat([accounts_df, new_account], ignore_index=True)
+
+            save_csv(updated_users, users_file)
+            save_csv(updated_accounts, accounts_file)
+
             st.success("Account created successfully!")
+            st.info(f"Username: {username}\nAccount Number: {new_account.iloc[0]['account_no']}\nCity: {city}")
+
 
 # Login Function
 def login():
