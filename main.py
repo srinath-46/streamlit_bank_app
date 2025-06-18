@@ -81,7 +81,7 @@ def login():
         create_new_user()
         return
 
-    if menu == "Forgot Password?":
+    if menu == "Forgot Password?"]:
         st.subheader("Reset Your Password with Mobile Verification")
 
         username = st.text_input("Enter your username")
@@ -134,37 +134,95 @@ def login():
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["🔍 Fetch User Data"])
+    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans", "🔍 Fetch User Info"])
 
-    if option == "🔍 Fetch User Data":
-        st.subheader("Search User and Account Info")
-        search_id = st.text_input("Enter Username or User ID")
-        if st.button("Search"):
-            users_df_reloaded = load_csv(users_file)
-            accounts_df_reloaded = load_csv(accounts_file)
+    if option == "📃 All Applications":
+        st.subheader("All Loan Applications")
+        st.dataframe(loans_df.drop(columns=["user_id"], errors="ignore"))
 
-            if "username" in users_df_reloaded.columns and "user_id" in users_df_reloaded.columns:
-                user_results = users_df_reloaded[
-                    users_df_reloaded["username"].astype(str).str.lower() == search_id.lower()
-                ]
-                if user_results.empty:
-                    user_results = users_df_reloaded[
-                        users_df_reloaded["user_id"].astype(str).str.lower() == search_id.lower()
-                    ]
+    elif option == "✅ Approve Loans":
+        st.subheader("Auto & Manual Loan Approvals")
 
-                if not user_results.empty:
-                    st.subheader("User Details")
-                    st.dataframe(user_results)
+        if "status" not in loans_df.columns:
+            st.error("Loan data is missing 'status' column.")
+            return
 
-                    user_ids = user_results["user_id"].tolist()
-                    account_results = accounts_df_reloaded[accounts_df_reloaded["user_id"].isin(user_ids)]
+        train_df = loans_df[loans_df["status"] != "pending"]
+        if train_df.empty or len(train_df["status"].unique()) < 2:
+            st.warning("Not enough historical data to train model.")
+            return
 
-                    st.subheader("Account Details")
-                    st.dataframe(account_results)
-                else:
-                    st.warning("❌ No matching user or ID found.")
+        train_df = train_df[["amount", "income", "status"]].dropna()
+        X = train_df[["amount", "income"]]
+        y = (train_df["status"] == "approved").astype(int)
+
+        model = LogisticRegression()
+        model.fit(X, y)
+
+        pending_loans = loans_df[loans_df["status"] == "pending"]
+        if pending_loans.empty:
+            st.info("No pending loan applications.")
+            return
+
+        review_required = []
+
+        for idx, row in pending_loans.iterrows():
+            X_test = np.array([[row["amount"], row["income"]]])
+            prob = model.predict_proba(X_test)[0][1]
+            risk_score = round((1 - prob) * 100, 2)
+
+            loan_id = row['loan_id']
+            remark = f"Predicted Risk Score: {risk_score}%"
+
+            if risk_score <= 39:
+                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "approved"
+                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
+                st.success(f"✅ Loan {loan_id} auto-approved (Low Risk)")
+            elif risk_score >= 61:
+                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "declined"
+                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
+                st.error(f"❌ Loan {loan_id} auto-declined (High Risk)")
             else:
-                st.error("Merged data is missing 'username' or 'user_id' column.")
+                review_required.append((row, risk_score))
+
+        save_csv(loans_df, loans_file)
+
+        if review_required:
+            st.warning("⚠️ Loans requiring admin review (Average Risk)")
+            for row, risk_score in review_required:
+                st.markdown(f"### Loan ID: {row['loan_id']}")
+                st.write(row.drop(labels=['user_id'], errors='ignore'))
+                st.info(f"Predicted Risk Score: {risk_score}%")
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button(f"Approve {row['loan_id']}"):
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
+                        save_csv(loans_df, loans_file)
+                        st.success(f"Loan {row['loan_id']} approved")
+                        st.experimental_rerun()
+                with col2:
+                    if st.button(f"Decline {row['loan_id']}"):
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
+                        save_csv(loans_df, loans_file)
+                        st.error(f"Loan {row['loan_id']} declined")
+                        st.experimental_rerun()
+
+    elif option == "🔍 Fetch User Info":
+        st.subheader("Fetch User Details")
+        username_input = st.text_input("Enter Username")
+        if st.button("Fetch Info"):
+            user_info = users_df[users_df["username"] == username_input]
+            if user_info.empty:
+                st.error("User not found.")
+            else:
+                user_id = user_info.iloc[0]['user_id']
+                account_info = accounts_df[accounts_df['user_id'] == user_id]
+                st.success("User details fetched successfully!")
+                st.write("👤 User Info", user_info.drop(columns=['password'], errors='ignore'))
+                st.write("🏦 Account Info", account_info)
 
 # Main Routing
 if st.session_state.user:
