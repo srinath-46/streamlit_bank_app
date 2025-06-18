@@ -16,9 +16,6 @@ loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
 model_file = os.path.join(data_path, "loan_model.pkl")
 
-# Hashing function
-def hash_password(pw):
-    return hashlib.sha256(pw.encode()).hexdigest()
 
 # Load and Save CSV
 def load_csv(file):
@@ -132,13 +129,11 @@ def login():
             if acc_row.empty:
                 st.error("❌ Mobile number does not match our records.")
             else:
-                hashed_pw = hash_password(new_password)
-                users_df.loc[users_df["username"] == username, "password"] = hashed_pw
+                users_df.loc[users_df["username"] == username, "password"] = new_password
                 save_csv(users_df, users_file)
                 st.success("✅ Password reset successful! You may now log in.")
         return
 
-    # --- Login ---
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -150,11 +145,9 @@ def login():
             st.error("Error: 'users.csv' is missing required columns.")
             st.stop()
 
-        hashed_input_pw = hash_password(password)
-
         user = users_df[
             (users_df["username"] == username) & 
-            (users_df["password"] == hashed_input_pw)
+            (users_df["password"] == password)
         ]
 
         if not user.empty:
@@ -163,7 +156,6 @@ def login():
             st.experimental_rerun()
         else:
             st.error("Invalid username or password")
-
 
 # Admin Dashboard
 def admin_dashboard():
