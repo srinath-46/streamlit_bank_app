@@ -261,7 +261,7 @@ def admin_dashboard():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
+    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions", "💳 Pay Loan Dues"])
     user_id = st.session_state.user["user_id"]
 
     if choice == "📈 Account Summary":
@@ -272,7 +272,6 @@ def user_dashboard():
     elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
         amount = st.number_input("Loan Amount", min_value=1000)
-        # Updated: Dropdown for common purposes
         purpose_options = ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"]
         purpose = st.selectbox("Purpose", purpose_options)
         income = st.number_input("Monthly Income", min_value=0)
@@ -303,6 +302,26 @@ def user_dashboard():
         tx = transactions_df[transactions_df["user_id"] == user_id]
         st.dataframe(tx)
 
+    elif choice == "💳 Pay Loan Dues":
+        st.subheader("Pay Loan Dues")
+        user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
+        if user_loans.empty:
+            st.info("No approved loans with dues found.")
+            return
+        selected_loan = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
+        due_amount = user_loans[user_loans["loan_id"] == selected_loan]["amount"].values[0]
+        st.write(f"Total Due Amount: ₹{due_amount}")
+        payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
+        if st.button("Pay Now"):
+            transactions_df.loc[len(transactions_df.index)] = {
+                "user_id": user_id,
+                "loan_id": selected_loan,
+                "amount": due_amount,
+                "method": payment_method,
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+            }
+            save_csv(transactions_df, transactions_file)
+            st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
