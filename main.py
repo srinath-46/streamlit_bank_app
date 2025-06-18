@@ -289,15 +289,12 @@ def user_dashboard():
             }
             new_loan = pd.DataFrame([new_loan_data])
             loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
-            st.session_state.loans_df = loans_df_updated
             save_csv(loans_df_updated, loans_file)
-            st.session_state.loan_status_df = loans_df_updated  # Update loan status
-            save_csv(loans_df_updated, loan_status_file)
             st.success("Loan Application Submitted!")
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        user_loans = st.session_state.loan_status_df[st.session_state.loan_status_df["user_id"] == user_id]
+        user_loans = loans_df[loans_df["user_id"] == user_id]
         st.dataframe(user_loans)
 
     elif choice == "💵 Transactions":
