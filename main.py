@@ -266,41 +266,41 @@ def user_dashboard():
         st.subheader("Account Summary")
         st.dataframe(acc)
 
-   elif choice == "📝 Apply for Loan":
-    st.subheader("Loan Application Form")
-    amount = st.number_input("Loan Amount", min_value=1000)
-    purpose_options = ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"]
-    purpose = st.selectbox("Purpose", purpose_options)
-    income = st.number_input("Monthly Income", min_value=0)
-    
-    if st.button("Submit Application"):
-        loan_id = f"L{len(loans_df)+1:03d}"
-        new_loan_data = {
-            "loan_id": loan_id,
-            "user_id": user_id,
-            "amount": amount,
-            "purpose": purpose,
-            "income": income,
-            "status": "pending",
-            "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
-            "remarks": "Awaiting review"
-        }
-        new_loan = pd.DataFrame([new_loan_data])
+    elif choice == "📝 Apply for Loan":
+        st.subheader("Loan Application Form")
+        amount = st.number_input("Loan Amount", min_value=1000)
+        purpose_options = ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"]
+        purpose = st.selectbox("Purpose", purpose_options)
+        income = st.number_input("Monthly Income", min_value=0)
         
-        loans_df = pd.concat([loans_df, new_loan], ignore_index=True)
-        loan_status_df = pd.concat([loan_status_df, new_loan], ignore_index=True)
+        if st.button("Submit Application"):
+            loan_id = f"L{len(loans_df)+1:03d}"
+            new_loan_data = {
+                "loan_id": loan_id,
+                "user_id": user_id,
+                "amount": amount,
+                "purpose": purpose,
+                "income": income,
+                "status": "pending",
+                "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
+                "remarks": "Awaiting review"
+            }
+            new_loan = pd.DataFrame([new_loan_data])
+            
+            loans_df = pd.concat([loans_df, new_loan], ignore_index=True)
+            loan_status_df = pd.concat([loan_status_df, new_loan], ignore_index=True)
 
-        st.session_state.loans_df = loans_df
-        st.session_state.loan_status_df = loan_status_df
+            st.session_state.loans_df = loans_df
+            st.session_state.loan_status_df = loan_status_df
 
-        save_csv(loans_df, loans_file)
-        save_csv(loan_status_df, loan_status_file)
+            save_csv(loans_df, loans_file)
+            save_csv(loan_status_df, loan_status_file)
 
-        st.success("Loan Application Submitted!")
+            st.success("Loan Application Submitted!")
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        user_loans = loans_df[loans_df["user_id"] == user_id]
+        user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
         st.dataframe(user_loans)
 
     elif choice == "💵 Transactions":
@@ -328,6 +328,7 @@ def user_dashboard():
             }
             save_csv(transactions_df, transactions_file)
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
+
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
