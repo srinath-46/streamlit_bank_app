@@ -311,7 +311,15 @@ def admin_dashboard():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions", "💳 Pay Loan Dues"])
+    choice = st.sidebar.radio("Go to", [
+        "📈 Account Summary",
+        "📝 Apply for Loan",
+        "📊 Loan Status",
+        "💵 Transactions",
+        "💳 Pay Loan Dues",
+        "📚 Loan Repayment History",
+        "🧮 EMI Calculator"
+    ])
     user_id = st.session_state.user["user_id"]
 
     if choice == "📈 Account Summary":
@@ -376,6 +384,28 @@ def user_dashboard():
             }
             save_csv(transactions_df, transactions_file)
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
+
+    elif choice == "📚 Loan Repayment History":
+        st.subheader("Loan Repayment History")
+        user_tx = transactions_df[transactions_df["user_id"] == user_id]
+        if user_tx.empty:
+            st.info("No repayments made yet.")
+        else:
+            st.dataframe(user_tx)
+            summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
+            st.write("### Summary of Paid Amount by Loan")
+            st.dataframe(summary)
+
+    elif choice == "🧮 EMI Calculator":
+        st.subheader("Monthly EMI Calculator")
+        loan_amount = st.number_input("Enter Loan Amount", min_value=1000)
+        interest_rate = st.number_input("Annual Interest Rate (in %)", min_value=0.0)
+        tenure = st.number_input("Loan Tenure (in months)", min_value=1)
+
+        if st.button("Calculate EMI"):
+            monthly_rate = interest_rate / (12 * 100)
+            emi = (loan_amount * monthly_rate * (1 + monthly_rate)**tenure) / ((1 + monthly_rate)**tenure - 1)
+            st.success(f"Your Monthly EMI is ₹{emi:.2f}")
 
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
