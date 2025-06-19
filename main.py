@@ -258,11 +258,18 @@ def admin_dashboard():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions", "💳 Pay Loan Dues"])
+    choice = st.sidebar.radio("Go to", [
+        "📈 Account Summary",
+        "📝 Apply for Loan",
+        "📊 Loan Status",
+        "💵 Transactions",
+        "💳 Pay Loan Dues"
+    ])
+
     user_id = st.session_state.user["user_id"]
 
     if choice == "📈 Account Summary":
-        acc = accounts_df[accounts_df["user_id"] == user_id]
+        acc = st.session_state.accounts_df[st.session_state.accounts_df["user_id"] == user_id]
         st.subheader("Account Summary")
         st.dataframe(acc)
 
@@ -272,9 +279,9 @@ def user_dashboard():
         purpose_options = ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"]
         purpose = st.selectbox("Purpose", purpose_options)
         income = st.number_input("Monthly Income", min_value=0)
-        
+
         if st.button("Submit Application"):
-            loan_id = f"L{len(loans_df)+1:03d}"
+            loan_id = f"L{len(st.session_state.loans_df)+1:03d}"
             new_loan_data = {
                 "loan_id": loan_id,
                 "user_id": user_id,
@@ -285,49 +292,67 @@ def user_dashboard():
                 "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
                 "remarks": "Awaiting review"
             }
-            new_loan = pd.DataFrame([new_loan_data])
-            
-            loans_df = pd.concat([loans_df, new_loan], ignore_index=True)
-            loan_status_df = pd.concat([loan_status_df, new_loan], ignore_index=True)
 
-            st.session_state.loans_df = loans_df
-            st.session_state.loan_status_df = loan_status_df
+            new_loan_df = pd.DataFrame([new_loan_data])
 
-            save_csv(loans_df, loans_file)
-            save_csv(loan_status_df, loan_status_file)
+            # Update session state and files
+            st.session_state.loans_df = pd.concat([st.session_state.loans_df, new_loan_df], ignore_index=True)
+            st.session_state.loan_status_df = pd.concat([st.session_state.loan_status_df, new_loan_df], ignore_index=True)
+
+            save_csv(st.session_state.loans_df, loans_file)
+            save_csv(st.session_state.loan_status_df, loan_status_file)
 
             st.success("Loan Application Submitted!")
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
-        st.dataframe(user_loans)
+        loan_status_df = st.session_state.loan_status_df
+        if "user_id" in loan_status_df.columns:
+            user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
+            st.dataframe(user_loans)
+        else:
+            st.warning("Loan status data missing 'user_id' column.")
 
     elif choice == "💵 Transactions":
         st.subheader("Transaction History")
-        tx = transactions_df[transactions_df["user_id"] == user_id]
-        st.dataframe(tx)
+        transactions_df = st.session_state.transactions_df
+        if "user_id" in transactions_df.columns:
+            tx = transactions_df[transactions_df["user_id"] == user_id]
+            st.dataframe(tx)
+        else:
+            st.warning("Transaction data missing 'user_id' column.")
 
     elif choice == "💳 Pay Loan Dues":
         st.subheader("Pay Loan Dues")
-        user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
+        user_loans = st.session_state.loans_df[
+            (st.session_state.loans_df["user_id"] == user_id) & 
+            (st.session_state.loans_df["status"] == "approved")
+        ]
+
         if user_loans.empty:
             st.info("No approved loans with dues found.")
             return
+
         selected_loan = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
         due_amount = user_loans[user_loans["loan_id"] == selected_loan]["amount"].values[0]
         st.write(f"Total Due Amount: ₹{due_amount}")
+
         payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
+
         if st.button("Pay Now"):
-            transactions_df.loc[len(transactions_df.index)] = {
+            new_tx = pd.DataFrame([{
                 "user_id": user_id,
                 "loan_id": selected_loan,
                 "amount": due_amount,
                 "method": payment_method,
                 "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-            }
-            save_csv(transactions_df, transactions_file)
+            }])
+
+            st.session_state.transactions_df = pd.concat([st.session_state.transactions_df, new_tx], ignore_index=True)
+            save_csv(st.session_state.transactions_df, transactions_file)
+
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
+
 
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
