@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import random
-import hashlib
 import numpy as np
-import joblib
 from sklearn.linear_model import LogisticRegression
 
 # Paths to CSV files
@@ -14,7 +12,6 @@ accounts_file = os.path.join(data_path, "accounts.csv")
 loans_file = os.path.join(data_path, "loan_applications.csv")
 loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
-model_file = os.path.join(data_path, "loan_model.pkl")
 
 # Load and Save CSV
 def load_csv(file, expected_columns=None):
@@ -57,73 +54,11 @@ transactions_df = st.session_state.transactions_df
 if "user" not in st.session_state:
     st.session_state.user = None
 
-# Registration and Login
-def create_new_user():
-    st.title("Create New User Account")
-    username = st.text_input("Choose a Username")
-    password = st.text_input("Choose a Password", type="password")
-    role = st.selectbox("Role", ["user"])
-    city = st.text_input("City")
-    mobile = st.text_input("Mobile Number (e.g., xxxxxxx237)")
-
-    if st.button("Create Account"):
-        if username in users_df["username"].values:
-            st.error("Username already exists. Please choose another.")
-        else:
-            user_id = f"U{len(users_df)+1:04d}"
-            new_user = pd.DataFrame([{"user_id": user_id, "username": username, "password": password, "role": role}])
-            new_account = pd.DataFrame([{"user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0}])
-            users_df_updated = pd.concat([users_df, new_user], ignore_index=True)
-            accounts_df_updated = pd.concat([accounts_df, new_account], ignore_index=True)
-            save_csv(users_df_updated, users_file)
-            save_csv(accounts_df_updated, accounts_file)
-            st.success("Account created successfully!")
-
-def login():
-    st.title("Indian Bank")
-    menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
-
-    if menu == "Create Account":
-        create_new_user()
-        return
-
-    if menu == "Forgot Password?":
-        st.subheader("Reset Your Password with Mobile Verification")
-        username = st.text_input("Enter your username")
-        mobile = st.text_input("Enter your registered mobile number")
-        new_password = st.text_input("Enter your new password", type="password")
-
-        if st.button("Reset Password"):
-            users_df = load_csv(users_file)
-            accounts_df = load_csv(accounts_file)
-            user_row = users_df[users_df["username"] == username]
-            if user_row.empty:
-                st.error("❌ Username not found.")
-                return
-            user_id = user_row.iloc[0]["user_id"]
-            acc_row = accounts_df[(accounts_df["user_id"] == user_id) & (accounts_df["mobile"] == mobile)]
-            if acc_row.empty:
-                st.error("❌ Mobile number does not match our records.")
-            else:
-                users_df.loc[users_df["username"] == username, "password"] = new_password
-                save_csv(users_df, users_file)
-                st.success("✅ Password reset successful! You may now log in.")
-        return
-
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-
-    if st.button("Login"):
-        user = users_df[
-            (users_df["username"] == username) &
-            (users_df["password"] == password)
-        ]
-        if not user.empty:
-            st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Logged in as {username}")
-            st.rerun()
-        else:
-            st.error("Invalid username or password")
+# Admin Dashboard
+def admin_dashboard():
+    st.title("Admin Dashboard")
+    st.subheader("All Loan Applications")
+    st.dataframe(loans_df)
 
 # User Dashboard
 def user_dashboard():
@@ -203,12 +138,10 @@ def user_dashboard():
     elif choice == "📚 Loan Repayment History":
         st.subheader("Loan Repayment History")
         user_tx = transactions_df[transactions_df["user_id"] == user_id]
-
         required_cols = {"loan_id", "amount"}
         if not required_cols.issubset(user_tx.columns):
             st.warning("⚠️ Transactions data is missing 'loan_id' or 'amount' columns.")
             return
-
         if user_tx.empty:
             st.info("No repayments made yet.")
         else:
@@ -227,6 +160,20 @@ def user_dashboard():
             emi = (loan_amount * monthly_rate * (1 + monthly_rate)**tenure) / ((1 + monthly_rate)**tenure - 1)
             st.success(f"Your Monthly EMI is ₹{emi:.2f}")
 
+# Auth system
+def login():
+    st.title("Indian Bank")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        user = users_df[(users_df["username"] == username) & (users_df["password"] == password)]
+        if not user.empty:
+            st.session_state.user = user.iloc[0].to_dict()
+            st.success(f"Logged in as {username}")
+            st.rerun()
+        else:
+            st.error("Invalid username or password")
+
 # Main App Logic
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
@@ -234,7 +181,7 @@ if st.session_state.user:
         st.session_state.user = None
         st.rerun()
     if st.session_state.user.get("role") == "admin":
-        admin_dashboard()  # Assume you have defined this already above
+        admin_dashboard()
     else:
         user_dashboard()
 else:
