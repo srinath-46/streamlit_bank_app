@@ -97,90 +97,52 @@ def create_new_user():
 
             st.success("Account created successfully!")
 # Login Function
-# Login Function with animated splash screen
-# Login Function using full HTML/CSS form layout
-# Login Function with styled HTML form and features
-style_file = os.path.join(data_path, "style.css")
-html_file = os.path.join(data_path, "index.html")
-
 def login():
-    st.markdown("""
-    <style>
-    .login-box {
-        max-width: 400px;
-        margin: 5vh auto;
-        padding: 30px;
-        background-color: var(--bg-color);
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        font-family: 'Segoe UI', sans-serif;
-    }
-    .login-box h2 {
-        text-align: center;
-        color: var(--text-color);
-        margin-bottom: 20px;
-    }
-    .stTextInput > div > div > input,
-    .stTextInput input[type='password'] {
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        padding: 10px;
-    }
-    .stButton>button {
-        width: 100%;
-        background-color: #007bff;
-        color: white;
-        padding: 10px 0;
-        font-weight: bold;
-        border-radius: 5px;
-        border: none;
-        margin-top: 15px;
-        cursor: pointer;
-    }
-    .alt-options {
-        text-align: center;
-        margin-top: 15px;
-    }
-    .alt-options a {
-        text-decoration: none;
-        margin: 0 10px;
-        color: #007bff;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    st.title("Indian Bank")
+    menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
 
-    # Dark mode toggle
-    dark_mode = st.toggle("🌗 Dark Mode", key="dark_mode")
-    if dark_mode:
-        st.markdown("""
-        <style>:root {--bg-color: #1e1e1e; --text-color: #f5f5f5;}</style>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-        <style>:root {--bg-color: #f2f2f2; --text-color: #333;}</style>
-        """, unsafe_allow_html=True)
+    if menu == "Create Account":
+        create_new_user()
+        return
 
-    with st.container():
-        st.markdown("<div class='login-box'><h2>Login to Your Account</h2>", unsafe_allow_html=True)
-        username = st.text_input("Username", key="login_user")
-        password = st.text_input("Password", type="password", key="login_pass")
-        login_btn = st.button("Login", key="login_submit")
-        st.markdown("""
-        <div class='alt-options'>
-            <a href='#' onclick='window.location.reload(true)'>👤 Create Account</a>
-            <a href='#' onclick='window.location.reload(true)'>🔑 Forgot Password?</a>
-        </div>
-        </div>
-        """, unsafe_allow_html=True)
+    if menu == "Forgot Password?":
+        st.subheader("Reset Your Password with Mobile Verification")
 
-    if login_btn:
+        username = st.text_input("Enter your username")
+        mobile = st.text_input("Enter your registered mobile number")
+        new_password = st.text_input("Enter your new password", type="password")
+
+        if st.button("Reset Password"):
+            users_df = load_csv(users_file)
+            accounts_df = load_csv(accounts_file)
+
+            user_row = users_df[users_df["username"] == username]
+            if user_row.empty:
+                st.error("❌ Username not found.")
+                return
+
+            user_id = user_row.iloc[0]["user_id"]
+            acc_row = accounts_df[(accounts_df["user_id"] == user_id) & (accounts_df["mobile"] == mobile)]
+
+            if acc_row.empty:
+                st.error("❌ Mobile number does not match our records.")
+            else:
+                users_df.loc[users_df["username"] == username, "password"] = hash_password(new_password)
+                save_csv(users_df, users_file)
+                st.success("✅ Password reset successful! You may now log in.")
+        return
+
+    # Login form
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Login"):
         users_df = load_csv(users_file)
+
         required_cols = {"username", "password", "role", "user_id"}
         if not required_cols.issubset(set(users_df.columns)):
             st.error("Error: 'users.csv' is missing required columns.")
-            return
+            st.stop()
 
         user = users_df[
             (users_df["username"] == username) &
@@ -189,12 +151,10 @@ def login():
 
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Welcome, {username}!")
-            show_loader()
+            st.success(f"Logged in as {username}")
+            st.rerun()
         else:
-            st.error("Invalid username or password.")
-
-
+            st.error("Invalid username or password")
 
 
 # Admin Dashboard
