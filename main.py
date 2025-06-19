@@ -307,8 +307,6 @@ def admin_dashboard():
         ax2.set_title("Loan Purpose vs Status")
         st.pyplot(fig2)
 
-
-# User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
     choice = st.sidebar.radio("Go to", [
@@ -391,10 +389,13 @@ def user_dashboard():
         if user_tx.empty:
             st.info("No repayments made yet.")
         else:
-            st.dataframe(user_tx)
-            summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
-            st.write("### Summary of Paid Amount by Loan")
-            st.dataframe(summary)
+            if "loan_id" in user_tx.columns:
+                st.dataframe(user_tx)
+                summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
+                st.write("### Summary of Paid Amount by Loan")
+                st.dataframe(summary)
+            else:
+                st.warning("'loan_id' column missing in transactions data.")
 
     elif choice == "🧮 EMI Calculator":
         st.subheader("Monthly EMI Calculator")
@@ -406,6 +407,7 @@ def user_dashboard():
             monthly_rate = interest_rate / (12 * 100)
             emi = (loan_amount * monthly_rate * (1 + monthly_rate)**tenure) / ((1 + monthly_rate)**tenure - 1)
             st.success(f"Your Monthly EMI is ₹{emi:.2f}")
+
 
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
