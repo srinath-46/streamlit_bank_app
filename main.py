@@ -389,13 +389,16 @@ def user_dashboard():
         if user_tx.empty:
             st.info("No repayments made yet.")
         else:
-            if "loan_id" in user_tx.columns:
+            if "loan_id" in user_tx.columns and "amount" in user_tx.columns:
                 st.dataframe(user_tx)
-                summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
-                st.write("### Summary of Paid Amount by Loan")
-                st.dataframe(summary)
+                try:
+                    summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
+                    st.write("### Summary of Paid Amount by Loan")
+                    st.dataframe(summary)
+                except KeyError as e:
+                    st.warning(f"Missing expected column in data: {e}")
             else:
-                st.warning("'loan_id' column missing in transactions data.")
+                st.warning("'loan_id' or 'amount' column missing in transactions data.")
 
     elif choice == "🧮 EMI Calculator":
         st.subheader("Monthly EMI Calculator")
