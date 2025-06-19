@@ -16,6 +16,11 @@ loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
 model_file = os.path.join(data_path, "loan_model.pkl")
 
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# Load and Save CSV
 def load_csv(file):
     try:
         return pd.read_csv(file) if os.path.exists(file) else pd.DataFrame()
@@ -70,6 +75,7 @@ if "user" not in st.session_state:
     st.session_state.user = None
 
 # User Registration
+# Create New User
 def create_new_user():
     st.title("Create New User Account")
     username = st.text_input("Choose a Username")
@@ -93,9 +99,6 @@ def create_new_user():
             save_csv(updated_accounts, accounts_file)
 
             st.success("Account created successfully!")
-            st.info(f"Username: {username}\nAccount Number: {new_account.iloc[0]['account_no']}\nCity: {city}")
-
-
 # Login Function
 def login():
     st.title("lavudhu Bank 69")
@@ -283,32 +286,19 @@ def user_dashboard():
                 "remarks": "Awaiting review"
             }
             new_loan = pd.DataFrame([new_loan_data])
-            loans_df = pd.concat([loans_df, new_loan], ignore_index=True)
-            st.session_state.loans_df = loans_df
-            st.session_state.loan_status_df = loans_df
-            save_csv(loans_df, loans_file)
-            save_csv(loans_df, loan_status_file)
+            loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
+            save_csv(loans_df_updated, loans_file)
             st.success("Loan Application Submitted!")
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        if "loan_status_df" not in st.session_state:
-            st.session_state.loan_status_df = load_csv(loan_status_file)
-        loan_status_df = st.session_state.loan_status_df
-        if "user_id" in loan_status_df.columns:
-            user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
-            st.dataframe(user_loans)
-        else:
-            st.warning("Loan status data missing 'user_id' column.")
+        user_loans = loans_df[loans_df["user_id"] == user_id]
+        st.dataframe(user_loans)
 
     elif choice == "💵 Transactions":
         st.subheader("Transaction History")
-        transactions_df = st.session_state.transactions_df
-        if "user_id" in transactions_df.columns:
-            tx = transactions_df[transactions_df["user_id"] == user_id]
-            st.dataframe(tx)
-        else:
-            st.warning("Transaction data missing 'user_id' column.")
+        tx = transactions_df[transactions_df["user_id"] == user_id]
+        st.dataframe(tx)
 
     elif choice == "💳 Pay Loan Dues":
         st.subheader("Pay Loan Dues")
@@ -321,26 +311,22 @@ def user_dashboard():
         st.write(f"Total Due Amount: ₹{due_amount}")
         payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
         if st.button("Pay Now"):
-            new_tx = pd.DataFrame([{ 
-                "user_id": user_id, 
-                "loan_id": selected_loan, 
-                "amount": due_amount, 
-                "method": payment_method, 
-                "date": pd.Timestamp.today().strftime('%Y-%m-%d') 
-            }])
-            transactions_df = pd.concat([transactions_df, new_tx], ignore_index=True)
-            st.session_state.transactions_df = transactions_df
+            transactions_df.loc[len(transactions_df.index)] = {
+                "user_id": user_id,
+                "loan_id": selected_loan,
+                "amount": due_amount,
+                "method": payment_method,
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+            }
             save_csv(transactions_df, transactions_file)
             st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
-
-
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
         st.rerun()
     if st.session_state.user.get("role") == "admin":
-        pass  # admin_dashboard() placeholder
+        admin_dashboard()
     else:
         user_dashboard()
 else:
