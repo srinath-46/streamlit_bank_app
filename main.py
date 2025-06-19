@@ -97,52 +97,40 @@ def create_new_user():
 
             st.success("Account created successfully!")
 # Login Function
+# Login Function with animated splash screen
+style_file = os.path.join(data_path, "style.css")
+html_file = os.path.join(data_path, "index.html")
+
 def login():
-    st.title("Indian Bank")
-    menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
+    st.title("Indian Bank Portal")
 
-    if menu == "Create Account":
-        create_new_user()
+    if "show_login_form" not in st.session_state:
+        st.session_state.show_login_form = False
+
+    if not st.session_state.show_login_form:
+        if os.path.exists(style_file) and os.path.exists(html_file):
+            with open(style_file) as f:
+                st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+            with open(html_file) as f:
+                st.markdown(f.read(), unsafe_allow_html=True)
+        else:
+            st.warning("Animation files not found. Showing login directly.")
+            st.session_state.show_login_form = True
+            st.rerun()
+
+        st.button("🔐 Proceed to Login", on_click=lambda: st.session_state.update({"show_login_form": True}))
         return
 
-    if menu == "Forgot Password?":
-        st.subheader("Reset Your Password with Mobile Verification")
-
-        username = st.text_input("Enter your username")
-        mobile = st.text_input("Enter your registered mobile number")
-        new_password = st.text_input("Enter your new password", type="password")
-
-        if st.button("Reset Password"):
-            users_df = load_csv(users_file)
-            accounts_df = load_csv(accounts_file)
-
-            user_row = users_df[users_df["username"] == username]
-            if user_row.empty:
-                st.error("❌ Username not found.")
-                return
-
-            user_id = user_row.iloc[0]["user_id"]
-            acc_row = accounts_df[(accounts_df["user_id"] == user_id) & (accounts_df["mobile"] == mobile)]
-
-            if acc_row.empty:
-                st.error("❌ Mobile number does not match our records.")
-            else:
-                users_df.loc[users_df["username"] == username, "password"] = hash_password(new_password)
-                save_csv(users_df, users_file)
-                st.success("✅ Password reset successful! You may now log in.")
-        return
-
-    # Login form
+    st.subheader("Login to your account")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
         users_df = load_csv(users_file)
-
         required_cols = {"username", "password", "role", "user_id"}
         if not required_cols.issubset(set(users_df.columns)):
             st.error("Error: 'users.csv' is missing required columns.")
-            st.stop()
+            return
 
         user = users_df[
             (users_df["username"] == username) &
@@ -151,10 +139,11 @@ def login():
 
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Logged in as {username}")
+            st.success(f"Welcome {username}!")
             st.rerun()
         else:
-            st.error("Invalid username or password")
+            st.error("Invalid username or password.")
+
 
 
 # Admin Dashboard
