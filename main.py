@@ -353,9 +353,9 @@ def user_dashboard():
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        loan_status_df = st.session_state.loan_status_df if "loan_status_df" in st.session_state else load_csv(loan_status_file)
-        user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
+        user_loans = loans_df[loans_df["user_id"] == user_id]
         st.dataframe(user_loans)
+
 
     elif choice == "💵 Transactions":
         st.subheader("Transaction History")
