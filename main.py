@@ -17,9 +17,6 @@ transactions_file = os.path.join(data_path, "transactions.csv")
 model_file = os.path.join(data_path, "loan_model.pkl")
 
 
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
 # Load and Save CSV
 def load_csv(file):
     try:
@@ -130,7 +127,7 @@ def login():
             if acc_row.empty:
                 st.error("❌ Mobile number does not match our records.")
             else:
-                users_df.loc[users_df["username"] == username, "password"] = hash_password(new_password)
+                users_df.loc[users_df["username"] == username, "password"] = new_password
                 save_csv(users_df, users_file)
                 st.success("✅ Password reset successful! You may now log in.")
         return
@@ -154,9 +151,10 @@ def login():
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.rerun()
+            st.experimental_rerun()
         else:
             st.error("Invalid username or password")
+
 
 # Admin Dashboard
 def admin_dashboard():
