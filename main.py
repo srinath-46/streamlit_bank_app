@@ -98,34 +98,90 @@ def create_new_user():
             st.success("Account created successfully!")
 # Login Function
 # Login Function with animated splash screen
+# Login Function using full HTML/CSS form layout
 style_file = os.path.join(data_path, "style.css")
 html_file = os.path.join(data_path, "index.html")
 
+# Loader component for post-login transition
+def show_loader():
+    if os.path.exists(style_file) and os.path.exists(html_file):
+        with open(style_file) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        with open(html_file) as f:
+            st.markdown(f.read(), unsafe_allow_html=True)
+        st.info("Loading your dashboard...")
+        st.experimental_rerun()
+    else:
+        st.spinner("Loading...")
+
+# Full HTML-based login form
 def login():
+    from streamlit.components.v1 import html
     st.title("Indian Bank Portal")
 
-    if "show_login_form" not in st.session_state:
-        st.session_state.show_login_form = False
+    css = """
+    <style>
+    .login-container {
+        max-width: 400px;
+        margin: 5vh auto;
+        padding: 30px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .login-container h2 {
+        text-align: center;
+        color: #333;
+    }
+    .login-container input[type='text'],
+    .login-container input[type='password'] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .login-container button {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+    </style>
+    """
 
-    if not st.session_state.show_login_form:
-        if os.path.exists(style_file) and os.path.exists(html_file):
-            with open(style_file) as f:
-                st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-            with open(html_file) as f:
-                st.markdown(f.read(), unsafe_allow_html=True)
-        else:
-            st.warning("Animation files not found. Showing login directly.")
-            st.session_state.show_login_form = True
-            st.rerun()
+    html_form = """
+    <div class='login-container'>
+        <h2>Login to Your Account</h2>
+        <input type='text' id='username' placeholder='Username'>
+        <input type='password' id='password' placeholder='Password'>
+        <button onclick='submitLogin()'>Login</button>
+        <script>
+        function submitLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const payload = JSON.stringify({username, password});
+            const streamlitEvent = new Event("submit-login");
+            window.dispatchEvent(streamlitEvent);
+            window.parent.postMessage(payload, '*');
+        }
+        </script>
+    </div>
+    """
 
-        st.button("🔐 Proceed to Login", on_click=lambda: st.session_state.update({"show_login_form": True}))
-        return
+    st.markdown(css, unsafe_allow_html=True)
+    html(html_form, height=400)
 
-    st.subheader("Login to your account")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    # Handle Streamlit -> JS -> Streamlit communication via st.experimental_get_query_params or st.session_state workaround
+    username = st.experimental_get_query_params().get("username", [""])[0]
+    password = st.experimental_get_query_params().get("password", [""])[0]
 
-    if st.button("Login"):
+    if username and password:
         users_df = load_csv(users_file)
         required_cols = {"username", "password", "role", "user_id"}
         if not required_cols.issubset(set(users_df.columns)):
@@ -139,8 +195,7 @@ def login():
 
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Welcome {username}!")
-            st.rerun()
+            show_loader()
         else:
             st.error("Invalid username or password.")
 
