@@ -340,8 +340,9 @@ if st.session_state.user:
         st.session_state.user = None
         st.rerun()
     if st.session_state.user.get("role") == "admin":
-        pass  # admin_dashboard() placeholder
+        admin_dashboard()
     else:
         user_dashboard()
 else:
     login()
+
