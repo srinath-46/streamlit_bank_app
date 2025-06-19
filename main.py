@@ -98,7 +98,7 @@ def create_new_user():
             st.success("Account created successfully!")
 # Login Function
 def login():
-    st.title("lavudhu Bank 69")
+    st.title("Indian Bank")
     menu = st.radio("Select an option", ["Login", "Create Account", "Forgot Password?"])
 
     if menu == "Create Account":
