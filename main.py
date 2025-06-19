@@ -160,7 +160,12 @@ def login():
 # Admin Dashboard
 def admin_dashboard():
     st.sidebar.title("Admin Panel")
-    option = st.sidebar.radio("Select", ["📃 All Applications", "✅ Approve Loans", "🔍 Fetch User Info"])
+    option = st.sidebar.radio("Select", [
+        "📃 All Applications",
+        "✅ Approve Loans",
+        "🔍 Fetch User Info",
+        "📊 Loan Summary & Analytics"
+    ])
 
     if option == "📃 All Applications":
         st.subheader("All Loan Applications")
@@ -265,6 +270,47 @@ def admin_dashboard():
                 st.write("🏦 Account Info", account_info)
                 st.write("💸 Transaction History", transaction_info)
                 st.write("📄 Loan History", loan_info)
+
+    elif option == "📊 Loan Summary & Analytics":
+        st.subheader("📊 Loan Approval Analytics")
+
+        # Ensure date format
+        loans_df["application_date"] = pd.to_datetime(loans_df["application_date"], errors='coerce')
+
+        # Date Range Picker
+        min_date = loans_df["application_date"].min()
+        max_date = loans_df["application_date"].max()
+        start_date, end_date = st.date_input("Select Date Range", [min_date, max_date])
+
+        if start_date > end_date:
+            st.error("Start date cannot be after end date.")
+            return
+
+        # Filter data by date range
+        filtered = loans_df[(loans_df["application_date"] >= pd.to_datetime(start_date)) &
+                            (loans_df["application_date"] <= pd.to_datetime(end_date))]
+
+        if filtered.empty:
+            st.info("No data found for the selected date range.")
+            return
+
+        # Status counts
+        summary = filtered["status"].value_counts().reset_index()
+        summary.columns = ["Status", "Count"]
+
+        st.write("### Loan Status Summary Table")
+        st.dataframe(summary)
+
+        # Visualize using Plotly
+        import plotly.express as px
+
+        pie_fig = px.pie(summary, names="Status", values="Count", title="Loan Status Distribution")
+        st.plotly_chart(pie_fig, use_container_width=True)
+
+        daily = filtered.groupby(["application_date", "status"]).size().reset_index(name="Count")
+        bar_fig = px.bar(daily, x="application_date", y="Count", color="status",
+                         title="Daily Loan Status Breakdown", labels={"status": "Loan Status"})
+        st.plotly_chart(bar_fig, use_container_width=True)
 
 
 # User Dashboard
