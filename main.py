@@ -173,7 +173,6 @@ def admin_dashboard():
 
     elif option == "✅ Approve Loans":
         st.subheader("Auto & Manual Loan Approvals")
-
         train_df = loans_df[loans_df["status"] != "pending"]
         if train_df.empty or len(train_df["status"].unique()) < 2:
             st.warning("Not enough historical data to train model.")
@@ -192,12 +191,10 @@ def admin_dashboard():
             return
 
         review_required = []
-
         for idx, row in pending_loans.iterrows():
             X_test = np.array([[row["amount"], row["income"]]])
             prob = model.predict_proba(X_test)[0][1]
             risk_score = round((1 - prob) * 100, 2)
-
             loan_id = row['loan_id']
             remark = f"Predicted Risk Score: {risk_score}%"
 
@@ -221,7 +218,6 @@ def admin_dashboard():
 
         if review_required:
             st.warning("⚠️ Loans requiring admin review (Average Risk)")
-
             if "loan_action_taken" not in st.session_state:
                 st.session_state.loan_action_taken = False
 
@@ -274,10 +270,7 @@ def admin_dashboard():
     elif option == "📊 Loan Summary & Analytics":
         st.subheader("📊 Loan Approval Analytics")
 
-        # Ensure date format
         loans_df["application_date"] = pd.to_datetime(loans_df["application_date"], errors='coerce')
-
-        # Date Range Picker
         min_date = loans_df["application_date"].min()
         max_date = loans_df["application_date"].max()
         start_date, end_date = st.date_input("Select Date Range", [min_date, max_date])
@@ -286,7 +279,6 @@ def admin_dashboard():
             st.error("Start date cannot be after end date.")
             return
 
-        # Filter data by date range
         filtered = loans_df[(loans_df["application_date"] >= pd.to_datetime(start_date)) &
                             (loans_df["application_date"] <= pd.to_datetime(end_date))]
 
@@ -294,23 +286,42 @@ def admin_dashboard():
             st.info("No data found for the selected date range.")
             return
 
-        # Status counts
+        # Download Button
+        csv = filtered.to_csv(index=False)
+        st.download_button("📥 Download Filtered Loan Data", csv, "loan_summary.csv", "text/csv")
+
+        # Loan Status Summary Table
         summary = filtered["status"].value_counts().reset_index()
         summary.columns = ["Status", "Count"]
-
-        st.write("### Loan Status Summary Table")
+        st.write("### Loan Status Summary")
         st.dataframe(summary)
 
-        # Visualize using Plotly
-        import plotly.express as px
+        # Monthly Loan Trend
+        monthly = filtered.groupby([filtered["application_date"].dt.to_period("M"), "status"]).size().unstack().fillna(0)
+        monthly.index = monthly.index.astype(str)
+        st.write("### 📈 Monthly Loan Approval Trends")
+        import matplotlib.pyplot as plt
+        fig1, ax1 = plt.subplots()
+        monthly.plot(ax=ax1, marker='o')
+        ax1.set_xlabel("Month")
+        ax1.set_ylabel("Number of Loans")
+        ax1.set_title("Loan Status Over Time")
+        st.pyplot(fig1)
 
-        pie_fig = px.pie(summary, names="Status", values="Count", title="Loan Status Distribution")
-        st.plotly_chart(pie_fig, use_container_width=True)
+        # Top Borrowers
+        top_users = filtered[filtered["status"] == "approved"].groupby("user_id")["amount"].sum().sort_values(ascending=False).head(10)
+        st.write("### 💸 Top 10 Borrowers by Approved Loan Amount")
+        st.dataframe(top_users.reset_index().rename(columns={"amount": "Total Approved Amount"}))
 
-        daily = filtered.groupby(["application_date", "status"]).size().reset_index(name="Count")
-        bar_fig = px.bar(daily, x="application_date", y="Count", color="status",
-                         title="Daily Loan Status Breakdown", labels={"status": "Loan Status"})
-        st.plotly_chart(bar_fig, use_container_width=True)
+        # Purpose-Based Loan Distribution
+        st.write("### 🎯 Loan Status by Purpose")
+        purpose_status = filtered.groupby(["purpose", "status"]).size().unstack().fillna(0)
+        fig2, ax2 = plt.subplots(figsize=(10, 5))
+        purpose_status.plot(kind="bar", stacked=True, ax=ax2)
+        ax2.set_xlabel("Purpose")
+        ax2.set_ylabel("Number of Applications")
+        ax2.set_title("Loan Status Distribution by Purpose")
+        st.pyplot(fig2)
 
 
 # User Dashboard
