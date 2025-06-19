@@ -343,6 +343,7 @@ def user_dashboard():
 
 
 # Main App Logic
+# Main App Logic
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
@@ -352,5 +353,6 @@ if st.session_state.user:
         admin_dashboard()
     else:
         user_dashboard()
-else:
-    login()  
+ else:
+    login()
+
