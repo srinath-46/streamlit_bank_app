@@ -318,7 +318,11 @@ def user_dashboard():
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        loan_status_df = st.session_state.loan_status_df
+
+        # REFRESH loan_status_df from disk to reflect admin updates
+        loan_status_df = load_csv(loan_status_file)
+        st.session_state.loan_status_df = loan_status_df  # update in memory
+
         if "user_id" in loan_status_df.columns:
             user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
             st.dataframe(user_loans)
