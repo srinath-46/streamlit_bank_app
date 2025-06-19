@@ -14,9 +14,6 @@ loans_file = os.path.join(data_path, "loan_applications.csv")
 loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
 
-# Hashing passwords
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
 
 def load_csv(file):
     try:
@@ -139,18 +136,26 @@ def login():
 
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
+
     if st.button("Login"):
         users_df = load_csv(users_file)
+
+        required_cols = {"username", "password", "role", "user_id"}
+        if not required_cols.issubset(set(users_df.columns)):
+            st.error("Error: 'users.csv' is missing required columns.")
+            st.stop()
+
         user = users_df[
-            (users_df["username"] == username) &
-            (users_df["password"] == hash_password(password))
+            (users_df["username"] == username) & 
+            (users_df["password"] == password)
         ]
+
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.rerun()
+            st.experimental_rerun()
         else:
-            st.error("Invalid username or password.")
+            st.error("Invalid username or password")
 
 # Admin Dashboard
 def admin_dashboard():
