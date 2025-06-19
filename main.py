@@ -56,9 +56,153 @@ if "user" not in st.session_state:
 
 # Admin Dashboard
 def admin_dashboard():
-    st.title("Admin Dashboard")
-    st.subheader("All Loan Applications")
-    st.dataframe(loans_df)
+    import matplotlib.pyplot as plt
+    st.sidebar.title("Admin Panel")
+    option = st.sidebar.radio("Select", [
+        "📃 All Applications",
+        "✅ Approve Loans",
+        "🔍 Fetch User Info",
+        "📊 Loan Summary & Analytics"
+    ])
+
+    if option == "📃 All Applications":
+        st.subheader("All Loan Applications")
+        st.dataframe(loans_df)
+
+    elif option == "✅ Approve Loans":
+        st.subheader("Auto & Manual Loan Approvals")
+        train_df = loans_df[loans_df["status"] != "pending"]
+        if train_df.empty or len(train_df["status"].unique()) < 2:
+            st.warning("Not enough historical data to train model.")
+            return
+
+        train_df = train_df[["amount", "income", "status"]].dropna()
+        X = train_df[["amount", "income"]]
+        y = (train_df["status"] == "approved").astype(int)
+
+        model = LogisticRegression()
+        model.fit(X, y)
+
+        pending_loans = loans_df[loans_df["status"] == "pending"]
+        if pending_loans.empty:
+            st.info("No pending loan applications.")
+            return
+
+        review_required = []
+        for idx, row in pending_loans.iterrows():
+            X_test = np.array([[row["amount"], row["income"]]])
+            prob = model.predict_proba(X_test)[0][1]
+            risk_score = round((1 - prob) * 100, 2)
+            loan_id = row['loan_id']
+            remark = f"Predicted Risk Score: {risk_score}%"
+
+            if risk_score <= 39:
+                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "approved"
+                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "status"] = "approved"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
+                st.success(f"✅ Loan {loan_id} auto-approved (Low Risk)")
+            elif risk_score >= 61:
+                loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "declined"
+                loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "status"] = "declined"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
+                st.error(f"❌ Loan {loan_id} auto-declined (High Risk)")
+            else:
+                review_required.append((row, risk_score))
+
+        save_csv(loans_df, loans_file)
+        save_csv(loan_status_df, loan_status_file)
+
+        if review_required:
+            st.warning("⚠️ Loans requiring admin review (Average Risk)")
+            if "loan_action_taken" not in st.session_state:
+                st.session_state.loan_action_taken = False
+
+            for row, risk_score in review_required:
+                st.markdown(f"### Loan ID: {row['loan_id']}")
+                st.write(row)
+                st.info(f"Predicted Risk Score: {risk_score}%")
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button(f"Approve {row['loan_id']}", key=f"approve_{row['loan_id']}"):
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "status"] = "approved"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
+                        save_csv(loans_df, loans_file)
+                        save_csv(loan_status_df, loan_status_file)
+                        st.session_state.loan_action_taken = True
+                with col2:
+                    if st.button(f"Decline {row['loan_id']}", key=f"decline_{row['loan_id']}"):
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
+                        loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "status"] = "declined"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
+                        save_csv(loans_df, loans_file)
+                        save_csv(loan_status_df, loan_status_file)
+                        st.session_state.loan_action_taken = True
+
+            if st.session_state.loan_action_taken:
+                st.session_state.loan_action_taken = False
+                st.rerun()
+
+    elif option == "🔍 Fetch User Info":
+        st.subheader("Fetch User Details")
+        username_input = st.text_input("Enter Username")
+        if st.button("Fetch Info"):
+            user_info = users_df[users_df["username"] == username_input]
+            if user_info.empty:
+                st.error("User not found.")
+            else:
+                user_id = user_info.iloc[0]['user_id']
+                account_info = accounts_df[accounts_df['user_id'] == user_id]
+                transaction_info = transactions_df[transactions_df['user_id'] == user_id]
+                loan_info = loans_df[loans_df['user_id'] == user_id]
+                st.write("👤 User Info", user_info.drop(columns=['password'], errors='ignore'))
+                st.write("🏦 Account Info", account_info)
+                st.write("💸 Transaction History", transaction_info)
+                st.write("📄 Loan History", loan_info)
+
+    elif option == "📊 Loan Summary & Analytics":
+        st.subheader("📊 Loan Analytics Dashboard")
+        loans_df["application_date"] = pd.to_datetime(loans_df["application_date"], errors='coerce')
+        start_date, end_date = st.date_input("Select Date Range", [loans_df["application_date"].min(), loans_df["application_date"].max()])
+
+        filtered = loans_df[(loans_df["application_date"] >= pd.to_datetime(start_date)) &
+                            (loans_df["application_date"] <= pd.to_datetime(end_date))]
+
+        if filtered.empty:
+            st.info("No loan applications found in this date range.")
+            return
+
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total Loans", len(filtered))
+        col2.metric("Approved", (filtered["status"] == "approved").sum())
+        col3.metric("Declined", (filtered["status"] == "declined").sum())
+
+        csv = filtered.to_csv(index=False)
+        st.download_button("📥 Download Filtered Loan Data", csv, "loan_summary.csv", "text/csv")
+
+        monthly = filtered.groupby([filtered["application_date"].dt.to_period("M"), "status"]).size().unstack().fillna(0)
+        monthly.index = monthly.index.astype(str)
+        st.write("### 📈 Monthly Loan Approval Trends")
+        fig1, ax1 = plt.subplots()
+        monthly.plot(ax=ax1, marker='o')
+        ax1.set_title("Loan Status Over Time")
+        st.pyplot(fig1)
+
+        st.write("### 💸 Top Borrowers by Approved Amount")
+        top_borrowers = filtered[filtered["status"] == "approved"].groupby("user_id")["amount"].sum().nlargest(10)
+        st.dataframe(top_borrowers.reset_index().rename(columns={"amount": "Total Approved Amount"}))
+
+        st.write("### 🎯 Loan Status by Purpose")
+        purpose_summary = filtered.groupby(["purpose", "status"]).size().unstack().fillna(0)
+        fig2, ax2 = plt.subplots()
+        purpose_summary.plot(kind="bar", stacked=True, ax=ax2)
+        ax2.set_title("Loan Purpose vs Status")
+        st.pyplot(fig2)
 
 # User Dashboard
 def user_dashboard():
@@ -68,9 +212,8 @@ def user_dashboard():
         "📝 Apply for Loan",
         "📊 Loan Status",
         "💵 Transactions",
-        "💳 Pay Loan Dues",
-        "📚 Loan Repayment History",
-        "🧮 EMI Calculator"
+        "💳 Pay Monthly EMI",
+        "📚 Loan Repayment History"
     ])
     user_id = st.session_state.user["user_id"]
 
@@ -113,44 +256,120 @@ def user_dashboard():
         tx = transactions_df[transactions_df["user_id"] == user_id]
         st.dataframe(tx)
 
-    elif choice == "💳 Pay Loan Dues":
-        st.subheader("Pay Loan Dues")
-        user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
-        if user_loans.empty:
-            st.info("No approved loans with dues found.")
-            return
-        selected_loan = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
-        due_amount = user_loans[user_loans["loan_id"] == selected_loan]["amount"].values[0]
-        st.write(f"Total Due Amount: ₹{due_amount}")
-        payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
+   elif choice == "💳 Pay Monthly EMI":
+    st.subheader("Pay Monthly EMI")
+    user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
+    if user_loans.empty:
+        st.info("No active loans found.")
+        return
 
-        if payment_method == "UPI":
-            upi_option = st.selectbox("Select UPI App", ["GPay", "PhonePe", "BHIM UPI", "Paytm"])
-            if st.button("Pay Now"):
-                new_tx = {
-                    "user_id": user_id,
-                    "loan_id": selected_loan,
-                    "amount": due_amount,
-                    "method": f"UPI - {upi_option}",
-                    "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-                }
-                transactions_df.loc[len(transactions_df.index)] = new_tx
-                save_csv(transactions_df, transactions_file)
-                st.success(f"Payment of ₹{due_amount} via {upi_option} successful!")
+    selected_loan_id = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
+    loan_row = user_loans[user_loans["loan_id"] == selected_loan_id].iloc[0]
 
-        elif payment_method == "Online Banking":
-            acc_no = st.text_input("Enter Your Account Number")
-            if st.button("Pay Now"):
-                new_tx = {
-                    "user_id": user_id,
-                    "loan_id": selected_loan,
-                    "amount": due_amount,
-                    "method": f"NetBanking - {acc_no}",
-                    "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-                }
-                transactions_df.loc[len(transactions_df.index)] = new_tx
-                save_csv(transactions_df, transactions_file)
-                st.success(f"Payment of ₹{due_amount} from Account {acc_no} successful!")
+    loan_amount = loan_row["amount"]
+    application_date = pd.to_datetime(loan_row["application_date"], errors="coerce")
+    annual_interest_rate = 10
+    tenure_months = 12
+    monthly_rate = annual_interest_rate / (12 * 100)
+
+    emi = (loan_amount * monthly_rate * (1 + monthly_rate) ** tenure_months) / ((1 + monthly_rate) ** tenure_months - 1)
+    emi = round(emi, 2)
+
+    loan_payments = transactions_df[
+        (transactions_df["user_id"] == user_id) &
+        (transactions_df["loan_id"] == selected_loan_id)
+    ].sort_values("date")
+
+    paid_emi_count = loan_payments.shape[0]
+    remaining_emi = max(0, tenure_months - paid_emi_count)
+
+    st.write(f"📄 Loan Amount: ₹{loan_amount}")
+    st.write(f"💰 Monthly EMI: ₹{emi}")
+    st.write(f"📆 Remaining EMIs: {remaining_emi} of {tenure_months}")
+
+    if remaining_emi == 0:
+        loans_df.loc[loans_df["loan_id"] == selected_loan_id, "status"] = "closed"
+        loans_df.loc[loans_df["loan_id"] == selected_loan_id, "remarks"] = f"Loan fully repaid on {pd.Timestamp.today().date()}"
+        loan_status_df.loc[loan_status_df["loan_id"] == selected_loan_id, "status"] = "closed"
+        loan_status_df.loc[loan_status_df["loan_id"] == selected_loan_id, "remarks"] = f"Loan fully repaid on {pd.Timestamp.today().date()}"
+        save_csv(loans_df, loans_file)
+        save_csv(loan_status_df, loan_status_file)
+        st.success("🎉 This loan has been fully repaid and is now marked as CLOSED.")
+        return
+
+    method_type = st.radio("Choose Payment Method", ["UPI", "Net Banking"])
+    detailed_method = ""
+
+    if method_type == "UPI":
+        upi_provider = st.selectbox("Select UPI Provider", ["GPay", "PhonePe", "BHIM", "Paytm"])
+        detailed_method = f"UPI - {upi_provider}"
+    else:
+        account_no = st.text_input("Enter Account Number for Net Banking")
+        if account_no:
+            detailed_method = f"NetBanking - {account_no}"
+
+    if st.button("Pay EMI"):
+        if method_type == "Net Banking" and not account_no:
+            st.error("⚠️ Please enter your account number for Net Banking.")
+        else:
+            new_tx = {
+                "user_id": user_id,
+                "loan_id": selected_loan_id,
+                "amount": emi,
+                "method": detailed_method,
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+            }
+            transactions_df.loc[len(transactions_df)] = new_tx
+            save_csv(transactions_df, transactions_file)
+            st.success(f"✅ EMI of ₹{emi} paid successfully for Loan {selected_loan_id}")
+            st.rerun()
+
+    st.write("### 🗓️ EMI Payment Schedule")
+    emi_schedule = []
+    for i in range(tenure_months):
+        due_date = application_date + pd.DateOffset(months=i)
+        status = "Paid" if i < paid_emi_count else ("Due" if i == paid_emi_count else "Upcoming")
+        emi_schedule.append({
+            "Installment #": i + 1,
+            "Due Date": due_date.date(),
+            "EMI Amount": emi,
+            "Status": status
+        })
+
+    schedule_df = pd.DataFrame(emi_schedule)
+    st.dataframe(schedule_df)
+
+
+    st.write("### 🗓️ EMI Payment Schedule")
+    emi_schedule = []
+    for i in range(tenure_months):
+        due_date = application_date + pd.DateOffset(months=i)
+        status = "Paid" if i < paid_emi_count else ("Due" if i == paid_emi_count else "Upcoming")
+        emi_schedule.append({
+            "Installment #": i + 1,
+            "Due Date": due_date.date(),
+            "EMI Amount": emi,
+            "Status": status
+        })
+
+    schedule_df = pd.DataFrame(emi_schedule)
+    st.dataframe(schedule_df)
+
+
+        st.write("### 🗓️ EMI Payment Schedule")
+        emi_schedule = []
+        for i in range(tenure_months):
+            due_date = application_date + pd.DateOffset(months=i)
+            status = "Paid" if i < paid_emi_count else ("Due" if i == paid_emi_count else "Upcoming")
+            emi_schedule.append({
+                "Installment #": i + 1,
+                "Due Date": due_date.date(),
+                "EMI Amount": emi,
+                "Status": status
+            })
+
+        schedule_df = pd.DataFrame(emi_schedule)
+        st.dataframe(schedule_df)
 
     elif choice == "📚 Loan Repayment History":
         st.subheader("Loan Repayment History")
@@ -167,29 +386,6 @@ def user_dashboard():
             st.write("### Summary of Paid Amount by Loan")
             st.dataframe(summary)
 
-    elif choice == "🧮 EMI Calculator":
-        st.subheader("Monthly EMI Calculator")
-        loan_amount = st.number_input("Enter Loan Amount", min_value=1000)
-        interest_rate = st.number_input("Annual Interest Rate (in %)", min_value=0.0)
-        tenure = st.number_input("Loan Tenure (in months)", min_value=1)
-        if st.button("Calculate EMI"):
-            monthly_rate = interest_rate / (12 * 100)
-            emi = (loan_amount * monthly_rate * (1 + monthly_rate)**tenure) / ((1 + monthly_rate)**tenure - 1)
-            st.success(f"Your Monthly EMI is ₹{emi:.2f}")
-
-# Auth system
-def login():
-    st.title("Indian Bank")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        user = users_df[(users_df["username"] == username) & (users_df["password"] == password)]
-        if not user.empty:
-            st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Logged in as {username}")
-            st.rerun()
-        else:
-            st.error("Invalid username or password")
 
 # Main App Logic
 if st.session_state.user:
