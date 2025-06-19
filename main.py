@@ -127,11 +127,12 @@ def login():
             if acc_row.empty:
                 st.error("❌ Mobile number does not match our records.")
             else:
-                users_df.loc[users_df["username"] == username, "password"] = new_password
+                users_df.loc[users_df["username"] == username, "password"] = hash_password(new_password)
                 save_csv(users_df, users_file)
                 st.success("✅ Password reset successful! You may now log in.")
         return
 
+    # Login form
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -144,16 +145,17 @@ def login():
             st.stop()
 
         user = users_df[
-            (users_df["username"] == username) & 
+            (users_df["username"] == username) &
             (users_df["password"] == password)
         ]
 
-       if not user.empty:
-    st.session_state.user = user.iloc[0].to_dict()
-    st.success(f"Logged in as {username}")
-    st.rerun()
-else:
-    st.error("Invalid username or password")
+        if not user.empty:
+            st.session_state.user = user.iloc[0].to_dict()
+            st.success(f"Logged in as {username}")
+            st.rerun()
+        else:
+            st.error("Invalid username or password")
+
 
 # Admin Dashboard
 def admin_dashboard():
