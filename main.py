@@ -16,8 +16,6 @@ loan_status_file = os.path.join(data_path, "loan_status.csv")
 transactions_file = os.path.join(data_path, "transactions.csv")
 model_file = os.path.join(data_path, "loan_model.pkl")
 
-
-# Load and Save CSV
 def load_csv(file):
     try:
         return pd.read_csv(file) if os.path.exists(file) else pd.DataFrame()
@@ -76,29 +74,28 @@ def create_new_user():
     st.title("Create New User Account")
     username = st.text_input("Choose a Username")
     password = st.text_input("Choose a Password", type="password")
-    role = st.selectbox("Role", ["user", "admin"])
+    role = st.selectbox("Role", ["user"])
     city = st.text_input("City")
-    mobile = st.text_input("Mobile Number (10 digits)")
+    mobile = st.text_input("Mobile Number (e.g., xxxxxxx237)")
 
     if st.button("Create Account"):
-        if not mobile.isdigit() or len(mobile) != 10:
-            st.error("Enter a valid 10-digit mobile number.")
-            return
-
-        if username in st.session_state.users_df["username"].values:
-            st.error("Username already exists.")
+        if username in users_df["username"].values:
+            st.error("Username already exists. Please choose another.")
         else:
-            user_id = f"U{len(st.session_state.users_df)+1:04d}"
-            hashed_pw = hash_password(password)
-            new_user = pd.DataFrame([{ "user_id": user_id, "username": username, "password": hashed_pw, "role": role }])
-            new_account = pd.DataFrame([{ "user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0 }])
-            st.session_state.users_df = pd.concat([st.session_state.users_df, new_user], ignore_index=True)
-            st.session_state.accounts_df = pd.concat([st.session_state.accounts_df, new_account], ignore_index=True)
-            save_csv(st.session_state.users_df, users_file)
-            save_csv(st.session_state.accounts_df, accounts_file)
-            st.success("Account created successfully!")
+            user_id = f"U{len(users_df)+1:04d}"
+            new_user = pd.DataFrame([{"user_id": user_id, "username": username, "password": password, "role": role}])
+            new_account = pd.DataFrame([{"user_id": user_id, "account_no": f"XXXXXXX{random.randint(100,999)}", "address": city, "mobile": mobile, "balance": 0}])
 
-# Login Function
+            updated_users = pd.concat([users_df, new_user], ignore_index=True)
+            updated_accounts = pd.concat([accounts_df, new_account], ignore_index=True)
+
+            save_csv(updated_users, users_file)
+            save_csv(updated_accounts, accounts_file)
+
+            st.success("Account created successfully!")
+            st.info(f"Username: {username}\nAccount Number: {new_account.iloc[0]['account_no']}\nCity: {city}")
+
+
 # Login Function
 def login():
     st.title("lavudhu Bank 69")
@@ -135,7 +132,6 @@ def login():
                 st.success("✅ Password reset successful! You may now log in.")
         return
 
-    # 👇 This line had extra indentation; fixed here
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -155,11 +151,9 @@ def login():
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Invalid username or password")
-
-
 
 # Admin Dashboard
 def admin_dashboard():
@@ -215,6 +209,10 @@ def admin_dashboard():
 
         if review_required:
             st.warning("⚠️ Loans requiring admin review (Average Risk)")
+
+            if "loan_action_taken" not in st.session_state:
+                st.session_state.loan_action_taken = False
+
             for row, risk_score in review_required:
                 st.markdown(f"### Loan ID: {row['loan_id']}")
                 st.write(row)
@@ -226,15 +224,17 @@ def admin_dashboard():
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
                         save_csv(loans_df, loans_file)
-                        st.success(f"Loan {row['loan_id']} approved")
-                        st.experimental_rerun()
+                        st.session_state.loan_action_taken = True
                 with col2:
                     if st.button(f"Decline {row['loan_id']}", key=f"decline_{row['loan_id']}"):
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
                         save_csv(loans_df, loans_file)
-                        st.error(f"Loan {row['loan_id']} declined")
-                        st.experimental_rerun()
+                        st.session_state.loan_action_taken = True
+
+            if st.session_state.loan_action_taken:
+                st.session_state.loan_action_taken = False
+                st.rerun()
 
     elif option == "🔍 Fetch User Info":
         st.subheader("Fetch User Details")
@@ -256,7 +256,7 @@ def admin_dashboard():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions"])
+    choice = st.sidebar.radio("Go to", ["📈 Account Summary", "📝 Apply for Loan", "📊 Loan Status", "💵 Transactions", "💳 Pay Loan Dues"])
     user_id = st.session_state.user["user_id"]
 
     if choice == "📈 Account Summary":
@@ -267,7 +267,8 @@ def user_dashboard():
     elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
         amount = st.number_input("Loan Amount", min_value=1000)
-        purpose = st.text_input("Purpose")
+        purpose_options = ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"]
+        purpose = st.selectbox("Purpose", purpose_options)
         income = st.number_input("Monthly Income", min_value=0)
         if st.button("Submit Application"):
             loan_id = f"L{len(loans_df)+1:03d}"
@@ -282,27 +283,64 @@ def user_dashboard():
                 "remarks": "Awaiting review"
             }
             new_loan = pd.DataFrame([new_loan_data])
-            loans_df_updated = pd.concat([loans_df, new_loan], ignore_index=True)
-            save_csv(loans_df_updated, loans_file)
+            loans_df = pd.concat([loans_df, new_loan], ignore_index=True)
+            st.session_state.loans_df = loans_df
+            st.session_state.loan_status_df = loans_df
+            save_csv(loans_df, loans_file)
+            save_csv(loans_df, loan_status_file)
             st.success("Loan Application Submitted!")
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
-        user_loans = loans_df[loans_df["user_id"] == user_id]
-        st.dataframe(user_loans)
+        if "loan_status_df" not in st.session_state:
+            st.session_state.loan_status_df = load_csv(loan_status_file)
+        loan_status_df = st.session_state.loan_status_df
+        if "user_id" in loan_status_df.columns:
+            user_loans = loan_status_df[loan_status_df["user_id"] == user_id]
+            st.dataframe(user_loans)
+        else:
+            st.warning("Loan status data missing 'user_id' column.")
 
     elif choice == "💵 Transactions":
         st.subheader("Transaction History")
-        tx = transactions_df[transactions_df["user_id"] == user_id]
-        st.dataframe(tx)
+        transactions_df = st.session_state.transactions_df
+        if "user_id" in transactions_df.columns:
+            tx = transactions_df[transactions_df["user_id"] == user_id]
+            st.dataframe(tx)
+        else:
+            st.warning("Transaction data missing 'user_id' column.")
+
+    elif choice == "💳 Pay Loan Dues":
+        st.subheader("Pay Loan Dues")
+        user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
+        if user_loans.empty:
+            st.info("No approved loans with dues found.")
+            return
+        selected_loan = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
+        due_amount = user_loans[user_loans["loan_id"] == selected_loan]["amount"].values[0]
+        st.write(f"Total Due Amount: ₹{due_amount}")
+        payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
+        if st.button("Pay Now"):
+            new_tx = pd.DataFrame([{ 
+                "user_id": user_id, 
+                "loan_id": selected_loan, 
+                "amount": due_amount, 
+                "method": payment_method, 
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d') 
+            }])
+            transactions_df = pd.concat([transactions_df, new_tx], ignore_index=True)
+            st.session_state.transactions_df = transactions_df
+            save_csv(transactions_df, transactions_file)
+            st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
+
 
 if st.session_state.user:
     st.sidebar.write(f"👋 Welcome, {st.session_state.user['username']}")
     if st.sidebar.button("Logout"):
         st.session_state.user = None
-        st.experimental_rerun()
+        st.rerun()
     if st.session_state.user.get("role") == "admin":
-        admin_dashboard()
+        pass  # admin_dashboard() placeholder
     else:
         user_dashboard()
 else:
