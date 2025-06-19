@@ -148,13 +148,12 @@ def login():
             (users_df["password"] == password)
         ]
 
-        if not user.empty:
-            st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Logged in as {username}")
-           st.rerun()
-        else:
-            st.error("Invalid username or password")
-
+       if not user.empty:
+    st.session_state.user = user.iloc[0].to_dict()
+    st.success(f"Logged in as {username}")
+    st.rerun()
+else:
+    st.error("Invalid username or password")
 
 # Admin Dashboard
 def admin_dashboard():
