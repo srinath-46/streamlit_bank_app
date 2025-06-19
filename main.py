@@ -199,15 +199,20 @@ def admin_dashboard():
             if risk_score <= 39:
                 loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "approved"
                 loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "status"] = "approved"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "remarks"] = f"Auto-approved. {remark}"
                 st.success(f"✅ Loan {loan_id} auto-approved (Low Risk)")
             elif risk_score >= 61:
                 loans_df.loc[loans_df["loan_id"] == loan_id, "status"] = "declined"
                 loans_df.loc[loans_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "status"] = "declined"
+                loan_status_df.loc[loan_status_df["loan_id"] == loan_id, "remarks"] = f"Auto-declined. {remark}"
                 st.error(f"❌ Loan {loan_id} auto-declined (High Risk)")
             else:
                 review_required.append((row, risk_score))
 
         save_csv(loans_df, loans_file)
+        save_csv(loan_status_df, loan_status_file)
 
         if review_required:
             st.warning("⚠️ Loans requiring admin review (Average Risk)")
@@ -225,13 +230,19 @@ def admin_dashboard():
                     if st.button(f"Approve {row['loan_id']}", key=f"approve_{row['loan_id']}"):
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "approved"
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "status"] = "approved"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-approved. Risk Score: {risk_score}%"
                         save_csv(loans_df, loans_file)
+                        save_csv(loan_status_df, loan_status_file)
                         st.session_state.loan_action_taken = True
                 with col2:
                     if st.button(f"Decline {row['loan_id']}", key=f"decline_{row['loan_id']}"):
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "status"] = "declined"
                         loans_df.loc[loans_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "status"] = "declined"
+                        loan_status_df.loc[loan_status_df["loan_id"] == row["loan_id"], "remarks"] = f"Admin-declined. Risk Score: {risk_score}%"
                         save_csv(loans_df, loans_file)
+                        save_csv(loan_status_df, loan_status_file)
                         st.session_state.loan_action_taken = True
 
             if st.session_state.loan_action_taken:
@@ -254,6 +265,7 @@ def admin_dashboard():
                 st.write("🏦 Account Info", account_info)
                 st.write("💸 Transaction History", transaction_info)
                 st.write("📄 Loan History", loan_info)
+
 
 # User Dashboard
 def user_dashboard():
