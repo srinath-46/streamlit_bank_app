@@ -159,6 +159,7 @@ def login():
 
 # Admin Dashboard
 def admin_dashboard():
+    import matplotlib.pyplot as plt
     st.sidebar.title("Admin Panel")
     option = st.sidebar.radio("Select", [
         "📃 All Applications",
@@ -268,59 +269,42 @@ def admin_dashboard():
                 st.write("📄 Loan History", loan_info)
 
     elif option == "📊 Loan Summary & Analytics":
-        st.subheader("📊 Loan Approval Analytics")
-
+        st.subheader("📊 Loan Analytics Dashboard")
         loans_df["application_date"] = pd.to_datetime(loans_df["application_date"], errors='coerce')
-        min_date = loans_df["application_date"].min()
-        max_date = loans_df["application_date"].max()
-        start_date, end_date = st.date_input("Select Date Range", [min_date, max_date])
-
-        if start_date > end_date:
-            st.error("Start date cannot be after end date.")
-            return
+        start_date, end_date = st.date_input("Select Date Range", [loans_df["application_date"].min(), loans_df["application_date"].max()])
 
         filtered = loans_df[(loans_df["application_date"] >= pd.to_datetime(start_date)) &
                             (loans_df["application_date"] <= pd.to_datetime(end_date))]
 
         if filtered.empty:
-            st.info("No data found for the selected date range.")
+            st.info("No loan applications found in this date range.")
             return
 
-        # Download Button
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total Loans", len(filtered))
+        col2.metric("Approved", (filtered["status"] == "approved").sum())
+        col3.metric("Declined", (filtered["status"] == "declined").sum())
+
         csv = filtered.to_csv(index=False)
         st.download_button("📥 Download Filtered Loan Data", csv, "loan_summary.csv", "text/csv")
 
-        # Loan Status Summary Table
-        summary = filtered["status"].value_counts().reset_index()
-        summary.columns = ["Status", "Count"]
-        st.write("### Loan Status Summary")
-        st.dataframe(summary)
-
-        # Monthly Loan Trend
         monthly = filtered.groupby([filtered["application_date"].dt.to_period("M"), "status"]).size().unstack().fillna(0)
         monthly.index = monthly.index.astype(str)
         st.write("### 📈 Monthly Loan Approval Trends")
-        import matplotlib.pyplot as plt
         fig1, ax1 = plt.subplots()
         monthly.plot(ax=ax1, marker='o')
-        ax1.set_xlabel("Month")
-        ax1.set_ylabel("Number of Loans")
         ax1.set_title("Loan Status Over Time")
         st.pyplot(fig1)
 
-        # Top Borrowers
-        top_users = filtered[filtered["status"] == "approved"].groupby("user_id")["amount"].sum().sort_values(ascending=False).head(10)
-        st.write("### 💸 Top 10 Borrowers by Approved Loan Amount")
-        st.dataframe(top_users.reset_index().rename(columns={"amount": "Total Approved Amount"}))
+        st.write("### 💸 Top Borrowers by Approved Amount")
+        top_borrowers = filtered[filtered["status"] == "approved"].groupby("user_id")["amount"].sum().nlargest(10)
+        st.dataframe(top_borrowers.reset_index().rename(columns={"amount": "Total Approved Amount"}))
 
-        # Purpose-Based Loan Distribution
         st.write("### 🎯 Loan Status by Purpose")
-        purpose_status = filtered.groupby(["purpose", "status"]).size().unstack().fillna(0)
-        fig2, ax2 = plt.subplots(figsize=(10, 5))
-        purpose_status.plot(kind="bar", stacked=True, ax=ax2)
-        ax2.set_xlabel("Purpose")
-        ax2.set_ylabel("Number of Applications")
-        ax2.set_title("Loan Status Distribution by Purpose")
+        purpose_summary = filtered.groupby(["purpose", "status"]).size().unstack().fillna(0)
+        fig2, ax2 = plt.subplots()
+        purpose_summary.plot(kind="bar", stacked=True, ax=ax2)
+        ax2.set_title("Loan Purpose vs Status")
         st.pyplot(fig2)
 
 
