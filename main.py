@@ -353,10 +353,11 @@ def user_dashboard():
             save_csv(loans_df_updated, loan_status_file)
             st.success("Loan Application Submitted!")
 
-    elif choice == "📊 Loan Status":
+     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
         user_loans = loans_df[loans_df["user_id"] == user_id]
         st.dataframe(user_loans)
+
 
     elif choice == "💵 Transactions":
         st.subheader("Transaction History")
