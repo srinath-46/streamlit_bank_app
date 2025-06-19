@@ -151,7 +151,7 @@ def login():
         if not user.empty:
             st.session_state.user = user.iloc[0].to_dict()
             st.success(f"Logged in as {username}")
-            st.experimental_rerun()
+           st.rerun()
         else:
             st.error("Invalid username or password")
 
