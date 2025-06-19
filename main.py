@@ -212,9 +212,8 @@ def user_dashboard():
         "📝 Apply for Loan",
         "📊 Loan Status",
         "💵 Transactions",
-        "💳 Pay Loan Dues",
-        "📚 Loan Repayment History",
-        "💳 Pay Monthly EMI"
+        "💳 Pay Monthly EMI",
+        "📚 Loan Repayment History"
     ])
     user_id = st.session_state.user["user_id"]
 
@@ -257,27 +256,75 @@ def user_dashboard():
         tx = transactions_df[transactions_df["user_id"] == user_id]
         st.dataframe(tx)
 
-    elif choice == "💳 Pay Loan Dues":
-        st.subheader("Pay Loan Dues")
+    elif choice == "💳 Pay Monthly EMI":
+        st.subheader("Pay Monthly EMI")
         user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
         if user_loans.empty:
-            st.info("No approved loans with dues found.")
+            st.info("No active loans found.")
             return
-        selected_loan = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
-        due_amount = user_loans[user_loans["loan_id"] == selected_loan]["amount"].values[0]
-        st.write(f"Total Due Amount: ₹{due_amount}")
-        payment_method = st.radio("Choose Payment Method", ["UPI", "Online Banking"])
-        if st.button("Pay Now"):
+
+        selected_loan_id = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
+        loan_row = user_loans[user_loans["loan_id"] == selected_loan_id].iloc[0]
+
+        loan_amount = loan_row["amount"]
+        application_date = pd.to_datetime(loan_row["application_date"], errors="coerce")
+        annual_interest_rate = 10
+        tenure_months = 12
+        monthly_rate = annual_interest_rate / (12 * 100)
+
+        emi = (loan_amount * monthly_rate * (1 + monthly_rate) ** tenure_months) / ((1 + monthly_rate) ** tenure_months - 1)
+        emi = round(emi, 2)
+
+        loan_payments = transactions_df[
+            (transactions_df["user_id"] == user_id) &
+            (transactions_df["loan_id"] == selected_loan_id)
+        ].sort_values("date")
+
+        paid_emi_count = loan_payments.shape[0]
+        remaining_emi = max(0, tenure_months - paid_emi_count)
+
+        st.write(f"📄 Loan Amount: ₹{loan_amount}")
+        st.write(f"💰 Monthly EMI: ₹{emi}")
+        st.write(f"📆 Remaining EMIs: {remaining_emi} of {tenure_months}")
+
+        if remaining_emi == 0:
+            loans_df.loc[loans_df["loan_id"] == selected_loan_id, "status"] = "closed"
+            loans_df.loc[loans_df["loan_id"] == selected_loan_id, "remarks"] = f"Loan fully repaid on {pd.Timestamp.today().date()}"
+            loan_status_df.loc[loan_status_df["loan_id"] == selected_loan_id, "status"] = "closed"
+            loan_status_df.loc[loan_status_df["loan_id"] == selected_loan_id, "remarks"] = f"Loan fully repaid on {pd.Timestamp.today().date()}"
+            save_csv(loans_df, loans_file)
+            save_csv(loan_status_df, loan_status_file)
+            st.success("🎉 This loan has been fully repaid and is now marked as CLOSED.")
+            return
+
+        method = st.radio("Choose Payment Method", ["UPI", "Net Banking"])
+        if st.button("Pay EMI"):
             new_tx = {
                 "user_id": user_id,
-                "loan_id": selected_loan,
-                "amount": due_amount,
-                "method": payment_method,
+                "loan_id": selected_loan_id,
+                "amount": emi,
+                "method": method,
                 "date": pd.Timestamp.today().strftime('%Y-%m-%d')
             }
-            transactions_df.loc[len(transactions_df.index)] = new_tx
+            transactions_df.loc[len(transactions_df)] = new_tx
             save_csv(transactions_df, transactions_file)
-            st.success(f"Payment of ₹{due_amount} via {payment_method} successful!")
+            st.success(f"✅ EMI of ₹{emi} paid successfully for Loan {selected_loan_id}")
+            st.rerun()
+
+        st.write("### 🗓️ EMI Payment Schedule")
+        emi_schedule = []
+        for i in range(tenure_months):
+            due_date = application_date + pd.DateOffset(months=i)
+            status = "Paid" if i < paid_emi_count else ("Due" if i == paid_emi_count else "Upcoming")
+            emi_schedule.append({
+                "Installment #": i + 1,
+                "Due Date": due_date.date(),
+                "EMI Amount": emi,
+                "Status": status
+            })
+
+        schedule_df = pd.DataFrame(emi_schedule)
+        st.dataframe(schedule_df)
 
     elif choice == "📚 Loan Repayment History":
         st.subheader("Loan Repayment History")
@@ -294,62 +341,6 @@ def user_dashboard():
             st.write("### Summary of Paid Amount by Loan")
             st.dataframe(summary)
 
-        elif choice == "💳 Pay Monthly EMI":
-        st.subheader("Pay Monthly EMI")
-        user_loans = loans_df[(loans_df["user_id"] == user_id) & (loans_df["status"] == "approved")]
-        if user_loans.empty:
-            st.info("No active loans found.")
-            return
-
-        selected_loan_id = st.selectbox("Select Loan ID", user_loans["loan_id"].values)
-        loan_row = user_loans[user_loans["loan_id"] == selected_loan_id].iloc[0]
-
-        loan_amount = loan_row["amount"]
-        annual_interest_rate = 10  # Fixed or dynamically set if available
-        tenure_months = 12         # Fixed tenure, you can modify to allow user-defined
-        monthly_rate = annual_interest_rate / (12 * 100)
-
-        # Calculate EMI
-        emi = (loan_amount * monthly_rate * (1 + monthly_rate) ** tenure_months) / ((1 + monthly_rate) ** tenure_months - 1)
-        emi = round(emi, 2)
-
-        # Count already paid EMIs
-        paid_emi_count = transactions_df[(transactions_df["user_id"] == user_id) & (transactions_df["loan_id"] == selected_loan_id)].shape[0]
-        remaining_emi = max(0, tenure_months - paid_emi_count)
-
-        st.write(f"📄 Loan Amount: ₹{loan_amount}")
-        st.write(f"💰 Monthly EMI: ₹{emi}")
-        st.write(f"📆 Remaining EMIs: {remaining_emi} out of {tenure_months}")
-
-        if remaining_emi == 0:
-            st.success("🎉 Loan fully repaid!")
-        else:
-            method = st.radio("Select Payment Method", ["UPI", "Net Banking"])
-            if st.button("Pay EMI"):
-                new_tx = {
-                    "user_id": user_id,
-                    "loan_id": selected_loan_id,
-                    "amount": emi,
-                    "method": method,
-                    "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-                }
-                transactions_df.loc[len(transactions_df)] = new_tx
-                save_csv(transactions_df, transactions_file)
-                st.success(f"✅ EMI of ₹{emi} paid successfully for Loan {selected_loan_id}")
-
-# Auth system
-def login():
-    st.title("Indian Bank")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        user = users_df[(users_df["username"] == username) & (users_df["password"] == password)]
-        if not user.empty:
-            st.session_state.user = user.iloc[0].to_dict()
-            st.success(f"Logged in as {username}")
-            st.rerun()
-        else:
-            st.error("Invalid username or password")
 
 # Main App Logic
 if st.session_state.user:
