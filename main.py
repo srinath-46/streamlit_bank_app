@@ -330,38 +330,39 @@ def user_dashboard():
         st.dataframe(acc)
 
     elif choice == "📝 Apply for Loan":
-        st.subheader("Loan Application Form")
-        amount = st.number_input("Loan Amount", min_value=1000)
-        purpose = st.selectbox("Purpose", ["Education", "Home Renovation", "Vehicle", "Business", "Personal", "Gold Loan"])
+    st.subheader("Loan Application Form")
+    purpose = st.selectbox("Purpose", ["Education", "Home Renovation", "Vehicle", "Business", "Personal", "Gold Loan"])
 
-if purpose == "Gold Loan":
-    st.markdown("#### 🪙 Gold Loan Details")
-    gold_weight = st.number_input("Gold Weight (grams)", min_value=1.0)
-    purity = st.selectbox("Purity", ["22K", "24K"])
-    gold_value = gold_weight * 5000  # Assume ₹5000/gram as example
-    st.info(f"Estimated value of pledged gold: ₹{gold_value}")
-    amount = st.number_input("Loan Amount", min_value=1000, max_value=int(gold_value))
-else:
-    amount = st.number_input("Loan Amount", min_value=1000)
-        income = st.number_input("Monthly Income", min_value=0)
-        if st.button("Submit Application"):
-            loan_id = f"L{len(loans_df)+1:03d}"
-            new_loan = {
-                "loan_id": loan_id,
-                "user_id": user_id,
-                "amount": amount,
-                "purpose": purpose,
-                "income": income,
-                "status": "pending",
-                "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
-                "remarks": "Awaiting review"
-            }
-            loans_df_updated = pd.concat([loans_df, pd.DataFrame([new_loan])], ignore_index=True)
-            st.session_state.loans_df = loans_df_updated
-            st.session_state.loan_status_df = loans_df_updated
-            save_csv(loans_df_updated, loans_file)
-            save_csv(loans_df_updated, loan_status_file)
-            st.success("Loan Application Submitted!")
+    if purpose == "Gold Loan":
+        st.markdown("#### 🪙 Gold Loan Details")
+        gold_weight = st.number_input("Gold Weight (grams)", min_value=1.0)
+        purity = st.selectbox("Purity", ["22K", "24K"])
+        gold_value = gold_weight * 5000  # Assume ₹5000/gram as example
+        st.info(f"Estimated value of pledged gold: ₹{gold_value}")
+        amount = st.number_input("Loan Amount", min_value=1000, max_value=int(gold_value))
+    else:
+        amount = st.number_input("Loan Amount", min_value=1000)
+
+    income = st.number_input("Monthly Income", min_value=0)
+    if st.button("Submit Application"):
+        loan_id = f"L{len(loans_df)+1:03d}"
+        new_loan = {
+            "loan_id": loan_id,
+            "user_id": user_id,
+            "amount": amount,
+            "purpose": purpose,
+            "income": income,
+            "status": "pending",
+            "application_date": pd.Timestamp.today().strftime('%Y-%m-%d'),
+            "remarks": "Awaiting review"
+        }
+        loans_df_updated = pd.concat([loans_df, pd.DataFrame([new_loan])], ignore_index=True)
+        st.session_state.loans_df = loans_df_updated
+        st.session_state.loan_status_df = loans_df_updated
+        save_csv(loans_df_updated, loans_file)
+        save_csv(loans_df_updated, loan_status_file)
+        st.success("Loan Application Submitted!")
+
 
     elif choice == "📊 Loan Status":
         st.subheader("Your Loan Applications")
