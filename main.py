@@ -337,7 +337,7 @@ def user_dashboard():
         st.markdown("#### 🪙 Gold Loan Details")
         gold_weight = st.number_input("Gold Weight (grams)", min_value=1.0)
         purity = st.selectbox("Purity", ["22K", "24K"])
-        gold_value = gold_weight * 5000  # Assume ₹5000/gram as example
+        gold_value = gold_weight * 5000  # Example rate
         st.info(f"Estimated value of pledged gold: ₹{gold_value}")
         amount = st.number_input("Loan Amount", min_value=1000, max_value=int(gold_value))
     else:
@@ -362,6 +362,7 @@ def user_dashboard():
         save_csv(loans_df_updated, loans_file)
         save_csv(loans_df_updated, loan_status_file)
         st.success("Loan Application Submitted!")
+
 
 
     elif choice == "📊 Loan Status":
