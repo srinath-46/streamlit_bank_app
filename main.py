@@ -332,7 +332,17 @@ def user_dashboard():
     elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
         amount = st.number_input("Loan Amount", min_value=1000)
-        purpose = st.selectbox("Purpose", ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal"])
+        purpose = st.selectbox("Purpose", ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal", "Gold Loan"])
+
+if purpose == "Gold Loan":
+    st.markdown("#### 🪙 Gold Loan Details")
+    gold_weight = st.number_input("Gold Weight (grams)", min_value=1.0)
+    purity = st.selectbox("Purity", ["22K", "24K"])
+    gold_value = gold_weight * 5000  # Assume ₹5000/gram as example
+    st.info(f"Estimated value of pledged gold: ₹{gold_value}")
+    amount = st.number_input("Loan Amount", min_value=1000, max_value=int(gold_value))
+else:
+    amount = st.number_input("Loan Amount", min_value=1000)
         income = st.number_input("Monthly Income", min_value=0)
         if st.button("Submit Application"):
             loan_id = f"L{len(loans_df)+1:03d}"
