@@ -332,7 +332,7 @@ def user_dashboard():
     elif choice == "📝 Apply for Loan":
         st.subheader("Loan Application Form")
         amount = st.number_input("Loan Amount", min_value=1000)
-        purpose = st.selectbox("Purpose", ["Education", "Medical", "Home Renovation", "Vehicle", "Business", "Personal", "Gold Loan"])
+        purpose = st.selectbox("Purpose", ["Education", "Home Renovation", "Vehicle", "Business", "Personal", "Gold Loan"])
 
 if purpose == "Gold Loan":
     st.markdown("#### 🪙 Gold Loan Details")
