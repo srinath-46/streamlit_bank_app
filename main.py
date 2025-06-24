@@ -334,15 +334,15 @@ def admin_dashboard():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-   choice = st.sidebar.radio("Go to", [
-    "📈 Account Summary",
-    "📝 Apply for Loan",
-    "📊 Loan Status",
-    "💵 Transactions",
-    "🏦 Transfer Between Accounts",   # 👈 Added this
-    "💳 Pay Monthly EMI",
-    "📚 Loan Repayment History"
-])
+    choice = st.sidebar.radio("Go to", [
+       "📈 Account Summary",
+       "📝 Apply for Loan",
+       "📊 Loan Status",
+       "💵 Transactions",
+       "🏦 Transfer ammount",   # 👈 Added this
+       "💳 Pay Monthly EMI",
+       "📚 Loan Repayment History"
+   ])
 
     user_id = st.session_state.user["user_id"]
 
@@ -471,7 +471,7 @@ def user_dashboard():
             st.write("### Summary of Paid Amount by Loan")
             st.dataframe(summary)
             
-    elif choice == "🏦 Transfer Between Accounts":
+    elif choice == "🏦 Transfer ammount":
     st.subheader("Transfer Amount to Another Account")
 
     sender_account = accounts_df[accounts_df["user_id"] == user_id].iloc[0]
