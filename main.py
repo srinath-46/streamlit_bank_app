@@ -167,7 +167,7 @@ def admin_dashboard():
     st.sidebar.title("Admin Panel")
     option = st.sidebar.radio("Select", [
         "📃 All Applications",
-        "✅ Approve Loans",
+        "✅ Pending Loans",
         "🔍 Fetch User Info",
         "📊 Loan Summary & Analytics"
     ])
@@ -176,8 +176,8 @@ def admin_dashboard():
         st.subheader("All Loan Applications")
         st.dataframe(loans_df)
 
-    elif option == "✅ Approve Loans":
-        st.subheader("Auto & Manual Loan Approvals")
+    elif option == "✅ Pending Loans":
+        st.subheader(" Manual Loan Approvals")
         train_df = loans_df[loans_df["status"] != "pending"]
         if train_df.empty or len(train_df["status"].unique()) < 2:
             st.warning("Not enough historical data to train model.")
