@@ -334,14 +334,16 @@ def admin_dashboard():
 # User Dashboard
 def user_dashboard():
     st.sidebar.title("User Menu")
-    choice = st.sidebar.radio("Go to", [
-        "📈 Account Summary",
-        "📝 Apply for Loan",
-        "📊 Loan Status",
-        "💵 Transactions",
-        "💳 Pay Monthly EMI",
-        "📚 Loan Repayment History"
-    ])
+   choice = st.sidebar.radio("Go to", [
+    "📈 Account Summary",
+    "📝 Apply for Loan",
+    "📊 Loan Status",
+    "💵 Transactions",
+    "🏦 Transfer Between Accounts",   # 👈 Added this
+    "💳 Pay Monthly EMI",
+    "📚 Loan Repayment History"
+])
+
     user_id = st.session_state.user["user_id"]
 
     if choice == "📈 Account Summary":
@@ -468,6 +470,54 @@ def user_dashboard():
             summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
             st.write("### Summary of Paid Amount by Loan")
             st.dataframe(summary)
+    elif choice == "🏦 Transfer Between Accounts":
+    st.subheader("Transfer Amount to Another Account")
+
+    sender_account = accounts_df[accounts_df["user_id"] == user_id].iloc[0]
+    recipient_account_no = st.text_input("Recipient Account Number")
+    transfer_amount = st.number_input("Amount to Transfer", min_value=1.0)
+
+    if st.button("Transfer"):
+        if not recipient_account_no:
+            st.warning("Please enter a valid recipient account number.")
+        elif sender_account["account_no"] == recipient_account_no:
+            st.error("You cannot transfer to your own account.")
+        elif transfer_amount > sender_account["balance"]:
+            st.error("Insufficient balance.")
+        elif recipient_account_no not in accounts_df["account_no"].values:
+            st.error("Recipient account not found.")
+        else:
+            # Deduct from sender
+            accounts_df.loc[accounts_df["user_id"] == user_id, "balance"] -= transfer_amount
+            # Add to recipient
+            accounts_df.loc[accounts_df["account_no"] == recipient_account_no, "balance"] += transfer_amount
+
+            # Save updated balances
+            save_csv(accounts_df, accounts_file)
+
+            # Log transactions for both sender and recipient (optional)
+            sender_tx = {
+                "user_id": user_id,
+                "loan_id": "",
+                "amount": -transfer_amount,
+                "method": "Transfer Out",
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+            }
+            recipient_user_id = accounts_df[accounts_df["account_no"] == recipient_account_no].iloc[0]["user_id"]
+            recipient_tx = {
+                "user_id": recipient_user_id,
+                "loan_id": "",
+                "amount": transfer_amount,
+                "method": "Transfer In",
+                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+            }
+
+            transactions_df.loc[len(transactions_df)] = sender_tx
+            transactions_df.loc[len(transactions_df)] = recipient_tx
+            save_csv(transactions_df, transactions_file)
+
+            st.success(f"₹{transfer_amount} transferred successfully to account {recipient_account_no}")
+
 
 
 # Main App Logic
