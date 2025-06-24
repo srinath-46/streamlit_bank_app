@@ -173,16 +173,16 @@ def admin_dashboard():
     ])
 
     if option == "📃 All Applications":
-    st.subheader("All Loan Applications")
+        st.subheader("All Loan Applications")
 
     # Add sorting/filtering option by loan status
-    sort_option = st.selectbox("🔍 Filter by Loan Status", ["All", "approved", "pending", "declined"])
-    if sort_option == "All":
-        filtered_loans = loans_df
-    else:
-        filtered_loans = loans_df[loans_df["status"] == sort_option]
+        sort_option = st.selectbox("🔍 Filter by Loan Status", ["All", "approved", "pending", "declined"])
+        if sort_option == "All":
+            filtered_loans = loans_df
+        else:
+            filtered_loans = loans_df[loans_df["status"] == sort_option]
 
-    st.dataframe(filtered_loans.reset_index(drop=True))
+        st.dataframe(filtered_loans.reset_index(drop=True))
 
 
     elif option == "✅ Pending Loans":
