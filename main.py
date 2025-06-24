@@ -470,6 +470,7 @@ def user_dashboard():
             summary = user_tx.groupby("loan_id")["amount"].sum().reset_index().rename(columns={"amount": "Total Paid"})
             st.write("### Summary of Paid Amount by Loan")
             st.dataframe(summary)
+            
     elif choice == "🏦 Transfer Between Accounts":
     st.subheader("Transfer Amount to Another Account")
 
