@@ -503,21 +503,21 @@ def user_dashboard():
                   "amount": -transfer_amount,
                   "method": "Transfer Out",
                   "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+                }
+                recipient_user_id = accounts_df[accounts_df["account_no"] == recipient_account_no].iloc[0]["user_id"]
+                recipient_tx = {
+                   "user_id": recipient_user_id,
+                   "loan_id": "",
+                   "amount": transfer_amount,
+                   "method": "Transfer In",
+                   "date": pd.Timestamp.today().strftime('%Y-%m-%d')
                }
-               recipient_user_id = accounts_df[accounts_df["account_no"] == recipient_account_no].iloc[0]["user_id"]
-               recipient_tx = {
-                  "user_id": recipient_user_id,
-                  "loan_id": "",
-                  "amount": transfer_amount,
-                  "method": "Transfer In",
-                  "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-              }
 
-              transactions_df.loc[len(transactions_df)] = sender_tx
-              transactions_df.loc[len(transactions_df)] = recipient_tx
-              save_csv(transactions_df, transactions_file)
+               transactions_df.loc[len(transactions_df)] = sender_tx
+               transactions_df.loc[len(transactions_df)] = recipient_tx
+               save_csv(transactions_df, transactions_file)
 
-              st.success(f"₹{transfer_amount} transferred successfully to account {recipient_account_no}")
+               st.success(f"₹{transfer_amount} transferred successfully to account {recipient_account_no}")
 
 
 
