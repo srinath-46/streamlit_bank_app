@@ -309,9 +309,20 @@ def admin_dashboard():
         ax1.set_title("Loan Status Over Time")
         st.pyplot(fig1)
 
-        st.write("### 💸 Top Borrowers by Approved Amount")
-        top_borrowers = filtered[filtered["status"] == "approved"].groupby("user_id")["amount"].sum().nlargest(10)
-        st.dataframe(top_borrowers.reset_index().rename(columns={"amount": "Total Approved Amount"}))
+       st.write("### ✅ Low Risk People (Auto-Approved Loans with Low Risk Score)")
+
+# Filter for auto-approved loans with 'Auto-approved' in remarks
+low_risk_loans = filtered[
+    (filtered["status"] == "approved") &
+    (filtered["remarks"].str.contains("Auto-approved", na=False))
+]
+
+if low_risk_loans.empty:
+    st.info("No auto-approved low risk loans found.")
+else:
+    display_cols = ["loan_id", "user_id", "amount", "income", "purpose", "application_date", "remarks"]
+    st.dataframe(low_risk_loans[display_cols].sort_values("application_date", ascending=False).reset_index(drop=True))
+
 
         st.write("### 🎯 Loan Status by Purpose")
         purpose_summary = filtered.groupby(["purpose", "status"]).size().unstack().fillna(0)
