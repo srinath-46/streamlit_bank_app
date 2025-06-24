@@ -309,7 +309,7 @@ def admin_dashboard():
         ax1.set_title("Loan Status Over Time")
         st.pyplot(fig1)
 
-       st.write("### ✅ Low Risk People (Auto-Approved Loans with Low Risk Score)")
+st.write("### ✅ Low Risk People (Auto-Approved Loans with Low Risk Score)")
 
 # Filter for auto-approved loans with 'Auto-approved' in remarks
 low_risk_loans = filtered[
