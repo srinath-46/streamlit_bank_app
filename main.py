@@ -428,18 +428,34 @@ def user_dashboard():
             return
 
         method = st.radio("Choose Payment Method", ["UPI", "Net Banking"])
-        if st.button("Pay EMI"):
-            new_tx = {
-                "user_id": user_id,
-                "loan_id": selected_loan_id,
-                "amount": emi,
-                "method": method,
-                "date": pd.Timestamp.today().strftime('%Y-%m-%d')
-            }
-            transactions_df.loc[len(transactions_df)] = new_tx
-            save_csv(transactions_df, transactions_file)
-            st.success(f"✅ EMI of ₹{emi} paid successfully for Loan {selected_loan_id}")
-            st.rerun()
+if st.button("Pay EMI"):
+    # Check if user has sufficient balance
+    user_acc_index = accounts_df[accounts_df["user_id"] == user_id].index
+    current_balance = accounts_df.loc[user_acc_index[0], "balance"]
+
+    if current_balance < emi:
+        st.error("❌ Insufficient balance to pay EMI.")
+    else:
+        # Deduct EMI from balance
+        accounts_df.loc[user_acc_index[0], "balance"] -= emi
+
+        # Add transaction
+        new_tx = {
+            "user_id": user_id,
+            "loan_id": selected_loan_id,
+            "amount": emi,
+            "method": method,
+            "date": pd.Timestamp.today().strftime('%Y-%m-%d')
+        }
+
+        transactions_df = pd.concat([transactions_df, pd.DataFrame([new_tx])], ignore_index=True)
+
+        # Save updated data
+        save_csv(accounts_df, accounts_file)
+        save_csv(transactions_df, transactions_file)
+
+        st.success(f"✅ EMI of ₹{emi} paid successfully.")
+        st.rerun()
 
         st.write("### 🗓️ EMI Payment Schedule")
         emi_schedule = []
